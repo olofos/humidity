@@ -1175,25 +1175,6 @@ Check that bootloader works on UART2 on PA2/PA3
 Text Notes 500  4050 0    75   ~ 0
 Connect unused IO with a pull-up/down
 $Comp
-L Connector:Conn_01x03_Male J4
-U 1 1 5CDE51C7
-P 750 7050
-F 0 "J4" H 856 7328 50  0000 C CNN
-F 1 "BATTERIES" V 700 7050 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 750 7050 50  0001 C CNN
-F 3 "~" H 750 7050 50  0001 C CNN
-	1    750  7050
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	950  6950 1050 6950
-Wire Wire Line
-	1050 6650 1050 6950
-Wire Wire Line
-	950  7150 1050 7150
-Wire Wire Line
-	1050 7150 1050 7450
-$Comp
 L Device:Q_PMOS_GSD Q1
 U 1 1 5CE46C28
 P 2650 6750
@@ -1206,8 +1187,6 @@ F 3 "~" H 2650 6750 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	2650 6950 2650 7450
-Wire Wire Line
-	1050 7450 1750 7450
 Wire Wire Line
 	2850 6650 3100 6650
 Wire Wire Line
@@ -1241,8 +1220,6 @@ Text Notes 2600 7400 1    50   ~ 0
 or DMP2045U\nor DMG3415U-7
 Text Notes 2750 7400 1    35   ~ 0
 |Vgs(th)| <= 1V
-Text Notes 650  7350 0    50   ~ 0
-2 x AA
 Wire Wire Line
 	2150 3200 2750 3200
 Text Label 2750 3200 2    50   ~ 0
@@ -1352,14 +1329,12 @@ Wire Wire Line
 Wire Wire Line
 	4100 900  3900 900 
 Wire Wire Line
-	950  7050 1250 7050
-Wire Wire Line
 	2250 7050 1750 7050
 Wire Wire Line
 	1750 7100 1750 7050
 Connection ~ 1750 7050
 Wire Wire Line
-	1750 7050 1550 7050
+	1750 7050 1600 7050
 Wire Wire Line
 	1750 7400 1750 7450
 Connection ~ 1750 7450
@@ -1368,16 +1343,14 @@ Wire Wire Line
 $Comp
 L Device:R R32
 U 1 1 5D265FEC
-P 1400 7050
-F 0 "R32" V 1500 7050 50  0000 C CNN
-F 1 "22k" V 1400 7050 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 1330 7050 50  0001 C CNN
-F 3 "~" H 1400 7050 50  0001 C CNN
-	1    1400 7050
+P 1450 7050
+F 0 "R32" V 1550 7050 50  0000 C CNN
+F 1 "22k" V 1450 7050 50  0000 C CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 1380 7050 50  0001 C CNN
+F 3 "~" H 1450 7050 50  0001 C CNN
+	1    1450 7050
 	0    -1   -1   0   
 $EndComp
-Wire Wire Line
-	1050 6650 2450 6650
 Wire Wire Line
 	1550 750  1550 850 
 Connection ~ 1550 850 
@@ -1876,10 +1849,10 @@ Wire Notes Line
 Wire Notes Line
 	9450 3750 9450 500 
 $Comp
-L Mechanical:MountingHole H?
+L Mechanical:MountingHole H1
 U 1 1 5E031363
 P 8850 4950
-F 0 "H?" H 8950 4996 50  0000 L CNN
+F 0 "H1" H 8950 4996 50  0000 L CNN
 F 1 "MountingHole M3" H 8950 4905 50  0000 L CNN
 F 2 "MountingHole:MountingHole_3.2mm_M3" H 8850 4950 50  0001 C CNN
 F 3 "~" H 8850 4950 50  0001 C CNN
@@ -1887,10 +1860,10 @@ F 3 "~" H 8850 4950 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mechanical:MountingHole H?
+L Mechanical:MountingHole H2
 U 1 1 5E031864
 P 8850 5150
-F 0 "H?" H 8950 5196 50  0000 L CNN
+F 0 "H2" H 8950 5196 50  0000 L CNN
 F 1 "MountingHole M3" H 8950 5105 50  0000 L CNN
 F 2 "MountingHole:MountingHole_3.2mm_M3" H 8850 5150 50  0001 C CNN
 F 3 "~" H 8850 5150 50  0001 C CNN
@@ -1898,10 +1871,10 @@ F 3 "~" H 8850 5150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mechanical:MountingHole H?
+L Mechanical:MountingHole H3
 U 1 1 5E0318E6
 P 8850 5350
-F 0 "H?" H 8950 5396 50  0000 L CNN
+F 0 "H3" H 8950 5396 50  0000 L CNN
 F 1 "MountingHole M3" H 8950 5305 50  0000 L CNN
 F 2 "MountingHole:MountingHole_3.2mm_M3" H 8850 5350 50  0001 C CNN
 F 3 "~" H 8850 5350 50  0001 C CNN
@@ -1909,10 +1882,10 @@ F 3 "~" H 8850 5350 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mechanical:MountingHole H?
+L Mechanical:MountingHole H4
 U 1 1 5E03196A
 P 8850 5550
-F 0 "H?" H 8950 5596 50  0000 L CNN
+F 0 "H4" H 8950 5596 50  0000 L CNN
 F 1 "MountingHole M3" H 8950 5505 50  0000 L CNN
 F 2 "MountingHole:MountingHole_3.2mm_M3" H 8850 5550 50  0001 C CNN
 F 3 "~" H 8850 5550 50  0001 C CNN
@@ -1929,4 +1902,45 @@ Wire Notes Line
 	9650 5650 8750 5650
 Wire Notes Line
 	8750 5650 8750 4650
+$Comp
+L Device:Battery_Cell BT1
+U 1 1 5E042F5F
+P 750 6900
+F 0 "BT1" H 868 6996 50  0000 L CNN
+F 1 "AA" H 868 6905 50  0000 L CNN
+F 2 "humidity:AA_Battery_Holder" V 750 6960 50  0001 C CNN
+F 3 "https://www.electrokit.com/produkt/batterihallare-1xaa-pcb/" V 750 6960 50  0001 C CNN
+F 4 "electrokit: 41003559" H 750 6900 50  0001 C CNN "Part"
+	1    750  6900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	750  6650 750  6700
+Wire Wire Line
+	750  6650 2450 6650
+Wire Wire Line
+	750  7100 750  7050
+Wire Wire Line
+	750  7050 1300 7050
+Connection ~ 750  7050
+Wire Wire Line
+	750  7050 750  7000
+Wire Wire Line
+	750  7450 750  7400
+Wire Wire Line
+	750  7450 1750 7450
+$Comp
+L Device:Battery_Cell BT2
+U 1 1 5E0BA08E
+P 750 7300
+F 0 "BT2" H 868 7396 50  0000 L CNN
+F 1 "AA" H 868 7305 50  0000 L CNN
+F 2 "humidity:AA_Battery_Holder" V 750 7360 50  0001 C CNN
+F 3 "https://www.electrokit.com/produkt/batterihallare-1xaa-pcb/" V 750 7360 50  0001 C CNN
+F 4 "electrokit: 41003559" H 750 7300 50  0001 C CNN "Part"
+	1    750  7300
+	1    0    0    -1  
+$EndComp
+Text Label 850  7050 0    50   ~ 0
+V_BAT_MID
 $EndSCHEMATC
