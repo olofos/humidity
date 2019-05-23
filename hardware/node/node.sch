@@ -777,7 +777,7 @@ L Device:R R14
 U 1 1 5CEF79DC
 P 5350 4600
 F 0 "R14" V 5250 4600 50  0000 C CNN
-F 1 "0" V 5350 4600 50  0000 C CNN
+F 1 "330" V 5350 4600 50  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 5280 4600 50  0001 C CNN
 F 3 "~" H 5350 4600 50  0001 C CNN
 	1    5350 4600
@@ -788,7 +788,7 @@ L Device:R R16
 U 1 1 5CF072C0
 P 5350 4700
 F 0 "R16" V 5250 4700 50  0000 C CNN
-F 1 "0" V 5350 4700 50  0000 C CNN
+F 1 "330" V 5350 4700 50  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 5280 4700 50  0001 C CNN
 F 3 "~" H 5350 4700 50  0001 C CNN
 	1    5350 4700
@@ -803,7 +803,7 @@ L Device:R R11
 U 1 1 5CF1C5B8
 P 5350 4150
 F 0 "R11" V 5250 4150 50  0000 C CNN
-F 1 "0" V 5350 4150 50  0000 C CNN
+F 1 "330" V 5350 4150 50  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 5280 4150 50  0001 C CNN
 F 3 "~" H 5350 4150 50  0001 C CNN
 	1    5350 4150
@@ -814,7 +814,7 @@ L Device:R R12
 U 1 1 5CF1C5BF
 P 5350 4250
 F 0 "R12" V 5250 4250 50  0000 C CNN
-F 1 "0" V 5350 4250 50  0000 C CNN
+F 1 "330" V 5350 4250 50  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 5280 4250 50  0001 C CNN
 F 3 "~" H 5350 4250 50  0001 C CNN
 	1    5350 4250
@@ -852,8 +852,8 @@ Connection ~ 5650 4600
 Wire Wire Line
 	5550 4700 6150 4700
 Connection ~ 5550 4700
-Text Notes 5100 3950 0    50   ~ 0
-Populate only\none set of resistors
+Text Notes 5050 5100 0    50   ~ 0
+Populate only\none set of \nresistors
 $Comp
 L power:GND #PWR029
 U 1 1 5CF5D50D
@@ -865,8 +865,6 @@ F 3 "" H 4900 5350 50  0001 C CNN
 	1    4900 5350
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	4900 5350 4900 5300
 Wire Wire Line
 	4900 5000 4800 5000
 $Comp
@@ -1085,11 +1083,11 @@ Wire Notes Line
 Wire Notes Line
 	1550 4200 3000 4200
 Wire Notes Line
-	4200 3750 6200 3750
+	4200 3750 6800 3750
 Wire Notes Line
-	6200 3750 6200 5600
+	6800 3750 6800 5600
 Wire Notes Line
-	6200 5600 4200 5600
+	6800 5600 4200 5600
 Wire Notes Line
 	4200 3750 4200 5600
 Wire Notes Line
@@ -1099,13 +1097,7 @@ Wire Notes Line
 Wire Notes Line
 	5650 7750 4050 7750
 Wire Notes Line
-	9450 3750 9450 500 
-Wire Notes Line
 	9450 500  11200 500 
-Wire Notes Line
-	11200 500  11200 3750
-Wire Notes Line
-	9450 3750 11200 3750
 Text Notes 6700 650  0    75   Italic 15
 SHTC3
 Text Notes 6700 1050 0    75   ~ 0
@@ -1178,8 +1170,6 @@ F 3 "~" H 3800 7500 50  0001 C CNN
 	1    3800 7500
 	-1   0    0    1   
 $EndComp
-Text Notes 11150 3700 2    40   ~ 0
-"The recommended value of\n100 nF for the [reset] capacitor \ncan be reduced to 10 nF to limit \npower consumption." (AN4467)
 Text Notes 500  3950 0    75   ~ 0
 Check that bootloader works on UART2 on PA2/PA3
 Text Notes 500  4050 0    75   ~ 0
@@ -1330,21 +1320,6 @@ Wire Wire Line
 	3100 5050 3650 5050
 Wire Wire Line
 	4000 5050 3950 5050
-Text Label 8700 5250 2    50   ~ 0
-USART2_TX
-$Comp
-L Device:R R23
-U 1 1 5CFE2C4A
-P 8050 5000
-F 0 "R23" V 7950 5000 50  0000 C CNN
-F 1 "100k" V 8050 5000 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 7980 5000 50  0001 C CNN
-F 3 "~" H 8050 5000 50  0001 C CNN
-	1    8050 5000
-	-1   0    0    1   
-$EndComp
-Text Label 11150 5250 2    50   ~ 0
-USART2_RX
 Text Notes 3100 4350 0    75   Italic 15
 Unused Pins
 Wire Notes Line
@@ -1513,311 +1488,6 @@ Wire Notes Line
 Wire Notes Line
 	4050 6500 4050 7750
 $Comp
-L Logic_LevelTranslator:SN74LVC1T45DBV U5
-U 1 1 5D07CAE2
-P 7400 5250
-F 0 "U5" H 7600 4900 50  0000 L CNN
-F 1 "SN74LVC1T45DBV" H 7350 4900 50  0000 R CNN
-F 2 "Package_TO_SOT_SMD:SOT-23-6" H 7400 4800 50  0001 C CNN
-F 3 "http://www.ti.com/lit/ds/symlink/sn74lvc1t45.pdf" H 6500 4600 50  0001 C CNN
-	1    7400 5250
-	-1   0    0    -1  
-$EndComp
-Text Label 6150 4700 2    50   ~ 0
-FTDI_TX
-Text Label 6150 4600 2    50   ~ 0
-FTDI_RX
-Wire Wire Line
-	4800 4800 5050 4800
-Wire Wire Line
-	5050 4800 5050 4900
-Wire Wire Line
-	5050 4900 6150 4900
-Text Label 6150 4900 2    50   ~ 0
-FTDI_VCC
-Text Label 6550 5250 0    50   ~ 0
-FTDI_RX
-Wire Wire Line
-	6550 5250 6900 5250
-Wire Wire Line
-	7800 5250 8050 5250
-Wire Wire Line
-	8050 5150 8050 5250
-Connection ~ 8050 5250
-Wire Wire Line
-	8050 5250 8200 5250
-$Comp
-L power:VCC #PWR020
-U 1 1 5D13F4C0
-P 7500 4250
-F 0 "#PWR020" H 7500 4100 50  0001 C CNN
-F 1 "VCC" H 7517 4423 50  0000 C CNN
-F 2 "" H 7500 4250 50  0001 C CNN
-F 3 "" H 7500 4250 50  0001 C CNN
-	1    7500 4250
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	7500 4250 7500 4300
-Wire Wire Line
-	7500 4300 7650 4300
-Wire Wire Line
-	8050 4300 8050 4850
-Connection ~ 7500 4300
-Wire Wire Line
-	7500 4300 7500 4850
-Text Label 6750 4300 0    50   ~ 0
-FTDI_VCC
-$Comp
-L Device:R R26
-U 1 1 5D16B951
-P 5050 5100
-F 0 "R26" V 4950 5100 50  0000 C CNN
-F 1 "100k" V 5050 5100 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 4980 5100 50  0001 C CNN
-F 3 "~" H 5050 5100 50  0001 C CNN
-	1    5050 5100
-	-1   0    0    -1  
-$EndComp
-Wire Wire Line
-	5050 4950 5050 4900
-Connection ~ 5050 4900
-Wire Wire Line
-	5050 5250 5050 5300
-Wire Wire Line
-	5050 5300 4900 5300
-Connection ~ 4900 5300
-Wire Wire Line
-	4900 5300 4900 5000
-$Comp
-L Device:C C8
-U 1 1 5D1B6667
-P 7100 4500
-F 0 "C8" H 7050 4400 50  0000 R CNN
-F 1 "100n" H 7050 4600 50  0000 R CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7138 4350 50  0001 C CNN
-F 3 "~" H 7100 4500 50  0001 C CNN
-	1    7100 4500
-	1    0    0    1   
-$EndComp
-Wire Wire Line
-	7100 4350 7100 4300
-Wire Wire Line
-	7100 4300 7300 4300
-Wire Wire Line
-	7300 4300 7300 4850
-$Comp
-L power:GND #PWR024
-U 1 1 5D1F3B26
-P 7100 4700
-F 0 "#PWR024" H 7100 4450 50  0001 C CNN
-F 1 "GND" H 7105 4527 50  0000 C CNN
-F 2 "" H 7100 4700 50  0001 C CNN
-F 3 "" H 7100 4700 50  0001 C CNN
-	1    7100 4700
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	7100 4700 7100 4650
-Wire Wire Line
-	7100 4300 6750 4300
-Connection ~ 7100 4300
-$Comp
-L Device:C C9
-U 1 1 5D27F0BB
-P 7650 4500
-F 0 "C9" H 7600 4400 50  0000 R CNN
-F 1 "100n" H 7600 4600 50  0000 R CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7688 4350 50  0001 C CNN
-F 3 "~" H 7650 4500 50  0001 C CNN
-	1    7650 4500
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR025
-U 1 1 5D2FACF4
-P 7650 4700
-F 0 "#PWR025" H 7650 4450 50  0001 C CNN
-F 1 "GND" H 7655 4527 50  0000 C CNN
-F 2 "" H 7650 4700 50  0001 C CNN
-F 3 "" H 7650 4700 50  0001 C CNN
-	1    7650 4700
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	7650 4700 7650 4650
-Wire Wire Line
-	7650 4350 7650 4300
-Connection ~ 7650 4300
-$Comp
-L power:GND #PWR033
-U 1 1 5D31A01C
-P 7400 5700
-F 0 "#PWR033" H 7400 5450 50  0001 C CNN
-F 1 "GND" H 7405 5527 50  0000 C CNN
-F 2 "" H 7400 5700 50  0001 C CNN
-F 3 "" H 7400 5700 50  0001 C CNN
-	1    7400 5700
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	7400 5650 7400 5700
-$Comp
-L Device:R R24
-U 1 1 5D339F78
-P 10300 5000
-F 0 "R24" V 10200 5000 50  0000 C CNN
-F 1 "100k" V 10300 5000 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 10230 5000 50  0001 C CNN
-F 3 "~" H 10300 5000 50  0001 C CNN
-	1    10300 5000
-	-1   0    0    1   
-$EndComp
-$Comp
-L Logic_LevelTranslator:SN74LVC1T45DBV U6
-U 1 1 5D339F7E
-P 9650 5250
-F 0 "U6" H 9850 4900 50  0000 L CNN
-F 1 "SN74LVC1T45DBV" H 9600 4900 50  0000 R CNN
-F 2 "Package_TO_SOT_SMD:SOT-23-6" H 9650 4800 50  0001 C CNN
-F 3 "http://www.ti.com/lit/ds/symlink/sn74lvc1t45.pdf" H 8750 4600 50  0001 C CNN
-	1    9650 5250
-	-1   0    0    -1  
-$EndComp
-Wire Wire Line
-	8800 5250 9150 5250
-Wire Wire Line
-	10050 5250 10300 5250
-Wire Wire Line
-	10300 5150 10300 5250
-Connection ~ 10300 5250
-Wire Wire Line
-	10300 5250 10600 5250
-$Comp
-L power:VCC #PWR021
-U 1 1 5D339F8A
-P 9750 4250
-F 0 "#PWR021" H 9750 4100 50  0001 C CNN
-F 1 "VCC" H 9767 4423 50  0000 C CNN
-F 2 "" H 9750 4250 50  0001 C CNN
-F 3 "" H 9750 4250 50  0001 C CNN
-	1    9750 4250
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	9750 4250 9750 4300
-Wire Wire Line
-	9750 4300 9900 4300
-Wire Wire Line
-	10300 4300 10300 4850
-Connection ~ 9750 4300
-Wire Wire Line
-	9750 4300 9750 4850
-Text Label 9000 4300 0    50   ~ 0
-FTDI_VCC
-$Comp
-L Device:C C10
-U 1 1 5D339F96
-P 9350 4500
-F 0 "C10" H 9300 4400 50  0000 R CNN
-F 1 "100n" H 9300 4600 50  0000 R CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 9388 4350 50  0001 C CNN
-F 3 "~" H 9350 4500 50  0001 C CNN
-	1    9350 4500
-	1    0    0    1   
-$EndComp
-Wire Wire Line
-	9350 4350 9350 4300
-Wire Wire Line
-	9350 4300 9450 4300
-Wire Wire Line
-	9550 4300 9550 4850
-$Comp
-L power:GND #PWR026
-U 1 1 5D339F9F
-P 9350 4700
-F 0 "#PWR026" H 9350 4450 50  0001 C CNN
-F 1 "GND" H 9355 4527 50  0000 C CNN
-F 2 "" H 9350 4700 50  0001 C CNN
-F 3 "" H 9350 4700 50  0001 C CNN
-	1    9350 4700
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	9350 4700 9350 4650
-Wire Wire Line
-	9350 4300 9000 4300
-Connection ~ 9350 4300
-$Comp
-L Device:C C11
-U 1 1 5D339FA8
-P 9900 4500
-F 0 "C11" H 9850 4400 50  0000 R CNN
-F 1 "100n" H 9850 4600 50  0000 R CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 9938 4350 50  0001 C CNN
-F 3 "~" H 9900 4500 50  0001 C CNN
-	1    9900 4500
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR027
-U 1 1 5D339FAE
-P 9900 4700
-F 0 "#PWR027" H 9900 4450 50  0001 C CNN
-F 1 "GND" H 9905 4527 50  0000 C CNN
-F 2 "" H 9900 4700 50  0001 C CNN
-F 3 "" H 9900 4700 50  0001 C CNN
-	1    9900 4700
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	9900 4700 9900 4650
-Wire Wire Line
-	9900 4350 9900 4300
-Connection ~ 9900 4300
-Wire Wire Line
-	9900 4300 10300 4300
-$Comp
-L power:GND #PWR034
-U 1 1 5D339FB8
-P 9650 5700
-F 0 "#PWR034" H 9650 5450 50  0001 C CNN
-F 1 "GND" H 9655 5527 50  0000 C CNN
-F 2 "" H 9650 5700 50  0001 C CNN
-F 3 "" H 9650 5700 50  0001 C CNN
-	1    9650 5700
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	9650 5650 9650 5700
-Text Label 8800 5250 0    50   ~ 0
-FTDI_TX
-Wire Wire Line
-	10450 5450 10450 5700
-$Comp
-L power:GND #PWR035
-U 1 1 5D3E2568
-P 10450 5700
-F 0 "#PWR035" H 10450 5450 50  0001 C CNN
-F 1 "GND" H 10455 5527 50  0000 C CNN
-F 2 "" H 10450 5700 50  0001 C CNN
-F 3 "" H 10450 5700 50  0001 C CNN
-	1    10450 5700
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	7800 5450 7950 5450
-Text Notes 6800 4000 0    75   Italic 15
-UART level translation
-Wire Notes Line
-	6500 3850 11200 3850
-Wire Notes Line
-	11200 3850 11200 6400
-Wire Notes Line
-	11200 6400 6500 6400
-Wire Notes Line
-	6500 6400 6500 3850
-$Comp
 L Connector:Conn_01x02_Male J1
 U 1 1 5D574B6A
 P 10650 1250
@@ -1886,43 +1556,6 @@ Wire Wire Line
 Connection ~ 4000 4850
 Wire Wire Line
 	4000 4850 4000 5050
-Text Notes 9750 3950 0    40   ~ 0
-Power-off leakage current 2uA max
-Wire Wire Line
-	7650 4300 7950 4300
-$Comp
-L Device:R R22
-U 1 1 5D63BBB0
-P 7950 5000
-F 0 "R22" V 7850 5000 50  0000 C CNN
-F 1 "0" V 7950 5000 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 7880 5000 50  0001 C CNN
-F 3 "~" H 7950 5000 50  0001 C CNN
-	1    7950 5000
-	1    0    0    1   
-$EndComp
-Wire Wire Line
-	7950 5150 7950 5450
-Wire Wire Line
-	7950 4850 7950 4300
-Connection ~ 7950 4300
-Wire Wire Line
-	7950 4300 8050 4300
-$Comp
-L Device:R R27
-U 1 1 5D660DA8
-P 10250 5450
-F 0 "R27" V 10150 5450 50  0000 C CNN
-F 1 "0" V 10250 5450 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 10180 5450 50  0001 C CNN
-F 3 "~" H 10250 5450 50  0001 C CNN
-	1    10250 5450
-	0    -1   1    0   
-$EndComp
-Wire Wire Line
-	10100 5450 10050 5450
-Wire Wire Line
-	10400 5450 10450 5450
 Wire Wire Line
 	8900 1050 8900 1450
 $Comp
@@ -2129,60 +1762,10 @@ F 3 "~" H 8650 2650 50  0001 C CNN
 	1    8650 2650
 	0    -1   -1   0   
 $EndComp
-$Comp
-L Device:R R28
-U 1 1 5D9F5CAC
-P 7650 6100
-F 0 "R28" V 7550 6100 50  0000 C CNN
-F 1 "330" V 7650 6100 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 7580 6100 50  0001 C CNN
-F 3 "~" H 7650 6100 50  0001 C CNN
-	1    7650 6100
-	0    -1   1    0   
-$EndComp
-Wire Wire Line
-	6900 5250 6900 6100
-Wire Wire Line
-	6900 6100 7500 6100
-Connection ~ 6900 5250
-Wire Wire Line
-	6900 5250 7000 5250
-Wire Wire Line
-	8200 5250 8200 6100
-Wire Wire Line
-	8200 6100 7800 6100
-Connection ~ 8200 5250
-Wire Wire Line
-	8200 5250 8700 5250
-$Comp
-L Device:R R29
-U 1 1 5DB50F16
-P 10000 6100
-F 0 "R29" V 9900 6100 50  0000 C CNN
-F 1 "330" V 10000 6100 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 9930 6100 50  0001 C CNN
-F 3 "~" H 10000 6100 50  0001 C CNN
-	1    10000 6100
-	0    -1   1    0   
-$EndComp
-Wire Wire Line
-	10150 6100 10600 6100
-Wire Wire Line
-	10600 6100 10600 5250
-Connection ~ 10600 5250
-Wire Wire Line
-	10600 5250 11150 5250
-Wire Wire Line
-	9150 5250 9150 6100
-Wire Wire Line
-	9150 6100 9850 6100
-Connection ~ 9150 5250
-Wire Wire Line
-	9150 5250 9250 5250
-Text Notes 9400 6350 0    40   ~ 0
-PA3 (USART2_RX) is 5V tolerant so it should \nbe safe to bypass level conversion
-Text Notes 6700 6350 0    40   ~ 0
-FT232R (used in FTDI cable) has a input switching voltage of max 1.5V\nso it should be fine to drive it directly at eg 2.4 V
+Text Notes 5750 5050 0    40   ~ 0
+PA3 (USART2_RX) is 5V tolerant\nso it should be safe to connect\nit directly to 3.3V FTDI cable
+Text Notes 5750 4400 0    40   ~ 0
+FT232R (used in FTDI cable)\nhas a input switching voltage \nof max 1.5V so it should be \nfine to drive it directly at \neg 2.4 V
 $Comp
 L Device:R R34
 U 1 1 5DCECCD3
@@ -2277,20 +1860,19 @@ F 3 "https://www.vishay.com/docs/85748/1n4148w.pdf" H 1750 7250 50  0001 C CNN
 	1    1750 7250
 	0    1    1    0   
 $EndComp
-$Comp
-L power:PWR_FLAG #FLG0101
-U 1 1 5DF76128
-P 9450 4250
-F 0 "#FLG0101" H 9450 4325 50  0001 C CNN
-F 1 "PWR_FLAG" H 9450 4424 50  0000 C CNN
-F 2 "" H 9450 4250 50  0001 C CNN
-F 3 "~" H 9450 4250 50  0001 C CNN
-	1    9450 4250
-	1    0    0    -1  
-$EndComp
+Text Label 6150 4700 2    50   ~ 0
+USART2_RX
+Text Label 6150 4600 2    50   ~ 0
+USART2_TX
 Wire Wire Line
-	9450 4250 9450 4300
-Connection ~ 9450 4300
-Wire Wire Line
-	9450 4300 9550 4300
+	4900 5000 4900 5350
+NoConn ~ 4800 4800
+Text Notes 11150 3700 2    40   ~ 0
+"The recommended value of\n100 nF for the [reset] capacitor \ncan be reduced to 10 nF to limit \npower consumption." (AN4467)
+Wire Notes Line
+	9450 3750 11200 3750
+Wire Notes Line
+	11200 500  11200 3750
+Wire Notes Line
+	9450 3750 9450 500 
 $EndSCHEMATC
