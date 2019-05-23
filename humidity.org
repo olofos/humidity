@@ -1,0 +1,71 @@
+- STM32L011K4T6
+  LQFP32
+
+- Microcontroller: STM32L031K6T6
+  LQFP32
+  Flash: 32kB
+  SRAM: 8kB
+  1.65 to 3.6 V
+  RTC can store 20 bytes of data during standby
+
+- Radio: RFM69HCW
+  Supply voltage (1.8V-2.4V 17dBm, 2.4V- 3.6V 20dBm)
+  datasheet: https://cdn.sparkfun.com/datasheets/Wireless/General/RFM69HCW-V1.1.pdf
+  arduino library:  https://github.com/LowPowerLab/RFM69/blob/master/RFM69.cpp
+  might need temperature correction: https://lowpowerlab.com/forum/moteino/freq-vs-temperature-update/15/
+
+- Temperature/humidity sensor: SHTC3
+  1.62V to 3.6V
+  Sleep Mode: max 0.6 uA
+  datasheet: https://www.tme.eu/Document/de9a660213658e76095c62bf61d76ee0/HT_DS_SHTC3_D1.pdf
+
+- Flash: AT25DF512C
+  1.65V - 3.6V Supply
+  Ultra-Deep Power-Down Current: max 1 uA
+  Deep Power-Down Current: max 15 uA
+  64 kb
+
+- EEPROM: 24AA256UID
+  1.7V - 5.5
+  Standby current: 1 uA max
+  32 kB + unique ID
+  I2C
+
+
+
+- Data packets:
+  - Encrypted using AES
+    Max 48 bytes per packet
+
+  - From node to server:
+
+    0x00 Node ID (1 byte)
+    0x01 Command (1 byte)
+    0x02 Battry voltage (2 bytes)
+    0x04 Data (n bytes)
+
+    Commands:
+    Connect
+    Temp/humidity data
+    Debug message
+
+
+    Connect:
+    Current firmware version
+    
+    Temp/humidity data:
+    0x04 Timestamp (6 bytes, BCD following stm32 format, in UTC)
+    0x0A Humidity data (2 bytes)
+    0x0D Temperature data (2 bytes)
+
+  - From server to node:
+
+    ACK
+    NACK
+    Connected
+
+
+  - Update data
+    Magic string to check encryption
+    Address
+    32 bytes of data
