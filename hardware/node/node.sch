@@ -1875,4 +1875,58 @@ Wire Notes Line
 	11200 500  11200 3750
 Wire Notes Line
 	9450 3750 9450 500 
+$Comp
+L Mechanical:MountingHole H?
+U 1 1 5E031363
+P 8850 4950
+F 0 "H?" H 8950 4996 50  0000 L CNN
+F 1 "MountingHole M3" H 8950 4905 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 8850 4950 50  0001 C CNN
+F 3 "~" H 8850 4950 50  0001 C CNN
+	1    8850 4950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H?
+U 1 1 5E031864
+P 8850 5150
+F 0 "H?" H 8950 5196 50  0000 L CNN
+F 1 "MountingHole M3" H 8950 5105 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 8850 5150 50  0001 C CNN
+F 3 "~" H 8850 5150 50  0001 C CNN
+	1    8850 5150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H?
+U 1 1 5E0318E6
+P 8850 5350
+F 0 "H?" H 8950 5396 50  0000 L CNN
+F 1 "MountingHole M3" H 8950 5305 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 8850 5350 50  0001 C CNN
+F 3 "~" H 8850 5350 50  0001 C CNN
+	1    8850 5350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H?
+U 1 1 5E03196A
+P 8850 5550
+F 0 "H?" H 8950 5596 50  0000 L CNN
+F 1 "MountingHole M3" H 8950 5505 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 8850 5550 50  0001 C CNN
+F 3 "~" H 8850 5550 50  0001 C CNN
+	1    8850 5550
+	1    0    0    -1  
+$EndComp
+Text Notes 8750 4800 0    75   Italic 15
+Mechanical
+Wire Notes Line
+	8750 4650 9650 4650
+Wire Notes Line
+	9650 4650 9650 5650
+Wire Notes Line
+	9650 5650 8750 5650
+Wire Notes Line
+	8750 5650 8750 4650
 $EndSCHEMATC
