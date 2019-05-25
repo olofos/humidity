@@ -322,15 +322,6 @@ F 3 "" H 7600 2550 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	7600 2400 7600 2500
-Wire Wire Line
-	7600 2500 7700 2500
-Wire Wire Line
-	7700 2500 7700 2400
-Connection ~ 7600 2500
-Wire Wire Line
-	7600 2500 7600 2550
-Wire Wire Line
 	10400 2650 10300 2650
 Wire Wire Line
 	10300 2650 10300 2800
@@ -1902,45 +1893,12 @@ Wire Notes Line
 	9650 5650 8750 5650
 Wire Notes Line
 	8750 5650 8750 4650
-$Comp
-L Device:Battery_Cell BT1
-U 1 1 5E042F5F
-P 750 6900
-F 0 "BT1" H 868 6996 50  0000 L CNN
-F 1 "AA" H 868 6905 50  0000 L CNN
-F 2 "humidity:AA_Battery_Holder" V 750 6960 50  0001 C CNN
-F 3 "https://www.electrokit.com/produkt/batterihallare-1xaa-pcb/" V 750 6960 50  0001 C CNN
-F 4 "electrokit: 41003559" H 750 6900 50  0001 C CNN "Part"
-	1    750  6900
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
-	750  6650 750  6700
-Wire Wire Line
-	750  6650 2450 6650
-Wire Wire Line
-	750  7100 750  7050
+	850  6650 2450 6650
 Wire Wire Line
 	750  7050 1300 7050
-Connection ~ 750  7050
 Wire Wire Line
-	750  7050 750  7000
-Wire Wire Line
-	750  7450 750  7400
-Wire Wire Line
-	750  7450 1750 7450
-$Comp
-L Device:Battery_Cell BT2
-U 1 1 5E0BA08E
-P 750 7300
-F 0 "BT2" H 868 7396 50  0000 L CNN
-F 1 "AA" H 868 7305 50  0000 L CNN
-F 2 "humidity:AA_Battery_Holder" V 750 7360 50  0001 C CNN
-F 3 "https://www.electrokit.com/produkt/batterihallare-1xaa-pcb/" V 750 7360 50  0001 C CNN
-F 4 "electrokit: 41003559" H 750 7300 50  0001 C CNN "Part"
-	1    750  7300
-	1    0    0    -1  
-$EndComp
+	850  7450 1750 7450
 Text Label 850  7050 0    50   ~ 0
 V_BAT_MID
 Text Label 4950 4600 0    50   ~ 0
@@ -1950,4 +1908,26 @@ FTDI_TX
 Connection ~ 4800 4600
 Wire Wire Line
 	4800 4600 5450 4600
+$Comp
+L Connector:Conn_01x03_Male J4
+U 1 1 5CEF0263
+P 550 7050
+F 0 "J4" H 650 7250 50  0000 C CNN
+F 1 "2 x AA" H 650 6900 50  0000 C CNN
+F 2 "Connector_JST:JST_PH_S3B-PH-K_1x03_P2.00mm_Horizontal" H 550 7050 50  0001 C CNN
+F 3 "~" H 550 7050 50  0001 C CNN
+	1    550  7050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	850  6650 850  6950
+Wire Wire Line
+	850  6950 750  6950
+Wire Wire Line
+	850  7450 850  7150
+Wire Wire Line
+	850  7150 750  7150
+Wire Wire Line
+	7600 2400 7600 2550
+NoConn ~ 7700 2400
 $EndSCHEMATC
