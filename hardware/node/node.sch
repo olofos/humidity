@@ -464,8 +464,6 @@ Text Label 2750 2600 2    50   ~ 0
 I2C1_SCL
 Wire Wire Line
 	2150 2700 2750 2700
-Text Label 2750 2700 2    50   ~ 0
-I2C1_SDA
 Wire Wire Line
 	2150 2900 2750 2900
 Wire Wire Line
@@ -1407,10 +1405,6 @@ Wire Wire Line
 	2150 2800 2750 2800
 Text Label 2750 2900 2    50   ~ 0
 PA12
-Text Label 3100 4650 0    50   ~ 0
-PA11
-Text Label 2750 2800 2    50   ~ 0
-PA11
 Text Label 3100 4850 0    50   ~ 0
 PA12
 Wire Wire Line
@@ -1493,29 +1487,11 @@ F 3 "~" H 3800 4850 50  0001 C CNN
 	1    3800 4850
 	0    1    1    0   
 $EndComp
-$Comp
-L Device:R R15
-U 1 1 5D5F1930
-P 3800 4650
-F 0 "R15" V 3700 4650 50  0000 C CNN
-F 1 "100k" V 3800 4650 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 3730 4650 50  0001 C CNN
-F 3 "~" H 3800 4650 50  0001 C CNN
-	1    3800 4650
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	3100 4650 3650 4650
 Wire Wire Line
 	3650 4850 3100 4850
-Wire Wire Line
-	3950 4650 4000 4650
-Wire Wire Line
-	4000 4650 4000 4850
 Connection ~ 4000 5050
 Wire Wire Line
 	3950 4850 4000 4850
-Connection ~ 4000 4850
 Wire Wire Line
 	4000 4850 4000 5050
 Wire Wire Line
@@ -1954,7 +1930,7 @@ U 1 1 5D0333AA
 P 8400 5900
 F 0 "TP2" V 8400 6100 50  0000 L CNN
 F 1 "TestPoint" H 8458 5929 50  0001 L CNN
-F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 5900 50  0001 C CNN
+F 2 "TestPoint:TestPoint_THTPad_1.5x1.5mm_Drill0.7mm" H 8600 5900 50  0001 C CNN
 F 3 "~" H 8600 5900 50  0001 C CNN
 	1    8400 5900
 	0    1    1    0   
@@ -2121,23 +2097,23 @@ Wire Wire Line
 Wire Wire Line
 	7800 5250 8400 5250
 $Comp
-L Connector:TestPoint TP?
+L Connector:TestPoint TP12
 U 1 1 5D229E6E
 P 8400 6000
-F 0 "TP?" V 8400 6200 50  0000 L CNN
+F 0 "TP12" V 8400 6200 50  0000 L CNN
 F 1 "TestPoint" H 8458 6029 50  0001 L CNN
-F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 6000 50  0001 C CNN
+F 2 "TestPoint:TestPoint_THTPad_1.5x1.5mm_Drill0.7mm" H 8600 6000 50  0001 C CNN
 F 3 "~" H 8600 6000 50  0001 C CNN
 	1    8400 6000
 	0    1    1    0   
 $EndComp
 $Comp
-L Connector:TestPoint TP?
+L Connector:TestPoint TP13
 U 1 1 5D229F08
 P 8400 6100
-F 0 "TP?" V 8400 6300 50  0000 L CNN
+F 0 "TP13" V 8400 6300 50  0000 L CNN
 F 1 "TestPoint" H 8458 6129 50  0001 L CNN
-F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 6100 50  0001 C CNN
+F 2 "TestPoint:TestPoint_THTPad_1.5x1.5mm_Drill0.7mm" H 8600 6100 50  0001 C CNN
 F 3 "~" H 8600 6100 50  0001 C CNN
 	1    8400 6100
 	0    1    1    0   
@@ -2154,4 +2130,13 @@ Wire Wire Line
 Wire Wire Line
 	8300 6100 8400 6100
 Connection ~ 8300 6000
+Text Label 2900 2250 0    50   ~ 0
+RFM69_RST
+Wire Wire Line
+	3100 2250 2900 2250
+Connection ~ 3100 2250
+Text Label 2750 2700 2    50   ~ 0
+I2C1_SDA
+Text Label 2750 2800 2    50   ~ 0
+RFM69_RST
 $EndSCHEMATC
