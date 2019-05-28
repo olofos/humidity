@@ -26,17 +26,6 @@ F 3 "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/da
 	1    0    0    -1  
 $EndComp
 $Comp
-L RF_AM_FM:RFM69HCW U1
-U 1 1 5CD803DB
-P 3900 2050
-F 0 "U1" H 4150 1450 50  0000 C CNN
-F 1 "RFM69HCW" H 3500 1450 50  0000 C CNN
-F 2 "humidity:RFM69HCW" H 600 3700 50  0001 C CNN
-F 3 "http://www.hoperf.com/upload/rf/RFM69HCW-V1.1.pdf" H 600 3700 50  0001 C CNN
-	1    3900 2050
-	1    0    0    -1  
-$EndComp
-$Comp
 L humidity:SHTC3 U2
 U 1 1 5CD805F1
 P 7600 2050
@@ -275,12 +264,12 @@ Connection ~ 1650 3450
 $Comp
 L power:GND #PWR016
 U 1 1 5CD831AE
-P 4000 2750
-F 0 "#PWR016" H 4000 2500 50  0001 C CNN
-F 1 "GND" H 4005 2577 50  0000 C CNN
-F 2 "" H 4000 2750 50  0001 C CNN
-F 3 "" H 4000 2750 50  0001 C CNN
-	1    4000 2750
+P 3900 2750
+F 0 "#PWR016" H 3900 2500 50  0001 C CNN
+F 1 "GND" H 3905 2577 50  0000 C CNN
+F 2 "" H 3900 2750 50  0001 C CNN
+F 3 "" H 3900 2750 50  0001 C CNN
+	1    3900 2750
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -288,15 +277,7 @@ Wire Wire Line
 Wire Wire Line
 	3800 2700 3900 2700
 Wire Wire Line
-	4000 2700 4000 2750
-Wire Wire Line
-	4000 2700 4000 2650
-Connection ~ 4000 2700
-Wire Wire Line
 	3900 2650 3900 2700
-Connection ~ 3900 2700
-Wire Wire Line
-	3900 2700 4000 2700
 $Comp
 L power:GND #PWR015
 U 1 1 5CD84390
@@ -452,11 +433,11 @@ Text Label 2750 2400 2    50   ~ 0
 SPI1_MOSI
 Wire Wire Line
 	1050 2600 550  2600
-Text Label 550  2700 0    50   ~ 0
+Text Label 550  2600 0    50   ~ 0
 CS_RFM69
 Wire Wire Line
 	1050 2700 550  2700
-Text Label 550  2600 0    50   ~ 0
+Text Label 550  2700 0    50   ~ 0
 CS_FLASH
 Wire Wire Line
 	2150 2600 2750 2600
@@ -2139,4 +2120,18 @@ Text Label 2750 2700 2    50   ~ 0
 I2C1_SDA
 Text Label 2750 2800 2    50   ~ 0
 RFM69_RST
+$Comp
+L humidity:RFM69HW U1
+U 1 1 5CD803DB
+P 3900 2050
+F 0 "U1" H 4150 1450 50  0000 C CNN
+F 1 "RFM69HW" H 3500 1450 50  0000 C CNN
+F 2 "humidity:RFM69HW" H 600 3700 50  0001 C CNN
+F 3 "http://www.hoperf.com/upload/rf/RFM69HCW-V1.1.pdf" H 600 3700 50  0001 C CNN
+	1    3900 2050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3900 2750 3900 2700
+Connection ~ 3900 2700
 $EndSCHEMATC
