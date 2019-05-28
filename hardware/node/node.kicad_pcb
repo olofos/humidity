@@ -290,6 +290,11 @@
       (net 24 /CS_RFM69))
     (pad 16 smd roundrect (at 9.85 7 180) (size 3 1.1) (layers B.Cu B.Paste B.Mask) (roundrect_rratio 0.25)
       (net 38 "Net-(U1-Pad16)"))
+    (model /home/olof/Dropbox/Projects/humidity/hardware/lib/3d/RFM69W.step
+      (offset (xyz -8.4 7 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 0))
+    )
   )
 
   (module Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder (layer F.Cu) (tedit 5B301BBE) (tstamp 5CEAECCE)
@@ -665,6 +670,11 @@
       (net 1 GND) (zone_connect 2))
     (pad 1 thru_hole circle (at 0 0 270) (size 2.05 2.05) (drill 1.5) (layers *.Cu *.Mask)
       (net 12 /ANT) (zone_connect 2))
+    (model ${KISYS3DMOD}/Connector_Coaxial.3dshapes/SMA_Amphenol_132291-12_Vertical.wrl
+      (at (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 0))
+    )
   )
 
   (module LED_SMD:LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder (layer F.Cu) (tedit 5B4B45C9) (tstamp 5CEA9526)
