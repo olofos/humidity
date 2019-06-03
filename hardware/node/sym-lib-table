@@ -1,3 +1,3 @@
 (sym_lib_table
-  (lib (name humidity)(type Legacy)(uri /home/olof/Dropbox/Projects/humidity/hardware/lib/humidity.lib)(options "")(descr ""))
+  (lib (name humidity)(type Legacy)(uri ${KIPRJMOD}/../lib/humidity.lib)(options "")(descr ""))
 )

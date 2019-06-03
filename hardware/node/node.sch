@@ -1867,7 +1867,7 @@ U 1 1 5CEF0263
 P 550 7050
 F 0 "J4" H 650 7250 50  0000 C CNN
 F 1 "2 x AA" H 650 6900 50  0000 C CNN
-F 2 "Connector_JST:JST_PH_S3B-PH-K_1x03_P2.00mm_Horizontal" H 550 7050 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 550 7050 50  0001 C CNN
 F 3 "~" H 550 7050 50  0001 C CNN
 	1    550  7050
 	1    0    0    -1  
@@ -2134,4 +2134,6 @@ $EndComp
 Wire Wire Line
 	3900 2750 3900 2700
 Connection ~ 3900 2700
+Text Notes 5500 5800 0    50   ~ 0
+Or RF2-03E-T-00-50-G
 $EndSCHEMATC

@@ -1,11 +1,11 @@
 EESchema-LIBRARY Version 2.4
 #encoding utf-8
 #
-# Connector_Conn_01x02_Male
+# Connector:Conn_01x02_Male
 #
-DEF Connector_Conn_01x02_Male J 0 40 Y N 1 F N
+DEF Connector:Conn_01x02_Male J 0 40 Y N 1 F N
 F0 "J" 0 100 50 H V C CNN
-F1 "Connector_Conn_01x02_Male" 0 -200 50 H V C CNN
+F1 "Connector:Conn_01x02_Male" 0 -200 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -21,11 +21,11 @@ X Pin_2 2 200 -100 150 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# Connector_Conn_01x03_Male
+# Connector:Conn_01x03_Male
 #
-DEF Connector_Conn_01x03_Male J 0 40 Y N 1 F N
+DEF Connector:Conn_01x03_Male J 0 40 Y N 1 F N
 F0 "J" 0 200 50 H V C CNN
-F1 "Connector_Conn_01x03_Male" 0 -200 50 H V C CNN
+F1 "Connector:Conn_01x03_Male" 0 -200 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -44,11 +44,11 @@ X Pin_3 3 200 -100 150 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# Connector_Conn_01x04_Male
+# Connector:Conn_01x04_Male
 #
-DEF Connector_Conn_01x04_Male J 0 40 Y N 1 F N
+DEF Connector:Conn_01x04_Male J 0 40 Y N 1 F N
 F0 "J" 0 200 50 H V C CNN
-F1 "Connector_Conn_01x04_Male" 0 -300 50 H V C CNN
+F1 "Connector:Conn_01x04_Male" 0 -300 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -70,11 +70,11 @@ X Pin_4 4 200 -200 150 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# Connector_Conn_01x06_Male
+# Connector:Conn_01x06_Male
 #
-DEF Connector_Conn_01x06_Male J 0 40 Y N 1 F N
+DEF Connector:Conn_01x06_Male J 0 40 Y N 1 F N
 F0 "J" 0 300 50 H V C CNN
-F1 "Connector_Conn_01x06_Male" 0 -400 50 H V C CNN
+F1 "Connector:Conn_01x06_Male" 0 -400 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -102,11 +102,11 @@ X Pin_6 6 200 -300 150 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# Connector_Conn_Coaxial
+# Connector:Conn_Coaxial
 #
-DEF Connector_Conn_Coaxial J 0 40 Y N 1 F N
+DEF Connector:Conn_Coaxial J 0 40 Y N 1 F N
 F0 "J" 10 120 50 H V C CNN
-F1 "Connector_Conn_Coaxial" 115 0 50 V V C CNN
+F1 "Connector:Conn_Coaxial" 115 0 50 V V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -127,11 +127,11 @@ X Ext 2 0 -200 100 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# Connector_TestPoint
+# Connector:TestPoint
 #
-DEF Connector_TestPoint TP 0 30 N N 1 F N
+DEF Connector:TestPoint TP 0 30 N N 1 F N
 F0 "TP" 0 270 50 H V C CNN
-F1 "Connector_TestPoint" 0 200 50 H V C CNN
+F1 "Connector:TestPoint" 0 200 50 H V C CNN
 F2 "" 200 0 50 H I C CNN
 F3 "" 200 0 50 H I C CNN
 $FPLIST
@@ -144,11 +144,11 @@ X 1 1 0 0 100 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# Device_C
+# Device:C
 #
-DEF Device_C C 0 10 N Y 1 F N
+DEF Device:C C 0 10 N Y 1 F N
 F0 "C" 25 100 50 H V L CNN
-F1 "Device_C" 25 -100 50 H V L CNN
+F1 "Device:C" 25 -100 50 H V L CNN
 F2 "" 38 -150 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -162,11 +162,11 @@ X ~ 2 0 -150 110 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# Device_CP1
+# Device:CP1
 #
-DEF Device_CP1 C 0 10 N N 1 F N
+DEF Device:CP1 C 0 10 N N 1 F N
 F0 "C" 25 100 50 H V L CNN
-F1 "Device_CP1" 25 -100 50 H V L CNN
+F1 "Device:CP1" 25 -100 50 H V L CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -182,11 +182,11 @@ X ~ 2 0 -150 130 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# Device_Crystal
+# Device:Crystal
 #
-DEF Device_Crystal Y 0 40 N N 1 F N
+DEF Device:Crystal Y 0 40 N N 1 F N
 F0 "Y" 0 150 50 H V C CNN
-F1 "Device_Crystal" 0 -150 50 H V C CNN
+F1 "Device:Crystal" 0 -150 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -203,11 +203,11 @@ X 2 2 150 0 50 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# Device_LED
+# Device:LED
 #
-DEF Device_LED D 0 40 N N 1 F N
+DEF Device:LED D 0 40 N N 1 F N
 F0 "D" 0 100 50 H V C CNN
-F1 "Device_LED" 0 -100 50 H V C CNN
+F1 "Device:LED" 0 -100 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -226,11 +226,11 @@ X A 2 150 0 100 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# Device_Q_PMOS_GSD
+# Device:Q_PMOS_GSD
 #
-DEF Device_Q_PMOS_GSD Q 0 0 Y N 1 F N
+DEF Device:Q_PMOS_GSD Q 0 0 Y N 1 F N
 F0 "Q" 200 50 50 H V L CNN
-F1 "Device_Q_PMOS_GSD" 200 -50 50 H V L CNN
+F1 "Device:Q_PMOS_GSD" 200 -50 50 H V L CNN
 F2 "" 200 100 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -258,11 +258,11 @@ X D 3 100 200 100 D 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# Device_R
+# Device:R
 #
-DEF Device_R R 0 0 N Y 1 F N
+DEF Device:R R 0 0 N Y 1 F N
 F0 "R" 80 0 50 V V C CNN
-F1 "Device_R" 0 0 50 V V C CNN
+F1 "Device:R" 0 0 50 V V C CNN
 F2 "" -70 0 50 V I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -275,11 +275,11 @@ X ~ 2 0 -150 50 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# Diode_1N4148W
+# Diode:1N4148W
 #
-DEF Diode_1N4148W D 0 40 N N 1 F N
+DEF Diode:1N4148W D 0 40 N N 1 F N
 F0 "D" 0 100 50 H V C CNN
-F1 "Diode_1N4148W" 0 -100 50 H V C CNN
+F1 "Diode:1N4148W" 0 -100 50 H V C CNN
 F2 "Diode_SMD:D_SOD-123" 0 -175 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 ALIAS 1N4148W BAV16W 1N4448W
@@ -295,11 +295,11 @@ X A 2 150 0 100 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# MCU_ST_STM32L0_STM32L031K6Tx
+# MCU_ST_STM32L0:STM32L031K6Tx
 #
-DEF MCU_ST_STM32L0_STM32L031K6Tx U 0 20 Y Y 1 F N
+DEF MCU_ST_STM32L0:STM32L031K6Tx U 0 20 Y Y 1 F N
 F0 "U" -500 850 50 H V L CNN
-F1 "MCU_ST_STM32L0_STM32L031K6Tx" 200 850 50 H V L CNN
+F1 "MCU_ST_STM32L0:STM32L031K6Tx" 200 850 50 H V L CNN
 F2 "Package_QFP:LQFP-32_7x7mm_P0.8mm" -500 -900 50 H I R CNN
 F3 "" 0 0 50 H I C CNN
 ALIAS STM32L031K6Tx
@@ -343,11 +343,11 @@ X PA3 9 500 400 100 L 50 50 1 1 B
 ENDDRAW
 ENDDEF
 #
-# Mechanical_MountingHole
+# Mechanical:MountingHole
 #
-DEF Mechanical_MountingHole H 0 40 Y Y 1 F N
-F0 "H" 0 200 50 H V C CNN
-F1 "Mechanical_MountingHole" 0 125 50 H V C CNN
+DEF Mechanical:MountingHole MH 0 40 Y Y 1 F N
+F0 "MH" 0 200 50 H V C CNN
+F1 "Mechanical:MountingHole" 0 125 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -358,11 +358,11 @@ C 0 0 50 0 1 50 N
 ENDDRAW
 ENDDEF
 #
-# humidity_AT25DF512C
+# humidity:AT25DF512C
 #
-DEF humidity_AT25DF512C U 0 40 Y Y 1 F N
+DEF humidity:AT25DF512C U 0 40 Y Y 1 F N
 F0 "U" -300 -500 50 H V C CNN
-F1 "humidity_AT25DF512C" 200 0 50 V V C CNN
+F1 "humidity:AT25DF512C" 200 0 50 V V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -381,11 +381,11 @@ X VCC 8 0 500 100 D 50 50 1 1 W
 ENDDRAW
 ENDDEF
 #
-# humidity_RFM69HW
+# humidity:RFM69HW
 #
-DEF humidity_RFM69HW U 0 40 Y Y 1 F N
+DEF humidity:RFM69HW U 0 40 Y Y 1 F N
 F0 "U" -410 460 50 H V L CNN
-F1 "humidity_RFM69HW" 60 450 50 H V L CNN
+F1 "humidity:RFM69HW" 60 450 50 H V L CNN
 F2 "" -3300 1650 50 H I C CNN
 F3 "" -3300 1650 50 H I C CNN
 DRAW
@@ -409,11 +409,11 @@ X GND 9 -100 -600 100 U 50 50 1 1 W
 ENDDRAW
 ENDDEF
 #
-# humidity_SHTC3
+# humidity:SHTC3
 #
-DEF humidity_SHTC3 U 0 40 Y Y 1 F N
+DEF humidity:SHTC3 U 0 40 Y Y 1 F N
 F0 "U" -250 -300 50 H V C CNN
-F1 "humidity_SHTC3" 200 0 50 V V C CNN
+F1 "humidity:SHTC3" 200 0 50 V V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -429,11 +429,11 @@ X Pad 5 100 -350 100 U 50 50 1 1 W
 ENDDRAW
 ENDDEF
 #
-# humidity_SW_Push_4pin
+# humidity:SW_Push_4pin
 #
-DEF humidity_SW_Push_4pin SW 0 40 Y N 1 F N
+DEF humidity:SW_Push_4pin SW 0 40 Y N 1 F N
 F0 "SW" 0 -150 40 H V C CNN
-F1 "humidity_SW_Push_4pin" 0 200 40 H V C CNN
+F1 "humidity:SW_Push_4pin" 0 200 40 H V C CNN
 F2 "" 0 0 40 H I C CNN
 F3 "" 0 0 40 H I C CNN
 DRAW
@@ -450,11 +450,11 @@ X 4 4 250 -100 100 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# power_GND
+# power:GND
 #
-DEF power_GND #PWR 0 0 Y Y 1 F P
+DEF power:GND #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 -250 50 H I C CNN
-F1 "power_GND" 0 -150 50 H V C CNN
+F1 "power:GND" 0 -150 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -463,11 +463,11 @@ X GND 1 0 0 0 D 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# power_PWR_FLAG
+# power:PWR_FLAG
 #
-DEF power_PWR_FLAG #FLG 0 0 N N 1 F P
+DEF power:PWR_FLAG #FLG 0 0 N N 1 F P
 F0 "#FLG" 0 75 50 H I C CNN
-F1 "power_PWR_FLAG" 0 150 50 H V C CNN
+F1 "power:PWR_FLAG" 0 150 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -476,11 +476,11 @@ X pwr 1 0 0 0 U 50 50 0 0 w
 ENDDRAW
 ENDDEF
 #
-# power_VCC
+# power:VCC
 #
-DEF power_VCC #PWR 0 0 Y Y 1 F P
+DEF power:VCC #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 -150 50 H I C CNN
-F1 "power_VCC" 0 150 50 H V C CNN
+F1 "power:VCC" 0 150 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
