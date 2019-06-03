@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name humidity)(type Legacy)(uri "$(KIPRJMOD)/../lib/humidity.lib")(options "")(descr ""))
+)
