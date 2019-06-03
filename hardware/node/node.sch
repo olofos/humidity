@@ -475,35 +475,25 @@ Text Label 550  3100 0    50   ~ 0
 CONF3
 Text Label 550  3200 0    50   ~ 0
 CONF4
-Wire Wire Line
-	8500 850  8400 850 
-Wire Wire Line
-	8500 1250 8400 1250
-Wire Wire Line
-	8500 1650 8400 1650
-Wire Wire Line
-	8500 2050 8400 2050
-Wire Wire Line
-	8500 2450 8400 2450
 Text Label 8000 850  0    50   ~ 0
 CONF0
-Text Label 8000 1250 0    50   ~ 0
+Text Label 8000 1100 0    50   ~ 0
 CONF1
-Text Label 8000 1650 0    50   ~ 0
+Text Label 8000 1350 0    50   ~ 0
 CONF2
-Text Label 8000 2050 0    50   ~ 0
+Text Label 8000 1600 0    50   ~ 0
 CONF3
-Text Label 8000 2450 0    50   ~ 0
+Text Label 8000 1850 0    50   ~ 0
 CONF4
 $Comp
 L power:GND #PWR017
 U 1 1 5CDBE2FB
-P 8900 2800
-F 0 "#PWR017" H 8900 2550 50  0001 C CNN
-F 1 "GND" H 8905 2627 50  0000 C CNN
-F 2 "" H 8900 2800 50  0001 C CNN
-F 3 "" H 8900 2800 50  0001 C CNN
-	1    8900 2800
+P 9000 2050
+F 0 "#PWR017" H 9000 1800 50  0001 C CNN
+F 1 "GND" H 9005 1877 50  0000 C CNN
+F 2 "" H 9000 2050 50  0001 C CNN
+F 3 "" H 9000 2050 50  0001 C CNN
+	1    9000 2050
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -1031,13 +1021,13 @@ Wire Notes Line
 Wire Notes Line
 	500  7750 4000 7750
 Wire Notes Line
-	7950 3100 7950 500 
+	7950 2300 7950 500 
 Wire Notes Line
-	7950 500  9300 500 
+	7950 500  9150 500 
 Wire Notes Line
-	9300 500  9300 3100
+	9150 500  9150 2300
 Wire Notes Line
-	9300 3100 7950 3100
+	9150 2300 7950 2300
 Wire Notes Line
 	5700 6700 6450 6700
 Wire Notes Line
@@ -1478,107 +1468,19 @@ Wire Wire Line
 Wire Wire Line
 	4000 4850 4000 5050
 Wire Wire Line
-	8900 1050 8900 1450
-$Comp
-L power:VCC #PWR04
-U 1 1 5D7F9D96
-P 9100 750
-F 0 "#PWR04" H 9100 600 50  0001 C CNN
-F 1 "VCC" H 9117 923 50  0000 C CNN
-F 2 "" H 9100 750 50  0001 C CNN
-F 3 "" H 9100 750 50  0001 C CNN
-	1    9100 750 
-	1    0    0    -1  
-$EndComp
+	8800 850  9000 850 
 Wire Wire Line
-	8800 850  9100 850 
+	8500 1350 8000 1350
 Wire Wire Line
-	9100 850  9100 750 
+	8500 1600 8000 1600
 Wire Wire Line
-	8900 1050 8800 1050
-Wire Wire Line
-	8500 1050 8400 1050
-Wire Wire Line
-	8400 1050 8400 850 
-Connection ~ 8400 850 
-Wire Wire Line
-	8400 850  8000 850 
-Wire Wire Line
-	8400 1250 8400 1450
-Wire Wire Line
-	8400 1450 8500 1450
-Connection ~ 8400 1250
-Wire Wire Line
-	8400 1250 8000 1250
-Wire Wire Line
-	8500 1850 8400 1850
-Wire Wire Line
-	8400 1850 8400 1650
-Connection ~ 8400 1650
-Wire Wire Line
-	8400 1650 8000 1650
-Wire Wire Line
-	8400 2050 8400 2250
-Wire Wire Line
-	8400 2250 8500 2250
-Connection ~ 8400 2050
-Wire Wire Line
-	8400 2050 8000 2050
-Wire Wire Line
-	8400 2450 8400 2650
-Wire Wire Line
-	8400 2650 8500 2650
-Connection ~ 8400 2450
-Wire Wire Line
-	8400 2450 8000 2450
-Wire Wire Line
-	8800 1450 8900 1450
-Connection ~ 8900 1450
-Wire Wire Line
-	8900 1450 8900 1850
-Wire Wire Line
-	8800 1850 8900 1850
-Connection ~ 8900 1850
-Wire Wire Line
-	8900 1850 8900 2250
-Wire Wire Line
-	8800 2250 8900 2250
-Connection ~ 8900 2250
-Wire Wire Line
-	8900 2250 8900 2650
-Wire Wire Line
-	8800 2650 8900 2650
-Connection ~ 8900 2650
-Wire Wire Line
-	8900 2650 8900 2800
-Wire Wire Line
-	8800 1250 9100 1250
-Wire Wire Line
-	9100 1250 9100 850 
-Connection ~ 9100 850 
-Wire Wire Line
-	9100 1250 9100 1650
-Wire Wire Line
-	9100 1650 8800 1650
-Connection ~ 9100 1250
-Wire Wire Line
-	9100 1650 9100 2050
-Wire Wire Line
-	9100 2050 8800 2050
-Connection ~ 9100 1650
-Wire Wire Line
-	9100 2050 9100 2450
-Wire Wire Line
-	9100 2450 8800 2450
-Connection ~ 9100 2050
-Text Notes 9250 2500 1    50   ~ 0
-Populate only one resistor for each channel
+	8500 1850 8000 1850
 $Comp
 L Device:R R1
 U 1 1 5D9745BE
 P 8650 850
 F 0 "R1" V 8750 850 50  0000 C CNN
-F 1 "4k7" V 8650 850 50  0000 C CNN
+F 1 "0" V 8650 850 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 850 50  0001 C CNN
 F 3 "~" H 8650 850 50  0001 C CNN
 	1    8650 850 
@@ -1587,100 +1489,45 @@ $EndComp
 $Comp
 L Device:R R2
 U 1 1 5D9746CD
-P 8650 1050
-F 0 "R2" V 8750 1050 50  0000 C CNN
-F 1 "4k7" V 8650 1050 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 1050 50  0001 C CNN
-F 3 "~" H 8650 1050 50  0001 C CNN
-	1    8650 1050
+P 8650 1100
+F 0 "R2" V 8750 1100 50  0000 C CNN
+F 1 "0" V 8650 1100 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 1100 50  0001 C CNN
+F 3 "~" H 8650 1100 50  0001 C CNN
+	1    8650 1100
 	0    -1   -1   0   
 $EndComp
 $Comp
 L Device:R R3
 U 1 1 5D97474D
-P 8650 1250
-F 0 "R3" V 8750 1250 50  0000 C CNN
-F 1 "4k7" V 8650 1250 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 1250 50  0001 C CNN
-F 3 "~" H 8650 1250 50  0001 C CNN
-	1    8650 1250
+P 8650 1350
+F 0 "R3" V 8750 1350 50  0000 C CNN
+F 1 "0" V 8650 1350 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 1350 50  0001 C CNN
+F 3 "~" H 8650 1350 50  0001 C CNN
+	1    8650 1350
 	0    -1   -1   0   
 $EndComp
 $Comp
 L Device:R R4
 U 1 1 5D9747CF
-P 8650 1450
-F 0 "R4" V 8750 1450 50  0000 C CNN
-F 1 "4k7" V 8650 1450 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 1450 50  0001 C CNN
-F 3 "~" H 8650 1450 50  0001 C CNN
-	1    8650 1450
+P 8650 1600
+F 0 "R4" V 8750 1600 50  0000 C CNN
+F 1 "0" V 8650 1600 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 1600 50  0001 C CNN
+F 3 "~" H 8650 1600 50  0001 C CNN
+	1    8650 1600
 	0    -1   -1   0   
 $EndComp
 $Comp
 L Device:R R5
 U 1 1 5D974853
-P 8650 1650
-F 0 "R5" V 8750 1650 50  0000 C CNN
-F 1 "4k7" V 8650 1650 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 1650 50  0001 C CNN
-F 3 "~" H 8650 1650 50  0001 C CNN
-	1    8650 1650
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:R R6
-U 1 1 5D9748D9
 P 8650 1850
-F 0 "R6" V 8750 1850 50  0000 C CNN
-F 1 "4k7" V 8650 1850 50  0000 C CNN
+F 0 "R5" V 8750 1850 50  0000 C CNN
+F 1 "0" V 8650 1850 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 1850 50  0001 C CNN
 F 3 "~" H 8650 1850 50  0001 C CNN
 	1    8650 1850
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:R R7
-U 1 1 5D974961
-P 8650 2050
-F 0 "R7" V 8750 2050 50  0000 C CNN
-F 1 "4k7" V 8650 2050 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 2050 50  0001 C CNN
-F 3 "~" H 8650 2050 50  0001 C CNN
-	1    8650 2050
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:R R8
-U 1 1 5D9749EB
-P 8650 2250
-F 0 "R8" V 8750 2250 50  0000 C CNN
-F 1 "4k7" V 8650 2250 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 2250 50  0001 C CNN
-F 3 "~" H 8650 2250 50  0001 C CNN
-	1    8650 2250
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:R R9
-U 1 1 5D974A77
-P 8650 2450
-F 0 "R9" V 8750 2450 50  0000 C CNN
-F 1 "4k7" V 8650 2450 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 2450 50  0001 C CNN
-F 3 "~" H 8650 2450 50  0001 C CNN
-	1    8650 2450
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:R R10
-U 1 1 5D974B05
-P 8650 2650
-F 0 "R10" V 8750 2650 50  0000 C CNN
-F 1 "4k7" V 8650 2650 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 2650 50  0001 C CNN
-F 3 "~" H 8650 2650 50  0001 C CNN
-	1    8650 2650
 	0    -1   -1   0   
 $EndComp
 Text Notes 6050 5050 0    40   ~ 0
@@ -2140,4 +1987,40 @@ Text Notes 5500 5800 0    50   ~ 0
 Or RF2-03E-T-00-50-G
 Text Notes 1600 6950 0    50   ~ 0
 BAT_MID on ADC_IN9
+Text Notes 7600 4050 0    75   Italic 15
+Test points
+Wire Notes Line
+	8850 6200 8850 3900
+Wire Notes Line
+	8850 3900 7550 3900
+Wire Notes Line
+	7550 3900 7550 6200
+Wire Notes Line
+	7550 6200 8850 6200
+Wire Wire Line
+	8000 850  8500 850 
+Wire Wire Line
+	8000 1100 8500 1100
+Wire Wire Line
+	9000 850  9000 1100
+Wire Wire Line
+	8800 1100 9000 1100
+Connection ~ 9000 1100
+Wire Wire Line
+	9000 1100 9000 1350
+Wire Wire Line
+	8800 1350 9000 1350
+Connection ~ 9000 1350
+Wire Wire Line
+	9000 1350 9000 1600
+Wire Wire Line
+	8800 1600 9000 1600
+Connection ~ 9000 1600
+Wire Wire Line
+	9000 1600 9000 1850
+Wire Wire Line
+	8800 1850 9000 1850
+Connection ~ 9000 1850
+Wire Wire Line
+	9000 1850 9000 2050
 $EndSCHEMATC
