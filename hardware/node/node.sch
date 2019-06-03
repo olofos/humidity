@@ -433,11 +433,11 @@ Text Label 2750 2400 2    50   ~ 0
 SPI1_MOSI
 Wire Wire Line
 	1050 2600 550  2600
-Text Label 550  2600 0    50   ~ 0
+Text Label 2750 2100 2    50   ~ 0
 CS_RFM69
 Wire Wire Line
 	1050 2700 550  2700
-Text Label 550  2700 0    50   ~ 0
+Text Label 550  2600 0    50   ~ 0
 CS_FLASH
 Wire Wire Line
 	2150 2600 2750 2600
@@ -531,7 +531,7 @@ NoConn ~ 4400 2050
 NoConn ~ 4400 2150
 NoConn ~ 4400 2250
 NoConn ~ 4400 2350
-Text Label 2750 2100 2    50   ~ 0
+Text Label 550  2700 0    50   ~ 0
 BAT_MID
 Wire Wire Line
 	2150 2500 2750 2500
@@ -2136,4 +2136,6 @@ Wire Wire Line
 Connection ~ 3900 2700
 Text Notes 5500 5800 0    50   ~ 0
 Or RF2-03E-T-00-50-G
+Text Notes 1600 6950 0    50   ~ 0
+BAT_MID on ADC_IN9
 $EndSCHEMATC
