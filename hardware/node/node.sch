@@ -1220,7 +1220,7 @@ F 0 "J3" H 4949 5926 50  0000 L CNN
 F 1 "SMA Female" H 4949 5835 50  0000 L CNN
 F 2 "humidity:Adam_Tech_SMA_Female_RF2-19A" H 4850 5950 50  0001 C CNN
 F 3 "https://www.tme.eu/Document/bd1bc003b249b3f9362db618e35fe545/RF2-19A-T-00-50-G.pdf" H 4850 5950 50  0001 C CNN
-F 4 "RF2-19A-T-00-50-G" H 5000 6200 50  0000 C CNN "Part"
+F 4 "RF2-03E-T-00-50-G" H 5000 6100 50  0000 C BNN "Part"
 	1    4850 5950
 	1    0    0    -1  
 $EndComp
@@ -1983,8 +1983,6 @@ $EndComp
 Wire Wire Line
 	3900 2750 3900 2700
 Connection ~ 3900 2700
-Text Notes 5500 5800 0    50   ~ 0
-Or RF2-03E-T-00-50-G
 Text Notes 1600 6950 0    50   ~ 0
 BAT_MID on ADC_IN9
 Text Notes 7600 4050 0    75   Italic 15
