@@ -13,4 +13,10 @@ $CMP SHTC3
 D Humidity and Temperature Sensor
 $ENDCMP
 #
+$CMP TFT_Connector
+D Generic connector, single row, 01x20, script generated (kicad-library-utils/schlib/autogen/connector/)
+K connector
+F ~
+$ENDCMP
+#
 #End Doc Library

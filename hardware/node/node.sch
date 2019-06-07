@@ -603,18 +603,18 @@ Connection ~ 10300 2650
 $Comp
 L power:GND #PWR032
 U 1 1 5CE4C513
-P 11000 3150
-F 0 "#PWR032" H 11000 2900 50  0001 C CNN
-F 1 "GND" H 11005 2977 50  0000 C CNN
-F 2 "" H 11000 3150 50  0001 C CNN
-F 3 "" H 11000 3150 50  0001 C CNN
-	1    11000 3150
+P 11000 3050
+F 0 "#PWR032" H 11000 2800 50  0001 C CNN
+F 1 "GND" H 11005 2877 50  0000 C CNN
+F 2 "" H 11000 3050 50  0001 C CNN
+F 3 "" H 11000 3050 50  0001 C CNN
+	1    11000 3050
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	10900 2650 11000 2650
+	10900 2550 11000 2550
 Wire Wire Line
-	11000 2650 11000 3150
+	11000 2550 11000 3050
 $Comp
 L Device:LED D2
 U 1 1 5CE64770
@@ -715,7 +715,7 @@ U 1 1 5CEF1C88
 P 4600 4800
 F 0 "J2" H 4700 5100 50  0000 R CNN
 F 1 "FTDI" H 4700 4350 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical" H 4600 4800 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Horizontal" H 4600 4800 50  0001 C CNN
 F 3 "~" H 4600 4800 50  0001 C CNN
 	1    4600 4800
 	1    0    0    1   
@@ -1605,16 +1605,16 @@ $EndComp
 $Comp
 L humidity:SW_Push_4pin SW1
 U 1 1 5DEFB807
-P 10650 2650
-F 0 "SW1" H 10750 2800 40  0000 C CNN
-F 1 "TVCM04N016BB" H 10650 2450 40  0000 C CNN
-F 2 "humidity:SW_TVCM04-N" H 10650 2650 40  0001 C CNN
-F 3 "https://www.tme.eu/Document/1590b299897e66d73e44ecd41b5c73b5/TVCM04N016BB.jpg" H 10650 2650 40  0001 C CNN
-	1    10650 2650
+P 10650 2550
+F 0 "SW1" H 10750 2700 40  0000 C CNN
+F 1 "DTSM-65R-V-B" H 10650 2350 40  0000 C CNN
+F 2 "humidity:SW_SPST_DTSM-6" H 10650 2550 40  0001 C CNN
+F 3 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H 10650 2550 40  0001 C CNN
+	1    10650 2550
 	1    0    0    -1  
 $EndComp
-NoConn ~ 10900 2750
-NoConn ~ 10400 2750
+NoConn ~ 10900 2650
+NoConn ~ 10400 2550
 Text Notes 4100 7700 0    40   ~ 0
 Vary duty cycle linearly  depending\non VCC to get constant luminosity
 $Comp
