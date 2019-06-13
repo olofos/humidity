@@ -2,3 +2,5 @@
 *.kicad_pcb-bak
 *.net
 *.bak
+*.bck
+_autosave*
