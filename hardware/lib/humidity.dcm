@@ -4,6 +4,12 @@ $CMP AT25DF512C
 D 512-Kbit, 1.65V Minimum SPI Serial Flash Memory with Dual-Read Support
 $ENDCMP
 #
+$CMP D_Schottky_AncK
+D Schottky diode, anode on pin 1, cathode pin 3
+K diode Schottky SCHDPAK
+F ~
+$ENDCMP
+#
 $CMP RFM69HW
 D RFM69HW
 K Low power long range transceiver module
