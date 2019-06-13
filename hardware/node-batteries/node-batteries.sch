@@ -22,6 +22,8 @@ F 0 "BT1" H 2718 3246 50  0000 L CNN
 F 1 "Battery_Cell" H 2718 3155 50  0000 L CNN
 F 2 "humidity:AA_Battery_Holder" V 2600 3210 50  0001 C CNN
 F 3 "https://www.tme.eu/se/en/details/bh-311-1p/batteries-holders/comf/" V 2600 3210 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/bh-311-1p/batteries-holders/comf/" H 2600 3150 50  0001 C CNN "TME Link"
+F 5 "2.56888" H 2600 3150 50  0001 C CNN "TME Price"
 	1    2600 3150
 	1    0    0    -1  
 $EndComp
@@ -44,6 +46,8 @@ F 0 "J1" H 3923 3230 50  0000 R CNN
 F 1 "Conn_01x03_Male" H 3923 3321 50  0000 R CNN
 F 2 "Connector_PinSocket_2.54mm:PinSocket_1x03_P2.54mm_Vertical" H 3950 3300 50  0001 C CNN
 F 3 "~" H 3950 3300 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/zl201-03g/pin-headers/connfly/ds1021-1-3sf1-1/" H 3950 3300 50  0001 C CNN "TME Link"
+F 5 "0.22041" H 3950 3300 50  0001 C CNN "TME Price"
 	1    3950 3300
 	-1   0    0    -1  
 $EndComp
