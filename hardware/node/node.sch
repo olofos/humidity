@@ -19,9 +19,11 @@ L MCU_ST_STM32L0:STM32L031K6Tx U4
 U 1 1 5CD802CE
 P 1650 2400
 F 0 "U4" H 1900 1400 50  0000 C CNN
-F 1 "STM32L031K6Tx" V 1650 2400 50  0000 C CNN
+F 1 "STM32L031K6T6" V 1650 2400 50  0000 C CNN
 F 2 "Package_QFP:LQFP-32_7x7mm_P0.8mm" H 1150 1500 50  0001 R CNN
 F 3 "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/DM00140359.pdf" H 1650 2400 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/stm32l031k6t6/st-microcontrollers/st-microelectronics/" H 1650 2400 50  0001 C CNN "TME Link"
+F 5 "20.98" H 1650 2400 50  0001 C CNN "TME Price"
 	1    1650 2400
 	1    0    0    -1  
 $EndComp
@@ -33,6 +35,8 @@ F 0 "U2" H 7300 1750 50  0000 L CNN
 F 1 "SHTC3" V 7800 2050 50  0000 C CNN
 F 2 "humidity:SHTC3" H 7600 2050 50  0001 C CNN
 F 3 "https://www.tme.eu/Document/de9a660213658e76095c62bf61d76ee0/HT_DS_SHTC3_D1.pdf" H 7600 2050 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/shtc3/humidity-sensors/sensirion/3-000-047/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "16.93" H 0   0   50  0001 C CNN "TME Price"
 	1    7600 2050
 	1    0    0    -1  
 $EndComp
@@ -44,6 +48,8 @@ F 0 "U3" H 6350 1650 50  0000 L CNN
 F 1 "AT25DF512C" V 6500 2100 50  0000 C CNN
 F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 6250 2100 50  0001 C CNN
 F 3 "https://www.adestotech.com/wp-content/uploads/DS-AT25DF512C_030.pdf" H 6250 2100 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/at25df512c-sshngub/serial-flash-memories-integrated-circ/adesto/at25df512c-sshngu-b/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "4.54" H 0   0   50  0001 C CNN "TME Price"
 	1    6250 2100
 	1    0    0    -1  
 $EndComp
@@ -99,9 +105,11 @@ L Device:C C14
 U 1 1 5CD8102B
 P 10300 2950
 F 0 "C14" H 10185 2904 50  0000 R CNN
-F 1 "10n" H 10185 2995 50  0000 R CNN
+F 1 "100n" H 10185 2995 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 10338 2800 50  0001 C CNN
 F 3 "~" H 10300 2950 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/cl10b104ko8nnnc/0603-mlcc-smd-capacitors/samsung/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.13310" H 0   0   50  0001 C CNN "TME Price"
 	1    10300 2950
 	1    0    0    1   
 $EndComp
@@ -113,6 +121,8 @@ F 0 "C6" H 5935 1154 50  0000 R CNN
 F 1 "100n" H 5935 1245 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 6088 1050 50  0001 C CNN
 F 3 "~" H 6050 1200 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/cl10b104ko8nnnc/0603-mlcc-smd-capacitors/samsung/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.13310" H 0   0   50  0001 C CNN "TME Price"
 	1    6050 1200
 	1    0    0    1   
 $EndComp
@@ -159,6 +169,8 @@ F 0 "C7" H 7285 1204 50  0000 R CNN
 F 1 "100n" H 7285 1295 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 7438 1100 50  0001 C CNN
 F 3 "~" H 7400 1250 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/cl10b104ko8nnnc/0603-mlcc-smd-capacitors/samsung/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.13310" H 0   0   50  0001 C CNN "TME Price"
 	1    7400 1250
 	1    0    0    1   
 $EndComp
@@ -190,6 +202,8 @@ F 0 "C4" H 3650 1050 50  0000 R CNN
 F 1 "100n" H 3650 1250 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 3738 1000 50  0001 C CNN
 F 3 "~" H 3700 1150 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/cl10b104ko8nnnc/0603-mlcc-smd-capacitors/samsung/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.13310" H 0   0   50  0001 C CNN "TME Price"
 	1    3700 1150
 	1    0    0    1   
 $EndComp
@@ -218,6 +232,8 @@ F 0 "C1" H 1950 1000 50  0000 R CNN
 F 1 "100n" H 1950 1200 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2038 950 50  0001 C CNN
 F 3 "~" H 2000 1100 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/cl10b104ko8nnnc/0603-mlcc-smd-capacitors/samsung/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.13310" H 0   0   50  0001 C CNN "TME Price"
 	1    2000 1100
 	1    0    0    1   
 $EndComp
@@ -328,6 +344,8 @@ F 1 "32.768K-CFPX217" V 650 4700 50  0000 C CNN
 F 2 "humidity:IQD_CFPX-217" H 1000 4950 50  0001 C CNN
 F 3 "https://www.tme.eu/Document/cb9f4587d37439d0355f90ad313873e6/cfpx-217.pdf" H 1000 4950 50  0001 C CNN
 F 4 "32.768K-CFPX217" H 1000 4950 50  0001 C CNN "Part"
+F 5 "https://www.tme.eu/se/en/details/32.768k-cfpx217/smd-quartz-crystals/iqd-frequency-products/lfxtal009678/" H 0   0   50  0001 C CNN "TME Link"
+F 6 "3.42863" H 0   0   50  0001 C CNN "TME Price"
 	1    1000 4950
 	-1   0    0    1   
 $EndComp
@@ -336,9 +354,11 @@ L Device:C C12
 U 1 1 5CD87672
 P 750 5200
 F 0 "C12" H 636 5154 50  0000 R CNN
-F 1 "C" H 636 5245 50  0000 R CNN
+F 1 "18p" H 636 5245 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 788 5050 50  0001 C CNN
 F 3 "~" H 750 5200 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/vj0603a180jxacw2bc/0603-mlcc-smd-capacitors/vishay/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.13033" H 0   0   50  0001 C CNN "TME Price"
 	1    750  5200
 	1    0    0    1   
 $EndComp
@@ -347,9 +367,11 @@ L Device:C C13
 U 1 1 5CD878C7
 P 1250 5200
 F 0 "C13" H 1365 5246 50  0000 L CNN
-F 1 "C" H 1365 5155 50  0000 L CNN
+F 1 "18p" H 1365 5155 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 1288 5050 50  0001 C CNN
 F 3 "~" H 1250 5200 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/vj0603a180jxacw2bc/0603-mlcc-smd-capacitors/vishay/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.13033" H 0   0   50  0001 C CNN "TME Price"
 	1    1250 5200
 	1    0    0    -1  
 $EndComp
@@ -584,6 +606,8 @@ F 1 "100u" H 3150 6950 50  0000 L CNN
 F 2 "Capacitor_SMD:CP_Elec_6.3x5.3" H 3100 7050 50  0001 C CNN
 F 3 "~" H 3100 7050 50  0001 C CNN
 F 4 "SC1C107M6L005VR" H 3100 7050 50  0001 C CNN "Part"
+F 5 "https://www.tme.eu/se/en/details/sc1c107m6l005vr/85degc-smd-electrolytic-capacitors/samwha/" H 0   0   50  0001 C CNN "TME Link"
+F 6 "0.35458" H 0   0   50  0001 C CNN "TME Price"
 	1    3100 7050
 	-1   0    0    -1  
 $EndComp
@@ -623,6 +647,8 @@ F 0 "D2" H 5450 7200 50  0000 R CNN
 F 1 "KP-2012LSGC" H 5300 7350 50  0000 C CNN
 F 2 "LED_SMD:LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 5250 7250 50  0001 C CNN
 F 3 "~" H 5250 7250 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/kp-2012lsgc/smd-colour-leds/kingbright-electronic/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "1.0520" H 0   0   50  0001 C CNN "TME Price"
 	1    5250 7250
 	-1   0    0    1   
 $EndComp
@@ -634,6 +660,8 @@ F 0 "R31" V 4650 7250 50  0000 C CNN
 F 1 "240" V 4750 7250 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4680 7250 50  0001 C CNN
 F 3 "~" H 4750 7250 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/smd0603-240r-1%25/0603-smd-resistors/royal-ohm/0603saf0241t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.11531" H 0   0   50  0001 C CNN "TME Price"
 	1    4750 7250
 	0    1    1    0   
 $EndComp
@@ -647,6 +675,8 @@ F 0 "D1" H 5450 6750 50  0000 R CNN
 F 1 "KP-2012LSURCK" H 5300 6900 50  0000 C CNN
 F 2 "LED_SMD:LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 5250 6800 50  0001 C CNN
 F 3 "~" H 5250 6800 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/kp-2012lsurck/smd-colour-leds/kingbright-electronic/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "1.0254" H 0   0   50  0001 C CNN "TME Price"
 	1    5250 6800
 	-1   0    0    1   
 $EndComp
@@ -658,6 +688,8 @@ F 0 "R30" V 4850 6800 50  0000 C CNN
 F 1 "330" V 4750 6800 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4680 6800 50  0001 C CNN
 F 3 "~" H 4750 6800 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/smd0603-330r-1%25/0603-smd-resistors/royal-ohm/0603saf3300t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.11531" H 0   0   50  0001 C CNN "TME Price"
 	1    4750 6800
 	0    -1   -1   0   
 $EndComp
@@ -740,6 +772,8 @@ F 0 "R14" V 5550 4600 50  0000 C CNN
 F 1 "330" V 5650 4600 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 5580 4600 50  0001 C CNN
 F 3 "~" H 5650 4600 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/smd0603-330r-1%25/0603-smd-resistors/royal-ohm/0603saf3300t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.11531" H 0   0   50  0001 C CNN "TME Price"
 	1    5650 4600
 	0    -1   1    0   
 $EndComp
@@ -751,6 +785,8 @@ F 0 "R16" V 5550 4700 50  0000 C CNN
 F 1 "330" V 5650 4700 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 5580 4700 50  0001 C CNN
 F 3 "~" H 5650 4700 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/smd0603-330r-1%25/0603-smd-resistors/royal-ohm/0603saf3300t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.11531" H 0   0   50  0001 C CNN "TME Price"
 	1    5650 4700
 	0    -1   -1   0   
 $EndComp
@@ -767,6 +803,7 @@ F 1 "DNP" V 5650 4150 50  0000 C CNN
 F 2 "humidity:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder-DNP" V 5580 4150 50  0001 C CNN
 F 3 "~" H 5650 4150 50  0001 C CNN
 F 4 "330" V 5650 4150 50  0001 C CNN "DNPValue"
+F 5 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    5650 4150
 	0    -1   1    0   
 $EndComp
@@ -779,6 +816,7 @@ F 1 "DNP" V 5650 4250 50  0000 C CNN
 F 2 "humidity:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder-DNP" V 5580 4250 50  0001 C CNN
 F 3 "~" H 5650 4250 50  0001 C CNN
 F 4 "330" V 5650 4250 50  0001 C CNN "DNPValue"
+F 5 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    5650 4250
 	0    -1   -1   0   
 $EndComp
@@ -898,6 +936,8 @@ F 0 "R18" V 2200 4950 50  0000 C CNN
 F 1 "4k7" V 2100 4950 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2030 4950 50  0001 C CNN
 F 3 "~" H 2100 4950 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/smd0603-4k7-1%25/0603-smd-resistors/royal-ohm/0603saf4701t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.115131" H 0   0   50  0001 C CNN "TME Price"
 	1    2100 4950
 	-1   0    0    1   
 $EndComp
@@ -909,6 +949,8 @@ F 0 "R19" V 2400 4950 50  0000 C CNN
 F 1 "4k7" V 2300 4950 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2230 4950 50  0001 C CNN
 F 3 "~" H 2300 4950 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/smd0603-4k7-1%25/0603-smd-resistors/royal-ohm/0603saf4701t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.115131" H 0   0   50  0001 C CNN "TME Price"
 	1    2300 4950
 	-1   0    0    1   
 $EndComp
@@ -920,6 +962,8 @@ F 0 "R20" V 2600 4950 50  0000 C CNN
 F 1 "100k" V 2500 4950 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2430 4950 50  0001 C CNN
 F 3 "~" H 2500 4950 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/cq0603-100k-1%25/0603-smd-resistors/royal-ohm/cq03saf1003t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.18525" H 0   0   50  0001 C CNN "TME Price"
 	1    2500 4950
 	-1   0    0    1   
 $EndComp
@@ -931,6 +975,8 @@ F 0 "R21" V 2800 4950 50  0000 C CNN
 F 1 "100k" V 2700 4950 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2630 4950 50  0001 C CNN
 F 3 "~" H 2700 4950 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/cq0603-100k-1%25/0603-smd-resistors/royal-ohm/cq03saf1003t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.18525" H 0   0   50  0001 C CNN "TME Price"
 	1    2700 4950
 	-1   0    0    1   
 $EndComp
@@ -1144,6 +1190,8 @@ F 0 "Q1" V 2993 6750 50  0000 C CNN
 F 1 "Si2323DDS" V 2902 6750 50  0000 C CNN
 F 2 "Package_TO_SOT_SMD:SOT-23_Handsoldering" H 2850 6850 50  0001 C CNN
 F 3 "~" H 2650 6750 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/si2323dds-t1-ge3/smd-p-channel-transistors/vishay/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "3.34344" H 0   0   50  0001 C CNN "TME Price"
 	1    2650 6750
 	0    -1   -1   0   
 $EndComp
@@ -1194,6 +1242,8 @@ F 0 "R25" V 3700 5050 50  0000 C CNN
 F 1 "100k" V 3800 5050 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 3730 5050 50  0001 C CNN
 F 3 "~" H 3800 5050 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/cq0603-100k-1%25/0603-smd-resistors/royal-ohm/cq03saf1003t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.18525" H 0   0   50  0001 C CNN "TME Price"
 	1    3800 5050
 	0    1    1    0   
 $EndComp
@@ -1221,6 +1271,8 @@ F 1 "SMA Female" H 4949 5835 50  0000 L CNN
 F 2 "humidity:Adam_Tech_SMA_Female_RF2-19A" H 4850 5950 50  0001 C CNN
 F 3 "https://www.tme.eu/Document/bd1bc003b249b3f9362db618e35fe545/RF2-19A-T-00-50-G.pdf" H 4850 5950 50  0001 C CNN
 F 4 "RF2-03E-T-00-50-G" H 5000 6100 50  0000 C BNN "Part"
+F 5 "https://www.tme.eu/se/en/details/rf2-03e-t-00-50-g/sma-smb-smc-connectors/adam-tech/" H 0   0   50  0001 C CNN "TME Link"
+F 6 "12.76" H 0   0   50  0001 C CNN "TME Price"
 	1    4850 5950
 	1    0    0    -1  
 $EndComp
@@ -1305,9 +1357,11 @@ L Device:R R32
 U 1 1 5D265FEC
 P 1450 7050
 F 0 "R32" V 1550 7050 50  0000 C CNN
-F 1 "22k" V 1450 7050 50  0000 C CNN
+F 1 "10k" V 1450 7050 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1380 7050 50  0001 C CNN
 F 3 "~" H 1450 7050 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/crcw060310k0fktabc/0603-smd-resistors/vishay/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.12458" H 0   0   50  0001 C CNN "TME Price"
 	1    1450 7050
 	0    -1   -1   0   
 $EndComp
@@ -1324,6 +1378,8 @@ F 0 "C2" H 2250 1000 50  0000 R CNN
 F 1 "100n" H 2250 1200 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2338 950 50  0001 C CNN
 F 3 "~" H 2300 1100 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/cl10b104ko8nnnc/0603-mlcc-smd-capacitors/samsung/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.13310" H 0   0   50  0001 C CNN "TME Price"
 	1    2300 1100
 	1    0    0    1   
 $EndComp
@@ -1335,6 +1391,8 @@ F 0 "C3" H 2550 1000 50  0000 R CNN
 F 1 "100n" H 2550 1200 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2638 950 50  0001 C CNN
 F 3 "~" H 2600 1100 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/cl10b104ko8nnnc/0603-mlcc-smd-capacitors/samsung/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.13310" H 0   0   50  0001 C CNN "TME Price"
 	1    2600 1100
 	1    0    0    1   
 $EndComp
@@ -1435,6 +1493,8 @@ F 0 "R13" V 10200 1450 50  0000 C CNN
 F 1 "10k" V 10300 1450 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 10230 1450 50  0001 C CNN
 F 3 "~" H 10300 1450 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/crcw060310k0fktabc/0603-smd-resistors/vishay/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.12458" H 0   0   50  0001 C CNN "TME Price"
 	1    10300 1450
 	-1   0    0    -1  
 $EndComp
@@ -1457,6 +1517,8 @@ F 0 "R17" V 3700 4850 50  0000 C CNN
 F 1 "100k" V 3800 4850 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 3730 4850 50  0001 C CNN
 F 3 "~" H 3800 4850 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/cq0603-100k-1%25/0603-smd-resistors/royal-ohm/cq03saf1003t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.18525" H 0   0   50  0001 C CNN "TME Price"
 	1    3800 4850
 	0    1    1    0   
 $EndComp
@@ -1483,6 +1545,8 @@ F 0 "R1" V 8750 850 50  0000 C CNN
 F 1 "0" V 8650 850 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 850 50  0001 C CNN
 F 3 "~" H 8650 850 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/smd0603-0r/0603-smd-resistors/royal-ohm/0603saj0000t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.09735" H 0   0   50  0001 C CNN "TME Price"
 	1    8650 850 
 	0    -1   -1   0   
 $EndComp
@@ -1494,6 +1558,8 @@ F 0 "R2" V 8750 1100 50  0000 C CNN
 F 1 "0" V 8650 1100 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 1100 50  0001 C CNN
 F 3 "~" H 8650 1100 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/smd0603-0r/0603-smd-resistors/royal-ohm/0603saj0000t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.09735" H 0   0   50  0001 C CNN "TME Price"
 	1    8650 1100
 	0    -1   -1   0   
 $EndComp
@@ -1505,6 +1571,8 @@ F 0 "R3" V 8750 1350 50  0000 C CNN
 F 1 "0" V 8650 1350 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 1350 50  0001 C CNN
 F 3 "~" H 8650 1350 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/smd0603-0r/0603-smd-resistors/royal-ohm/0603saj0000t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.09735" H 0   0   50  0001 C CNN "TME Price"
 	1    8650 1350
 	0    -1   -1   0   
 $EndComp
@@ -1516,6 +1584,8 @@ F 0 "R4" V 8750 1600 50  0000 C CNN
 F 1 "0" V 8650 1600 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 1600 50  0001 C CNN
 F 3 "~" H 8650 1600 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/smd0603-0r/0603-smd-resistors/royal-ohm/0603saj0000t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.09735" H 0   0   50  0001 C CNN "TME Price"
 	1    8650 1600
 	0    -1   -1   0   
 $EndComp
@@ -1527,6 +1597,8 @@ F 0 "R5" V 8750 1850 50  0000 C CNN
 F 1 "0" V 8650 1850 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8580 1850 50  0001 C CNN
 F 3 "~" H 8650 1850 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/smd0603-0r/0603-smd-resistors/royal-ohm/0603saj0000t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.09735" H 0   0   50  0001 C CNN "TME Price"
 	1    8650 1850
 	0    -1   -1   0   
 $EndComp
@@ -1542,6 +1614,8 @@ F 0 "R34" V 3000 2450 50  0000 C CNN
 F 1 "100k" V 3100 2450 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 3030 2450 50  0001 C CNN
 F 3 "~" H 3100 2450 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/cq0603-100k-1%25/0603-smd-resistors/royal-ohm/cq03saf1003t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.18525" H 0   0   50  0001 C CNN "TME Price"
 	1    3100 2450
 	-1   0    0    -1  
 $EndComp
@@ -1572,6 +1646,8 @@ F 0 "R33" V 10400 2400 50  0000 C CNN
 F 1 "10k" V 10300 2400 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 10230 2400 50  0001 C CNN
 F 3 "~" H 10300 2400 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/crcw060310k0fktabc/0603-smd-resistors/vishay/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.12458" H 0   0   50  0001 C CNN "TME Price"
 	1    10300 2400
 	1    0    0    -1  
 $EndComp
@@ -1599,6 +1675,8 @@ F 1 "100u" H 4150 1050 50  0000 L CNN
 F 2 "Capacitor_SMD:CP_Elec_6.3x5.3" H 4100 1150 50  0001 C CNN
 F 3 "~" H 4100 1150 50  0001 C CNN
 F 4 "SC1C107M6L005VR" H 4100 1150 50  0001 C CNN "Part"
+F 5 "https://www.tme.eu/se/en/details/sc1c107m6l005vr/85degc-smd-electrolytic-capacitors/samwha/" H 0   0   50  0001 C CNN "TME Link"
+F 6 "0.35458" H 0   0   50  0001 C CNN "TME Price"
 	1    4100 1150
 	1    0    0    -1  
 $EndComp
@@ -1610,6 +1688,8 @@ F 0 "SW1" H 10750 2700 40  0000 C CNN
 F 1 "DTSM-65R-V-B" H 10650 2350 40  0000 C CNN
 F 2 "humidity:SW_SPST_DTSM-6" H 10650 2550 40  0001 C CNN
 F 3 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H 10650 2550 40  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "1.8894" H 0   0   50  0001 C CNN "TME Price"
 	1    10650 2550
 	1    0    0    -1  
 $EndComp
@@ -1625,6 +1705,8 @@ F 0 "D3" V 1704 7330 50  0000 L CNN
 F 1 "1N4148W" V 1795 7330 50  0000 L CNN
 F 2 "Diode_SMD:D_SOD-123" H 1750 7075 50  0001 C CNN
 F 3 "https://www.vishay.com/docs/85748/1n4148w.pdf" H 1750 7250 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/1n4148w-7-f/smd-universal-diodes/diodes-incorporated/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.2481" H 0   0   50  0001 C CNN "TME Price"
 	1    1750 7250
 	0    1    1    0   
 $EndComp
@@ -1651,6 +1733,7 @@ F 0 "H1" H 10500 4146 50  0000 L CNN
 F 1 "MountingHole M3" H 10500 4055 50  0000 L CNN
 F 2 "MountingHole:MountingHole_3.2mm_M3" H 10400 4100 50  0001 C CNN
 F 3 "~" H 10400 4100 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    10400 4100
 	1    0    0    -1  
 $EndComp
@@ -1662,6 +1745,7 @@ F 0 "H2" H 10500 4346 50  0000 L CNN
 F 1 "MountingHole M3" H 10500 4255 50  0000 L CNN
 F 2 "MountingHole:MountingHole_3.2mm_M3" H 10400 4300 50  0001 C CNN
 F 3 "~" H 10400 4300 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    10400 4300
 	1    0    0    -1  
 $EndComp
@@ -1673,6 +1757,7 @@ F 0 "H3" H 10500 4546 50  0000 L CNN
 F 1 "MountingHole M3" H 10500 4455 50  0000 L CNN
 F 2 "MountingHole:MountingHole_3.2mm_M3" H 10400 4500 50  0001 C CNN
 F 3 "~" H 10400 4500 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    10400 4500
 	1    0    0    -1  
 $EndComp
@@ -1684,6 +1769,7 @@ F 0 "H4" H 10500 4746 50  0000 L CNN
 F 1 "MountingHole M3" H 10500 4655 50  0000 L CNN
 F 2 "MountingHole:MountingHole_3.2mm_M3" H 10400 4700 50  0001 C CNN
 F 3 "~" H 10400 4700 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    10400 4700
 	1    0    0    -1  
 $EndComp
@@ -1718,6 +1804,8 @@ F 0 "J4" H 650 7250 50  0000 C CNN
 F 1 "2 x AA" H 650 6900 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 550 7050 50  0001 C CNN
 F 3 "~" H 550 7050 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/zl262-3sg/pin-headers/connfly/ds1023-1-3s21/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.60822" H 0   0   50  0001 C CNN "TME Price"
 	1    550  7050
 	1    0    0    -1  
 $EndComp
@@ -1740,6 +1828,7 @@ F 0 "TP1" V 8400 4400 50  0000 L CNN
 F 1 "TestPoint" H 8458 4229 50  0001 L CNN
 F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 4200 50  0001 C CNN
 F 3 "~" H 8600 4200 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    8400 4200
 	0    1    1    0   
 $EndComp
@@ -1751,6 +1840,7 @@ F 0 "TP3" V 8400 4550 50  0000 L CNN
 F 1 "TestPoint" H 8458 4379 50  0001 L CNN
 F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 4350 50  0001 C CNN
 F 3 "~" H 8600 4350 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    8400 4350
 	0    1    1    0   
 $EndComp
@@ -1762,6 +1852,7 @@ F 0 "TP2" V 8400 6100 50  0000 L CNN
 F 1 "TestPoint" H 8458 5929 50  0001 L CNN
 F 2 "TestPoint:TestPoint_THTPad_1.5x1.5mm_Drill0.7mm" H 8600 5900 50  0001 C CNN
 F 3 "~" H 8600 5900 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    8400 5900
 	0    1    1    0   
 $EndComp
@@ -1776,6 +1867,7 @@ F 0 "TP4" V 8400 5950 50  0000 L CNN
 F 1 "TestPoint" H 8458 5779 50  0001 L CNN
 F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 5750 50  0001 C CNN
 F 3 "~" H 8600 5750 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    8400 5750
 	0    1    1    0   
 $EndComp
@@ -1833,6 +1925,7 @@ F 0 "TP5" V 8400 4700 50  0000 L CNN
 F 1 "TestPoint" H 8458 4529 50  0001 L CNN
 F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 4500 50  0001 C CNN
 F 3 "~" H 8600 4500 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    8400 4500
 	0    1    1    0   
 $EndComp
@@ -1844,6 +1937,7 @@ F 0 "TP6" V 8400 4850 50  0000 L CNN
 F 1 "TestPoint" H 8458 4679 50  0001 L CNN
 F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 4650 50  0001 C CNN
 F 3 "~" H 8600 4650 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    8400 4650
 	0    1    1    0   
 $EndComp
@@ -1865,6 +1959,7 @@ F 0 "TP7" V 8400 5000 50  0000 L CNN
 F 1 "TestPoint" H 8458 4829 50  0001 L CNN
 F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 4800 50  0001 C CNN
 F 3 "~" H 8600 4800 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    8400 4800
 	0    1    1    0   
 $EndComp
@@ -1876,6 +1971,7 @@ F 0 "TP8" V 8400 5150 50  0000 L CNN
 F 1 "TestPoint" H 8458 4979 50  0001 L CNN
 F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 4950 50  0001 C CNN
 F 3 "~" H 8600 4950 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    8400 4950
 	0    1    1    0   
 $EndComp
@@ -1887,6 +1983,7 @@ F 0 "TP9" V 8400 5300 50  0000 L CNN
 F 1 "TestPoint" H 8458 5129 50  0001 L CNN
 F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 5100 50  0001 C CNN
 F 3 "~" H 8600 5100 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    8400 5100
 	0    1    1    0   
 $EndComp
@@ -1908,6 +2005,7 @@ F 0 "TP10" V 8400 5450 50  0000 L CNN
 F 1 "TestPoint" H 8458 5279 50  0001 L CNN
 F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 5250 50  0001 C CNN
 F 3 "~" H 8600 5250 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    8400 5250
 	0    1    1    0   
 $EndComp
@@ -1919,6 +2017,7 @@ F 0 "TP11" V 8400 5600 50  0000 L CNN
 F 1 "TestPoint" H 8458 5429 50  0001 L CNN
 F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 5400 50  0001 C CNN
 F 3 "~" H 8600 5400 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    8400 5400
 	0    1    1    0   
 $EndComp
@@ -1934,6 +2033,7 @@ F 0 "TP12" V 8400 6200 50  0000 L CNN
 F 1 "TestPoint" H 8458 6029 50  0001 L CNN
 F 2 "TestPoint:TestPoint_THTPad_1.5x1.5mm_Drill0.7mm" H 8600 6000 50  0001 C CNN
 F 3 "~" H 8600 6000 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    8400 6000
 	0    1    1    0   
 $EndComp
@@ -1945,6 +2045,7 @@ F 0 "TP13" V 8400 6300 50  0000 L CNN
 F 1 "TestPoint" H 8458 6129 50  0001 L CNN
 F 2 "TestPoint:TestPoint_THTPad_1.5x1.5mm_Drill0.7mm" H 8600 6100 50  0001 C CNN
 F 3 "~" H 8600 6100 50  0001 C CNN
+F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    8400 6100
 	0    1    1    0   
 $EndComp
@@ -1977,6 +2078,8 @@ F 0 "U1" H 4150 1450 50  0000 C CNN
 F 1 "RFM69HW" H 3500 1450 50  0000 C CNN
 F 2 "humidity:RFM69HW" H 600 3700 50  0001 C CNN
 F 3 "http://www.hoperf.com/upload/rf/RFM69HCW-V1.1.pdf" H 600 3700 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/rfm69hw-433s2/rf-modules/hope-microelectronics/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "29.96" H 0   0   50  0001 C CNN "TME Price"
 	1    3900 2050
 	1    0    0    -1  
 $EndComp
