@@ -602,12 +602,12 @@ L Device:CP1 C15
 U 1 1 5CE1224B
 P 3100 7050
 F 0 "C15" H 3150 7150 50  0000 L CNN
-F 1 "100u" H 3150 6950 50  0000 L CNN
-F 2 "Capacitor_SMD:CP_Elec_6.3x5.3" H 3100 7050 50  0001 C CNN
+F 1 "22u" H 3150 6950 50  0000 L CNN
+F 2 "Capacitor_SMD:CP_Elec_5x5.3" H 3100 7050 50  0001 C CNN
 F 3 "~" H 3100 7050 50  0001 C CNN
-F 4 "SC1C107M6L005VR" H 3100 7050 50  0001 C CNN "Part"
-F 5 "https://www.tme.eu/se/en/details/sc1c107m6l005vr/85degc-smd-electrolytic-capacitors/samwha/" H 0   0   50  0001 C CNN "TME Link"
-F 6 "0.35458" H 0   0   50  0001 C CNN "TME Price"
+F 4 "" H 3100 7050 50  0001 C CNN "Part"
+F 5 "https://www.tme.eu/se/en/details/sc1e226m05005vr/85degc-smd-electrolytic-capacitors/samwha/" H 0   0   50  0001 C CNN "TME Link"
+F 6 "0.36794" H 0   0   50  0001 C CNN "TME Price"
 	1    3100 7050
 	-1   0    0    -1  
 $EndComp
@@ -1671,12 +1671,11 @@ L Device:CP1 C5
 U 1 1 5DEC8EEA
 P 4100 1150
 F 0 "C5" H 4150 1250 50  0000 L CNN
-F 1 "100u" H 4150 1050 50  0000 L CNN
-F 2 "Capacitor_SMD:CP_Elec_6.3x5.3" H 4100 1150 50  0001 C CNN
+F 1 "22u" H 4150 1050 50  0000 L CNN
+F 2 "Capacitor_SMD:CP_Elec_5x5.3" H 4100 1150 50  0001 C CNN
 F 3 "~" H 4100 1150 50  0001 C CNN
-F 4 "SC1C107M6L005VR" H 4100 1150 50  0001 C CNN "Part"
-F 5 "https://www.tme.eu/se/en/details/sc1c107m6l005vr/85degc-smd-electrolytic-capacitors/samwha/" H 0   0   50  0001 C CNN "TME Link"
-F 6 "0.35458" H 0   0   50  0001 C CNN "TME Price"
+F 4 "https://www.tme.eu/se/en/details/sc1e226m05005vr/85degc-smd-electrolytic-capacitors/samwha/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.36794" H 0   0   50  0001 C CNN "TME Price"
 	1    4100 1150
 	1    0    0    -1  
 $EndComp
