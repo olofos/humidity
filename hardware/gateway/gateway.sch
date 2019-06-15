@@ -66,6 +66,8 @@ F 0 "J3" H 3700 1350 50  0000 C CNN
 F 1 "Raspberry_Pi_2_3" V 3600 1550 50  0000 C CNN
 F 2 "Connector_PinSocket_2.54mm:PinSocket_2x20_P2.54mm_Vertical_SMD" H 4400 2650 50  0001 C CNN
 F 3 "https://www.raspberrypi.org/documentation/hardware/raspberrypi/schematics/rpi_SCH_3bplus_1p0_reduced.pdf" H 4400 2650 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/zl264-40dg/pin-headers/ninigi/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "24.27" H 4400 2650 50  0001 C CNN "TME Price"
 	1    4400 2650
 	1    0    0    -1  
 $EndComp
@@ -77,6 +79,8 @@ F 0 "U1" H 7700 4100 50  0000 C CNN
 F 1 "RFM69HW" V 8050 4650 50  0000 C CNN
 F 2 "humidity:RFM69HW" H 4750 6350 50  0001 C CNN
 F 3 "" H 4750 6350 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/rfm69hw-433s2/rf-modules/hope-microelectronics/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "29.94" H 0   0   50  0001 C CNN "TME Price"
 	1    8050 4700
 	1    0    0    -1  
 $EndComp
@@ -101,6 +105,7 @@ F 1 "32768 - 6pF" H 8700 2000 50  0000 C CNN
 F 2 "humidity:Crystal LFXTAL016178" H 8700 2150 50  0001 C CNN
 F 3 "https://www.tme.eu/Document/1590aad5e7e715d4e1ddba2015ebdc85/LFXTAL016178Reel.pdf" H 8700 2150 50  0001 C CNN
 F 4 "https://www.tme.eu/se/en/details/32.768k-85smxr/smd-quartz-crystals/iqd-frequency-products/lfxtal016178reel/" H 8700 2150 50  0001 C CNN "TME Link"
+F 5 "6.09368" H 0   0   50  0001 C CNN "TME Price"
 	1    8700 2150
 	-1   0    0    1   
 $EndComp
@@ -112,6 +117,8 @@ F 0 "U2" H 7850 1900 50  0000 C CNN
 F 1 "MCP7940N-xSN" H 7300 1850 50  0000 C CNN
 F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 7750 2250 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/20005010F.pdf" H 7750 2250 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/mcp7940n-i_sn/rtc-circuits/microchip-technology/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "7.56" H 0   0   50  0001 C CNN "TME Price"
 	1    7750 2250
 	1    0    0    -1  
 $EndComp
@@ -124,6 +131,7 @@ F 1 "KEYS3000" V 8800 1300 50  0000 C CNN
 F 2 "humidity:CR1216_Keystone_3000" V 8600 1360 50  0001 C CNN
 F 3 "~" V 8600 1360 50  0001 C CNN
 F 4 "https://www.tme.eu/se/en/details/keys3000/batteries-holders/keystone/3000/" V 8600 1300 50  0001 C CNN "TME Link"
+F 5 "4.2504" H 0   0   50  0001 C CNN "TME Price"
 	1    8600 1300
 	1    0    0    -1  
 $EndComp
@@ -133,7 +141,7 @@ U 1 1 5CF7BDA8
 P 7850 1400
 F 0 "R15" V 7950 1400 50  0000 C CNN
 F 1 "1k" V 7850 1400 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 7780 1400 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 7780 1400 50  0001 C CNN
 F 3 "~" H 7850 1400 50  0001 C CNN
 	1    7850 1400
 	1    0    0    -1  
@@ -172,7 +180,7 @@ U 1 1 5CF7C57B
 P 8950 2600
 F 0 "C5" H 9065 2646 50  0000 L CNN
 F 1 "C" H 9065 2555 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8988 2450 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8988 2450 50  0001 C CNN
 F 3 "~" H 8950 2600 50  0001 C CNN
 	1    8950 2600
 	1    0    0    -1  
@@ -183,7 +191,7 @@ U 1 1 5CF7C5FA
 P 8450 2600
 F 0 "C4" H 8565 2646 50  0000 L CNN
 F 1 "C" H 8565 2555 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8488 2450 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8488 2450 50  0001 C CNN
 F 3 "~" H 8450 2600 50  0001 C CNN
 	1    8450 2600
 	1    0    0    -1  
@@ -230,37 +238,6 @@ Wire Wire Line
 	8950 2750 8950 2800
 Wire Wire Line
 	8450 2750 8450 2800
-$Comp
-L power:+3.3V #PWR014
-U 1 1 5CF7D1A9
-P 4600 1150
-F 0 "#PWR014" H 4600 1000 50  0001 C CNN
-F 1 "+3.3V" H 4615 1323 50  0000 C CNN
-F 2 "" H 4600 1150 50  0001 C CNN
-F 3 "" H 4600 1150 50  0001 C CNN
-	1    4600 1150
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	4600 1150 4600 1250
-Wire Wire Line
-	4500 1350 4500 1250
-Wire Wire Line
-	4500 1250 4600 1250
-Connection ~ 4600 1250
-Wire Wire Line
-	4600 1250 4600 1350
-$Comp
-L power:+3.3V #PWR022
-U 1 1 5CF7D765
-P 7750 750
-F 0 "#PWR022" H 7750 600 50  0001 C CNN
-F 1 "+3.3V" H 7765 923 50  0000 C CNN
-F 2 "" H 7750 750 50  0001 C CNN
-F 3 "" H 7750 750 50  0001 C CNN
-	1    7750 750 
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	7750 750  7750 900 
 $Comp
@@ -269,7 +246,7 @@ U 1 1 5CF7DB01
 P 7450 1400
 F 0 "C3" H 7500 1300 50  0000 L CNN
 F 1 "100n" V 7300 1400 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7488 1250 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 7488 1250 50  0001 C CNN
 F 3 "~" H 7450 1400 50  0001 C CNN
 	1    7450 1400
 	1    0    0    -1  
@@ -356,7 +333,7 @@ U 1 1 5CF885AD
 P 2250 1050
 F 0 "R2" V 2150 1050 50  0000 C CNN
 F 1 "0" V 2250 1050 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 2180 1050 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2180 1050 50  0001 C CNN
 F 3 "~" H 2250 1050 50  0001 C CNN
 	1    2250 1050
 	0    1    1    0   
@@ -367,7 +344,7 @@ U 1 1 5CF89270
 P 2250 1250
 F 0 "R3" V 2150 1250 50  0000 C CNN
 F 1 "0" V 2250 1250 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 2180 1250 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2180 1250 50  0001 C CNN
 F 3 "~" H 2250 1250 50  0001 C CNN
 	1    2250 1250
 	0    1    1    0   
@@ -384,7 +361,7 @@ U 1 1 5CF8A80D
 P 2250 850
 F 0 "R1" V 2150 850 50  0000 C CNN
 F 1 "DNP" V 2250 850 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 2180 850 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2180 850 50  0001 C CNN
 F 3 "~" H 2250 850 50  0001 C CNN
 	1    2250 850 
 	0    1    1    0   
@@ -395,7 +372,7 @@ U 1 1 5CF8A8C6
 P 2250 1450
 F 0 "R4" V 2150 1450 50  0000 C CNN
 F 1 "DNP" V 2250 1450 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 2180 1450 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2180 1450 50  0001 C CNN
 F 3 "~" H 2250 1450 50  0001 C CNN
 	1    2250 1450
 	0    1    1    0   
@@ -454,34 +431,20 @@ Wire Wire Line
 Wire Wire Line
 	4100 4050 4100 3950
 $Comp
-L power:+3.3V #PWR04
-U 1 1 5CFAB772
-P 8050 3350
-F 0 "#PWR04" H 8050 3200 50  0001 C CNN
-F 1 "+3.3V" H 8065 3523 50  0000 C CNN
-F 2 "" H 8050 3350 50  0001 C CNN
-F 3 "" H 8050 3350 50  0001 C CNN
-	1    8050 3350
-	1    0    0    -1  
-$EndComp
-$Comp
 L Device:C C2
 U 1 1 5CFC2266
 P 8300 3800
 F 0 "C2" H 8415 3846 50  0000 L CNN
 F 1 "100n" H 8415 3755 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8338 3650 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8338 3650 50  0001 C CNN
 F 3 "~" H 8300 3800 50  0001 C CNN
 	1    8300 3800
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8050 3350 8050 3500
-Wire Wire Line
 	8300 3650 8300 3500
 Wire Wire Line
 	8300 3500 8050 3500
-Connection ~ 8050 3500
 Wire Wire Line
 	8050 3500 8050 4200
 $Comp
@@ -500,31 +463,16 @@ Wire Wire Line
 $Comp
 L Device:CP1 C1
 U 1 1 5CFCC218
-P 7800 3800
-F 0 "C1" H 7915 3846 50  0000 L CNN
-F 1 "100u" H 7915 3755 50  0000 L CNN
-F 2 "Capacitor_SMD:CP_Elec_6.3x5.7" H 7800 3800 50  0001 C CNN
-F 3 "~" H 7800 3800 50  0001 C CNN
-	1    7800 3800
+P 2400 4150
+F 0 "C1" H 2515 4196 50  0000 L CNN
+F 1 "22u" H 2515 4105 50  0000 L CNN
+F 2 "Capacitor_SMD:CP_Elec_5x5.3" H 2400 4150 50  0001 C CNN
+F 3 "~" H 2400 4150 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/sc1e226m05005vr/85degc-smd-electrolytic-capacitors/samwha/" H 2400 4150 50  0001 C CNN "TME Link"
+F 5 "0.36794" H 2400 4150 50  0001 C CNN "TME Price"
+	1    2400 4150
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	8050 3500 7800 3500
-Wire Wire Line
-	7800 3500 7800 3650
-$Comp
-L power:GND #PWR02
-U 1 1 5CFCECA5
-P 7800 4000
-F 0 "#PWR02" H 7800 3750 50  0001 C CNN
-F 1 "GND" H 7805 3827 50  0000 C CNN
-F 2 "" H 7800 4000 50  0001 C CNN
-F 3 "" H 7800 4000 50  0001 C CNN
-	1    7800 4000
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	7800 4000 7800 3950
 $Comp
 L power:GND #PWR03
 U 1 1 5CFDF95F
@@ -552,6 +500,8 @@ F 0 "J2" H 9199 4376 50  0000 L CNN
 F 1 "Conn_Coaxial" H 9199 4285 50  0000 L CNN
 F 2 "humidity:Adam_Tech_SMA_Female_RF2-19A" H 9100 4400 50  0001 C CNN
 F 3 " ~" H 9100 4400 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/rf2-19a-t-00-50-g/sma-smb-smc-connectors/adam-tech/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "10.86" H 0   0   50  0001 C CNN "TME Price"
 	1    9100 4400
 	1    0    0    -1  
 $EndComp
@@ -594,21 +544,6 @@ Connection ~ 7950 5350
 NoConn ~ 5200 1750
 NoConn ~ 5200 1850
 NoConn ~ 5200 2350
-$Comp
-L power:PWR_FLAG #FLG03
-U 1 1 5D1EE31E
-P 5050 1150
-F 0 "#FLG03" H 5050 1225 50  0001 C CNN
-F 1 "PWR_FLAG" H 5050 1324 50  0000 C CNN
-F 2 "" H 5050 1150 50  0001 C CNN
-F 3 "~" H 5050 1150 50  0001 C CNN
-	1    5050 1150
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	5050 1150 5050 1250
-Wire Wire Line
-	5050 1250 4600 1250
 $Comp
 L power:GND #PWR07
 U 1 1 5D20A08B
@@ -683,7 +618,7 @@ U 1 1 5D395686
 P 5500 4050
 F 0 "R11" V 5400 4000 50  0000 L CNN
 F 1 "470" V 5500 4050 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 5430 4050 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 5430 4050 50  0001 C CNN
 F 3 "~" H 5500 4050 50  0001 C CNN
 	1    5500 4050
 	1    0    0    -1  
@@ -717,7 +652,7 @@ U 1 1 5D5915E6
 P 6200 1800
 F 0 "R12" V 6100 1800 50  0000 C CNN
 F 1 "DNP" V 6200 1800 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 6130 1800 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 6130 1800 50  0001 C CNN
 F 3 "~" H 6200 1800 50  0001 C CNN
 	1    6200 1800
 	-1   0    0    1   
@@ -728,21 +663,10 @@ U 1 1 5D5916C9
 P 6450 1800
 F 0 "R13" V 6350 1800 50  0000 C CNN
 F 1 "DNP" V 6450 1800 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 6380 1800 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 6380 1800 50  0001 C CNN
 F 3 "~" H 6450 1800 50  0001 C CNN
 	1    6450 1800
 	-1   0    0    1   
-$EndComp
-$Comp
-L power:+3.3V #PWR017
-U 1 1 5D59172D
-P 6200 1550
-F 0 "#PWR017" H 6200 1400 50  0001 C CNN
-F 1 "+3.3V" H 6215 1723 50  0000 C CNN
-F 2 "" H 6200 1550 50  0001 C CNN
-F 3 "" H 6200 1550 50  0001 C CNN
-	1    6200 1550
-	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	6200 1550 6200 1600
@@ -788,7 +712,7 @@ U 1 1 5D657D92
 P 5250 4050
 F 0 "R8" V 5150 4000 50  0000 L CNN
 F 1 "470" V 5250 4050 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 5180 4050 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 5180 4050 50  0001 C CNN
 F 3 "~" H 5250 4050 50  0001 C CNN
 	1    5250 4050
 	1    0    0    -1  
@@ -823,6 +747,7 @@ F 1 "BAT54.215 " H 8250 800 50  0000 C CNN
 F 2 "Package_TO_SOT_SMD:SOT-23" H 8250 900 50  0001 C CNN
 F 3 "https://www.tme.eu/Document/2c1c71bcfe5aad5e582fdc49c2dc275f/BAT54.215.pdf" H 8250 900 50  0001 C CNN
 F 4 "https://www.tme.eu/se/en/details/bat54.215/smd-schottky-diodes/nexperia/" V 8250 900 50  0001 C CNN "TME Link"
+F 5 "0.22899" H 0   0   50  0001 C CNN "TME Price"
 	1    8250 900 
 	1    0    0    -1  
 $EndComp
@@ -896,8 +821,6 @@ Text Label 6700 4900 0    50   ~ 0
 RFM_RESET
 Text Label 6600 5700 0    50   ~ 0
 RFM_INT
-NoConn ~ 4300 1350
-NoConn ~ 4200 1350
 Text Label 8450 900  0    50   ~ 0
 VBAT_IN
 Text Label 7850 1150 1    50   ~ 0
@@ -910,4 +833,173 @@ Text Label 8250 2150 0    50   ~ 0
 X1
 Text Label 8250 2350 0    50   ~ 0
 X2
+$Comp
+L humidity:AP130-xxY U3
+U 1 1 5D035730
+P 1950 4000
+F 0 "U3" H 1950 4365 50  0000 C CNN
+F 1 "AP130-xxY" H 1950 4274 50  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-89-3_Handsoldering" H 1950 4000 50  0001 C CNN
+F 3 "https://www.tme.eu/Document/a40bcc82e08605be7c628bfb79d62f46/AP130.pdf" H 1950 4000 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/ap130-33yg-13/ldo-unregulated-voltage-regulators/diodes-incorporated/" H 1950 4000 50  0001 C CNN "TME Link"
+F 5 "2.47293" H 1950 4000 50  0001 C CNN "TME Price"
+	1    1950 4000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2400 4000 2400 3900
+Wire Wire Line
+	2400 3900 2250 3900
+$Comp
+L power:GND #PWR0101
+U 1 1 5D03A725
+P 1950 4400
+F 0 "#PWR0101" H 1950 4150 50  0001 C CNN
+F 1 "GND" H 1955 4227 50  0000 C CNN
+F 2 "" H 1950 4400 50  0001 C CNN
+F 3 "" H 1950 4400 50  0001 C CNN
+	1    1950 4400
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0102
+U 1 1 5D03A7C1
+P 2400 4400
+F 0 "#PWR0102" H 2400 4150 50  0001 C CNN
+F 1 "GND" H 2405 4227 50  0000 C CNN
+F 2 "" H 2400 4400 50  0001 C CNN
+F 3 "" H 2400 4400 50  0001 C CNN
+	1    2400 4400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2400 4300 2400 4400
+Wire Wire Line
+	1950 4300 1950 4400
+Wire Wire Line
+	1650 3900 1500 3900
+Wire Wire Line
+	1500 3900 1500 3800
+$Comp
+L Device:C C6
+U 1 1 5D049711
+P 1500 4150
+F 0 "C6" H 1615 4196 50  0000 L CNN
+F 1 "1u" H 1615 4105 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 1538 4000 50  0001 C CNN
+F 3 "~" H 1500 4150 50  0001 C CNN
+	1    1500 4150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1500 3900 1500 4000
+Connection ~ 1500 3900
+$Comp
+L power:GND #PWR0103
+U 1 1 5D053DF6
+P 1500 4400
+F 0 "#PWR0103" H 1500 4150 50  0001 C CNN
+F 1 "GND" H 1505 4227 50  0000 C CNN
+F 2 "" H 1500 4400 50  0001 C CNN
+F 3 "" H 1500 4400 50  0001 C CNN
+	1    1500 4400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1500 4300 1500 4400
+Wire Wire Line
+	4200 1150 4200 1250
+Wire Wire Line
+	4300 1350 4300 1250
+Wire Wire Line
+	4300 1250 4200 1250
+Connection ~ 4200 1250
+Wire Wire Line
+	4200 1250 4200 1350
+NoConn ~ 4600 1350
+$Comp
+L humidity:+5V_PI #PWR0104
+U 1 1 5D0A28CD
+P 4200 1150
+F 0 "#PWR0104" H 4200 1000 50  0001 C CNN
+F 1 "+5V_PI" H 4215 1323 50  0000 C CNN
+F 2 "" H 4200 1150 50  0001 C CNN
+F 3 "" H 4200 1150 50  0001 C CNN
+	1    4200 1150
+	1    0    0    -1  
+$EndComp
+$Comp
+L humidity:+5V_PI #PWR0105
+U 1 1 5D0ADF6D
+P 1500 3800
+F 0 "#PWR0105" H 1500 3650 50  0001 C CNN
+F 1 "+5V_PI" H 1515 3973 50  0000 C CNN
+F 2 "" H 1500 3800 50  0001 C CNN
+F 3 "" H 1500 3800 50  0001 C CNN
+	1    1500 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L humidity:+3V3_PI #PWR0106
+U 1 1 5D0AE289
+P 4500 1150
+F 0 "#PWR0106" H 4500 1000 50  0001 C CNN
+F 1 "+3V3_PI" H 4515 1323 50  0000 C CNN
+F 2 "" H 4500 1150 50  0001 C CNN
+F 3 "" H 4500 1150 50  0001 C CNN
+	1    4500 1150
+	1    0    0    -1  
+$EndComp
+$Comp
+L humidity:+3V3_PI #PWR0107
+U 1 1 5D0B9906
+P 6200 1550
+F 0 "#PWR0107" H 6200 1400 50  0001 C CNN
+F 1 "+3V3_PI" H 6215 1723 50  0000 C CNN
+F 2 "" H 6200 1550 50  0001 C CNN
+F 3 "" H 6200 1550 50  0001 C CNN
+	1    6200 1550
+	1    0    0    -1  
+$EndComp
+$Comp
+L humidity:+3V3_PI #PWR0108
+U 1 1 5D0B9C82
+P 7750 750
+F 0 "#PWR0108" H 7750 600 50  0001 C CNN
+F 1 "+3V3_PI" H 7765 923 50  0000 C CNN
+F 2 "" H 7750 750 50  0001 C CNN
+F 3 "" H 7750 750 50  0001 C CNN
+	1    7750 750 
+	1    0    0    -1  
+$EndComp
+$Comp
+L humidity:+3V3_REG #PWR0109
+U 1 1 5D0BA502
+P 8050 3350
+F 0 "#PWR0109" H 8050 3200 50  0001 C CNN
+F 1 "+3V3_REG" H 8065 3523 50  0000 C CNN
+F 2 "" H 8050 3350 50  0001 C CNN
+F 3 "" H 8050 3350 50  0001 C CNN
+	1    8050 3350
+	1    0    0    -1  
+$EndComp
+Connection ~ 8050 3500
+Wire Wire Line
+	8050 3350 8050 3500
+$Comp
+L humidity:+3V3_REG #PWR0110
+U 1 1 5D0BA60F
+P 2400 3800
+F 0 "#PWR0110" H 2400 3650 50  0001 C CNN
+F 1 "+3V3_REG" H 2415 3973 50  0000 C CNN
+F 2 "" H 2400 3800 50  0001 C CNN
+F 3 "" H 2400 3800 50  0001 C CNN
+	1    2400 3800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2400 3800 2400 3900
+Connection ~ 2400 3900
+Wire Wire Line
+	4500 1150 4500 1350
 $EndSCHEMATC

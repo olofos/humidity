@@ -1,5 +1,24 @@
 EESchema-DOCLIB  Version 2.0
 #
+$CMP +3V3_PI
+D power-flag symbol +3.3V
+K Power Flag Symbol
+$ENDCMP
+#
+$CMP +3V3_REG
+D power-flag symbol +3.3V
+K Power Flag Symbol
+$ENDCMP
+#
+$CMP +5V_PI
+D power-flag symbol +3.3V
+K Power Flag Symbol
+$ENDCMP
+#
+$CMP AP130-xxY
+D Fixed voltage LDO
+$ENDCMP
+#
 $CMP AT25DF512C
 D 512-Kbit, 1.65V Minimum SPI Serial Flash Memory with Dual-Read Support
 $ENDCMP
