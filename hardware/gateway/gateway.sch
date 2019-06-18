@@ -125,40 +125,38 @@ $EndComp
 $Comp
 L Device:Battery_Cell BT1
 U 1 1 5CF7BB91
-P 8600 1300
-F 0 "BT1" V 8450 1300 50  0000 L CNN
-F 1 "KEYS3000" V 8800 1300 50  0000 C CNN
-F 2 "humidity:CR1216_Keystone_3000" V 8600 1360 50  0001 C CNN
-F 3 "~" V 8600 1360 50  0001 C CNN
-F 4 "https://www.tme.eu/se/en/details/keys3000/batteries-holders/keystone/3000/" V 8600 1300 50  0001 C CNN "TME Link"
-F 5 "4.2504" H 0   0   50  0001 C CNN "TME Price"
-	1    8600 1300
+P 9450 1300
+F 0 "BT1" V 9300 1300 50  0000 L CNN
+F 1 "KEYS3000" V 9650 1300 50  0000 C CNN
+F 2 "humidity:CR1216_Keystone_3000" V 9450 1360 50  0001 C CNN
+F 3 "~" V 9450 1360 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/keys3000/batteries-holders/keystone/3000/" V 9450 1300 50  0001 C CNN "TME Link"
+F 5 "4.2504" H 850 0   50  0001 C CNN "TME Price"
+	1    9450 1300
 	1    0    0    -1  
 $EndComp
 $Comp
 L Device:R R15
 U 1 1 5CF7BDA8
-P 7850 1400
-F 0 "R15" V 7950 1400 50  0000 C CNN
-F 1 "1k" V 7850 1400 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 7780 1400 50  0001 C CNN
-F 3 "~" H 7850 1400 50  0001 C CNN
-	1    7850 1400
-	1    0    0    -1  
+P 8450 900
+F 0 "R15" V 8550 900 50  0000 C CNN
+F 1 "1k" V 8450 900 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8380 900 50  0001 C CNN
+F 3 "~" H 8450 900 50  0001 C CNN
+	1    8450 900 
+	0    1    1    0   
 $EndComp
 Wire Wire Line
-	7850 1550 7850 1800
-Wire Wire Line
-	8600 1100 8600 900 
+	9450 1100 9450 900 
 $Comp
 L power:GND #PWR025
 U 1 1 5CF7C329
-P 8600 1450
-F 0 "#PWR025" H 8600 1200 50  0001 C CNN
-F 1 "GND" H 8605 1277 50  0000 C CNN
-F 2 "" H 8600 1450 50  0001 C CNN
-F 3 "" H 8600 1450 50  0001 C CNN
-	1    8600 1450
+P 9450 1450
+F 0 "#PWR025" H 9450 1200 50  0001 C CNN
+F 1 "GND" H 9455 1277 50  0000 C CNN
+F 2 "" H 9450 1450 50  0001 C CNN
+F 3 "" H 9450 1450 50  0001 C CNN
+	1    9450 1450
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -279,7 +277,6 @@ Wire Wire Line
 	7100 4400 7550 4400
 Wire Wire Line
 	6800 4700 7550 4700
-NoConn ~ 7350 2350
 NoConn ~ 5200 2750
 NoConn ~ 8550 4600
 NoConn ~ 8550 4700
@@ -361,7 +358,7 @@ U 1 1 5CF8A80D
 P 2250 850
 F 0 "R1" V 2150 850 50  0000 C CNN
 F 1 "DNP" V 2250 850 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2180 850 50  0001 C CNN
+F 2 "humidity:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder-DNP" V 2180 850 50  0001 C CNN
 F 3 "~" H 2250 850 50  0001 C CNN
 	1    2250 850 
 	0    1    1    0   
@@ -372,7 +369,7 @@ U 1 1 5CF8A8C6
 P 2250 1450
 F 0 "R4" V 2150 1450 50  0000 C CNN
 F 1 "DNP" V 2250 1450 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2180 1450 50  0001 C CNN
+F 2 "humidity:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder-DNP" V 2180 1450 50  0001 C CNN
 F 3 "~" H 2250 1450 50  0001 C CNN
 	1    2250 1450
 	0    1    1    0   
@@ -543,7 +540,6 @@ Wire Wire Line
 Connection ~ 7950 5350
 NoConn ~ 5200 1750
 NoConn ~ 5200 1850
-NoConn ~ 5200 2350
 $Comp
 L power:GND #PWR07
 U 1 1 5D20A08B
@@ -574,21 +570,14 @@ Connection ~ 4700 4050
 $Comp
 L power:PWR_FLAG #FLG04
 U 1 1 5D226779
-P 8250 1750
-F 0 "#FLG04" H 8250 1825 50  0001 C CNN
-F 1 "PWR_FLAG" H 8250 1650 50  0000 C CNN
-F 2 "" H 8250 1750 50  0001 C CNN
-F 3 "~" H 8250 1750 50  0001 C CNN
-	1    8250 1750
+P 8150 650
+F 0 "#FLG04" H 8150 725 50  0001 C CNN
+F 1 "PWR_FLAG" H 8150 550 50  0000 C CNN
+F 2 "" H 8150 650 50  0001 C CNN
+F 3 "~" H 8150 650 50  0001 C CNN
+	1    8150 650 
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	7850 1800 8250 1800
-Wire Wire Line
-	8250 1800 8250 1750
-Connection ~ 7850 1800
-Wire Wire Line
-	7850 1800 7850 1850
 Text Label 1400 1100 0    50   ~ 0
 FTDI_RX
 Text Label 1400 1200 0    50   ~ 0
@@ -652,7 +641,7 @@ U 1 1 5D5915E6
 P 6200 1800
 F 0 "R12" V 6100 1800 50  0000 C CNN
 F 1 "DNP" V 6200 1800 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 6130 1800 50  0001 C CNN
+F 2 "humidity:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder-DNP" V 6130 1800 50  0001 C CNN
 F 3 "~" H 6200 1800 50  0001 C CNN
 	1    6200 1800
 	-1   0    0    1   
@@ -663,7 +652,7 @@ U 1 1 5D5916C9
 P 6450 1800
 F 0 "R13" V 6350 1800 50  0000 C CNN
 F 1 "DNP" V 6450 1800 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 6380 1800 50  0001 C CNN
+F 2 "humidity:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder-DNP" V 6380 1800 50  0001 C CNN
 F 3 "~" H 6450 1800 50  0001 C CNN
 	1    6450 1800
 	-1   0    0    1   
@@ -739,26 +728,24 @@ Wire Wire Line
 Text Label 5250 3500 3    50   ~ 0
 LED1
 $Comp
-L humidity:D_Schottky_AncK D3
+L Device:D_Schottky D3
 U 1 1 5D01B3AF
-P 8250 900
-F 0 "D3" H 8250 1000 50  0000 R CNN
-F 1 "BAT54.215 " H 8250 800 50  0000 C CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 8250 900 50  0001 C CNN
-F 3 "https://www.tme.eu/Document/2c1c71bcfe5aad5e582fdc49c2dc275f/BAT54.215.pdf" H 8250 900 50  0001 C CNN
-F 4 "https://www.tme.eu/se/en/details/bat54.215/smd-schottky-diodes/nexperia/" V 8250 900 50  0001 C CNN "TME Link"
-F 5 "0.22899" H 0   0   50  0001 C CNN "TME Price"
-	1    8250 900 
+P 9100 900
+F 0 "D3" H 9100 1000 50  0000 R CNN
+F 1 "B0520LW-7-F" H 9100 800 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-123" H 9100 900 50  0001 C CNN
+F 3 "https://www.tme.eu/Document/a7874355cfbb9c8a2b34695c20bc31e8/B0520LW.pdf" H 9100 900 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/b0520lw-7-f/smd-schottky-diodes/diodes-incorporated/" V 9100 900 50  0001 C CNN "TME Link"
+F 5 "0.50890" H 850 0   50  0001 C CNN "TME Price"
+	1    9100 900 
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8600 900  8400 900 
+	9450 900  9250 900 
 Wire Wire Line
-	7850 900  8100 900 
+	8600 900  8950 900 
 Wire Wire Line
-	7850 900  7850 1250
-Wire Wire Line
-	8600 1400 8600 1450
+	9450 1400 9450 1450
 Wire Wire Line
 	2600 1050 2600 1100
 Wire Wire Line
@@ -781,14 +768,6 @@ Wire Wire Line
 	7100 4400 7100 3150
 Wire Wire Line
 	7100 3150 5200 3150
-Text Notes 5400 2850 0    50   ~ 0
-CS
-Text Notes 5400 2950 0    50   ~ 0
-MISO
-Text Notes 5400 3050 0    50   ~ 0
-MOSI
-Text Notes 5400 3150 0    50   ~ 0
-SCK
 Wire Wire Line
 	6700 4900 7550 4900
 Wire Wire Line
@@ -821,9 +800,9 @@ Text Label 6700 4900 0    50   ~ 0
 RFM_RESET
 Text Label 6600 5700 0    50   ~ 0
 RFM_INT
-Text Label 8450 900  0    50   ~ 0
+Text Label 9300 900  0    50   ~ 0
 VBAT_IN
-Text Label 7850 1150 1    50   ~ 0
+Text Label 8650 900  0    50   ~ 0
 VBAT_D
 Text Label 7850 1750 1    50   ~ 0
 VBAT
@@ -1002,4 +981,80 @@ Wire Wire Line
 Connection ~ 2400 3900
 Wire Wire Line
 	4500 1150 4500 1350
+$Comp
+L Device:C C7
+U 1 1 5D06EFEE
+P 8150 1400
+F 0 "C7" H 8200 1300 50  0000 L CNN
+F 1 "100n" V 8000 1400 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8188 1250 50  0001 C CNN
+F 3 "~" H 8150 1400 50  0001 C CNN
+	1    8150 1400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8300 900  8150 900 
+Wire Wire Line
+	8150 1250 8150 900 
+Connection ~ 8150 900 
+Wire Wire Line
+	8150 900  7850 900 
+Wire Wire Line
+	8150 650  8150 900 
+Wire Wire Line
+	7850 900  7850 1850
+$Comp
+L power:GND #PWR04
+U 1 1 5D08E603
+P 8150 1650
+F 0 "#PWR04" H 8150 1400 50  0001 C CNN
+F 1 "GND" H 8155 1477 50  0000 C CNN
+F 2 "" H 8150 1650 50  0001 C CNN
+F 3 "" H 8150 1650 50  0001 C CNN
+	1    8150 1650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8150 1550 8150 1650
+$Comp
+L Device:R R5
+U 1 1 5D093C3A
+P 6950 1800
+F 0 "R5" V 6850 1750 50  0000 L CNN
+F 1 "10k" V 6950 1800 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 6880 1800 50  0001 C CNN
+F 3 "~" H 6950 1800 50  0001 C CNN
+	1    6950 1800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6950 1950 6950 2350
+Wire Wire Line
+	6950 2350 7350 2350
+$Comp
+L humidity:+3V3_PI #PWR02
+U 1 1 5D0991BC
+P 6950 1550
+F 0 "#PWR02" H 6950 1400 50  0001 C CNN
+F 1 "+3V3_PI" H 6965 1723 50  0000 C CNN
+F 2 "" H 6950 1550 50  0001 C CNN
+F 3 "" H 6950 1550 50  0001 C CNN
+	1    6950 1550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6950 1550 6950 1650
+Wire Wire Line
+	5200 2350 6950 2350
+Connection ~ 6950 2350
+Text Label 5800 2350 0    50   ~ 0
+MFP
+Text Label 6550 2850 0    50   ~ 0
+CS
+Text Label 6550 2950 0    50   ~ 0
+MISO
+Text Label 6550 3050 0    50   ~ 0
+MOSI
+Text Label 6550 3150 0    50   ~ 0
+SCK
 $EndSCHEMATC
