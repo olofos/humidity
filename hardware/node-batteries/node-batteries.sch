@@ -80,7 +80,7 @@ U 1 1 5CF4DA0D
 P 5650 3250
 F 0 "MH1" H 5750 3296 50  0000 L CNN
 F 1 "MountingHole M3" H 5750 3205 50  0000 L CNN
-F 2 "MountingHole:MountingHole_3.2mm_M3" H 5650 3250 50  0001 C CNN
+F 2 "humidity:MountingHole_3.2mm_M3" H 5650 3250 50  0001 C CNN
 F 3 "~" H 5650 3250 50  0001 C CNN
 	1    5650 3250
 	1    0    0    -1  
@@ -91,7 +91,7 @@ U 1 1 5CF4DA9E
 P 5650 3450
 F 0 "MH2" H 5750 3496 50  0000 L CNN
 F 1 "MountingHole M3" H 5750 3405 50  0000 L CNN
-F 2 "MountingHole:MountingHole_3.2mm_M3" H 5650 3450 50  0001 C CNN
+F 2 "humidity:MountingHole_3.2mm_M3" H 5650 3450 50  0001 C CNN
 F 3 "~" H 5650 3450 50  0001 C CNN
 	1    5650 3450
 	1    0    0    -1  
@@ -102,7 +102,7 @@ U 1 1 5CF4DABE
 P 5650 3650
 F 0 "MH3" H 5750 3696 50  0000 L CNN
 F 1 "MountingHole M3" H 5750 3605 50  0000 L CNN
-F 2 "MountingHole:MountingHole_3.2mm_M3" H 5650 3650 50  0001 C CNN
+F 2 "humidity:MountingHole_3.2mm_M3" H 5650 3650 50  0001 C CNN
 F 3 "~" H 5650 3650 50  0001 C CNN
 	1    5650 3650
 	1    0    0    -1  
@@ -113,7 +113,7 @@ U 1 1 5CF4DAE2
 P 5650 3850
 F 0 "MH4" H 5750 3896 50  0000 L CNN
 F 1 "MountingHole M3" H 5750 3805 50  0000 L CNN
-F 2 "MountingHole:MountingHole_3.2mm_M3" H 5650 3850 50  0001 C CNN
+F 2 "humidity:MountingHole_3.2mm_M3" H 5650 3850 50  0001 C CNN
 F 3 "~" H 5650 3850 50  0001 C CNN
 	1    5650 3850
 	1    0    0    -1  
@@ -130,7 +130,7 @@ U 1 1 5CF45294
 P 5650 4050
 F 0 "MH5" H 5750 4096 50  0000 L CNN
 F 1 "MountingHole M3" H 5750 4005 50  0000 L CNN
-F 2 "MountingHole:MountingHole_3.2mm_M3" H 5650 4050 50  0001 C CNN
+F 2 "humidity:MountingHole_3.2mm_M3" H 5650 4050 50  0001 C CNN
 F 3 "~" H 5650 4050 50  0001 C CNN
 	1    5650 4050
 	1    0    0    -1  
@@ -141,7 +141,7 @@ U 1 1 5CF452BC
 P 5650 4250
 F 0 "MH6" H 5750 4296 50  0000 L CNN
 F 1 "MountingHole M3" H 5750 4205 50  0000 L CNN
-F 2 "MountingHole:MountingHole_3.2mm_M3" H 5650 4250 50  0001 C CNN
+F 2 "humidity:MountingHole_3.2mm_M3" H 5650 4250 50  0001 C CNN
 F 3 "~" H 5650 4250 50  0001 C CNN
 	1    5650 4250
 	1    0    0    -1  

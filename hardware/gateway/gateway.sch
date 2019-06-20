@@ -20,7 +20,7 @@ U 1 1 5CEEFE01
 P 6150 6800
 F 0 "H1" H 6250 6846 50  0000 L CNN
 F 1 "MountingHole" H 6250 6755 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.7mm_M2.5" H 6150 6800 50  0001 C CNN
+F 2 "humidity:MountingHole_2.7mm_M2.5" H 6150 6800 50  0001 C CNN
 F 3 "~" H 6150 6800 50  0001 C CNN
 	1    6150 6800
 	1    0    0    -1  
@@ -31,7 +31,7 @@ U 1 1 5CEEFFB2
 P 6150 7000
 F 0 "H2" H 6250 7046 50  0000 L CNN
 F 1 "MountingHole" H 6250 6955 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.7mm_M2.5" H 6150 7000 50  0001 C CNN
+F 2 "humidity:MountingHole_2.7mm_M2.5" H 6150 7000 50  0001 C CNN
 F 3 "~" H 6150 7000 50  0001 C CNN
 	1    6150 7000
 	1    0    0    -1  
@@ -42,7 +42,7 @@ U 1 1 5CEEFFCA
 P 6150 7200
 F 0 "H3" H 6250 7246 50  0000 L CNN
 F 1 "MountingHole" H 6250 7155 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.7mm_M2.5" H 6150 7200 50  0001 C CNN
+F 2 "humidity:MountingHole_2.7mm_M2.5" H 6150 7200 50  0001 C CNN
 F 3 "~" H 6150 7200 50  0001 C CNN
 	1    6150 7200
 	1    0    0    -1  
@@ -53,7 +53,7 @@ U 1 1 5CEEFFE4
 P 6150 7400
 F 0 "H4" H 6250 7446 50  0000 L CNN
 F 1 "MountingHole" H 6250 7355 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.7mm_M2.5" H 6150 7400 50  0001 C CNN
+F 2 "humidity:MountingHole_2.7mm_M2.5" H 6150 7400 50  0001 C CNN
 F 3 "~" H 6150 7400 50  0001 C CNN
 	1    6150 7400
 	1    0    0    -1  
@@ -177,9 +177,11 @@ L Device:C C5
 U 1 1 5CF7C57B
 P 8950 2600
 F 0 "C5" H 9065 2646 50  0000 L CNN
-F 1 "C" H 9065 2555 50  0000 L CNN
+F 1 "10p" H 9065 2555 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8988 2450 50  0001 C CNN
 F 3 "~" H 8950 2600 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/vj0603a100jxacw1bc/0603-mlcc-smd-capacitors/vishay/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.13272" H 0   0   50  0001 C CNN "TME Price"
 	1    8950 2600
 	1    0    0    -1  
 $EndComp
@@ -188,9 +190,11 @@ L Device:C C4
 U 1 1 5CF7C5FA
 P 8450 2600
 F 0 "C4" H 8565 2646 50  0000 L CNN
-F 1 "C" H 8565 2555 50  0000 L CNN
+F 1 "10p" H 8565 2555 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8488 2450 50  0001 C CNN
 F 3 "~" H 8450 2600 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/vj0603a100jxacw1bc/0603-mlcc-smd-capacitors/vishay/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.13272" H 0   0   50  0001 C CNN "TME Price"
 	1    8450 2600
 	1    0    0    -1  
 $EndComp
@@ -246,6 +250,8 @@ F 0 "C3" H 7500 1300 50  0000 L CNN
 F 1 "100n" V 7300 1400 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 7488 1250 50  0001 C CNN
 F 3 "~" H 7450 1400 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/cl10b104ko8nnnc/0603-mlcc-smd-capacitors/samsung/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.13310" H 0   0   50  0001 C CNN "TME Price"
 	1    7450 1400
 	1    0    0    -1  
 $EndComp
@@ -332,6 +338,8 @@ F 0 "R2" V 2150 1050 50  0000 C CNN
 F 1 "0" V 2250 1050 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2180 1050 50  0001 C CNN
 F 3 "~" H 2250 1050 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/smd0603-0r/0603-smd-resistors/royal-ohm/0603saj0000t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.09735" H 0   0   50  0001 C CNN "TME Price"
 	1    2250 1050
 	0    1    1    0   
 $EndComp
@@ -343,6 +351,8 @@ F 0 "R3" V 2150 1250 50  0000 C CNN
 F 1 "0" V 2250 1250 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2180 1250 50  0001 C CNN
 F 3 "~" H 2250 1250 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/smd0603-0r/0603-smd-resistors/royal-ohm/0603saj0000t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.09735" H 0   0   50  0001 C CNN "TME Price"
 	1    2250 1250
 	0    1    1    0   
 $EndComp
@@ -435,6 +445,8 @@ F 0 "C2" H 8415 3846 50  0000 L CNN
 F 1 "100n" H 8415 3755 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8338 3650 50  0001 C CNN
 F 3 "~" H 8300 3800 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/cl10b104ko8nnnc/0603-mlcc-smd-capacitors/samsung/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.13310" H 0   0   50  0001 C CNN "TME Price"
 	1    8300 3800
 	1    0    0    -1  
 $EndComp
@@ -591,9 +603,11 @@ L Device:LED D2
 U 1 1 5D38D843
 P 5500 4450
 F 0 "D2" H 5500 4550 50  0000 R CNN
-F 1 "LED" V 5447 4333 50  0001 R CNN
+F 1 "KP-2012LSGC" V 5447 4333 50  0001 R CNN
 F 2 "LED_SMD:LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 5500 4450 50  0001 C CNN
 F 3 "~" H 5500 4450 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/kp-2012lsgc/smd-colour-leds/kingbright-electronic/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.24810" H 0   0   50  0001 C CNN "TME Price"
 	1    5500 4450
 	0    -1   -1   0   
 $EndComp
@@ -606,9 +620,11 @@ L Device:R R11
 U 1 1 5D395686
 P 5500 4050
 F 0 "R11" V 5400 4000 50  0000 L CNN
-F 1 "470" V 5500 4050 50  0000 C CNN
+F 1 "330R" V 5500 4050 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 5430 4050 50  0001 C CNN
 F 3 "~" H 5500 4050 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/smd0603-330r-1%25/0603-smd-resistors/royal-ohm/0603saf3300t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.11531" H 0   0   50  0001 C CNN "TME Price"
 	1    5500 4050
 	1    0    0    -1  
 $EndComp
@@ -689,9 +705,11 @@ L Device:LED D1
 U 1 1 5D657D8C
 P 5250 4450
 F 0 "D1" H 5250 4550 50  0000 R CNN
-F 1 "LED" V 5197 4333 50  0001 R CNN
+F 1 "KP-2012LSURCK" V 5197 4333 50  0001 R CNN
 F 2 "LED_SMD:LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 5250 4450 50  0001 C CNN
 F 3 "~" H 5250 4450 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/kp-2012lsurck/smd-colour-leds/kingbright-electronic/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "1.052" H 0   0   50  0001 C CNN "TME Price"
 	1    5250 4450
 	0    -1   -1   0   
 $EndComp
@@ -700,9 +718,11 @@ L Device:R R8
 U 1 1 5D657D92
 P 5250 4050
 F 0 "R8" V 5150 4000 50  0000 L CNN
-F 1 "470" V 5250 4050 50  0000 C CNN
+F 1 "330R" V 5250 4050 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 5180 4050 50  0001 C CNN
 F 3 "~" H 5250 4050 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/smd0603-330r-1%25/0603-smd-resistors/royal-ohm/0603saf3300t5e/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.11531" H 0   0   50  0001 C CNN "TME Price"
 	1    5250 4050
 	1    0    0    -1  
 $EndComp
@@ -989,6 +1009,8 @@ F 0 "C7" H 8200 1300 50  0000 L CNN
 F 1 "100n" V 8000 1400 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8188 1250 50  0001 C CNN
 F 3 "~" H 8150 1400 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/cl10b104ko8nnnc/0603-mlcc-smd-capacitors/samsung/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.13310" H 0   0   50  0001 C CNN "TME Price"
 	1    8150 1400
 	1    0    0    -1  
 $EndComp
@@ -1024,6 +1046,8 @@ F 0 "R5" V 6850 1750 50  0000 L CNN
 F 1 "10k" V 6950 1800 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 6880 1800 50  0001 C CNN
 F 3 "~" H 6950 1800 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/crcw060310k0fktabc/0603-smd-resistors/vishay/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.12458" H 0   0   50  0001 C CNN "TME Price"
 	1    6950 1800
 	1    0    0    -1  
 $EndComp
