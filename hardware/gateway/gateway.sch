@@ -173,28 +173,15 @@ $EndComp
 Wire Wire Line
 	7750 2650 7750 2750
 $Comp
-L Device:C C5
-U 1 1 5CF7C57B
-P 8950 2600
-F 0 "C5" H 9065 2646 50  0000 L CNN
-F 1 "10p" H 9065 2555 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8988 2450 50  0001 C CNN
-F 3 "~" H 8950 2600 50  0001 C CNN
-F 4 "https://www.tme.eu/se/en/details/vj0603a100jxacw1bc/0603-mlcc-smd-capacitors/vishay/" H 0   0   50  0001 C CNN "TME Link"
-F 5 "0.13272" H 0   0   50  0001 C CNN "TME Price"
-	1    8950 2600
-	1    0    0    -1  
-$EndComp
-$Comp
 L Device:C C4
 U 1 1 5CF7C5FA
 P 8450 2600
 F 0 "C4" H 8565 2646 50  0000 L CNN
-F 1 "10p" H 8565 2555 50  0000 L CNN
+F 1 "4p7" H 8565 2555 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8488 2450 50  0001 C CNN
 F 3 "~" H 8450 2600 50  0001 C CNN
-F 4 "https://www.tme.eu/se/en/details/vj0603a100jxacw1bc/0603-mlcc-smd-capacitors/vishay/" H 0   0   50  0001 C CNN "TME Link"
-F 5 "0.13272" H 0   0   50  0001 C CNN "TME Price"
+F 4 "https://www.tme.eu/se/en/details/c0603c479c1gactu/0603-mlcc-smd-capacitors/kemet/" H 0   0   50  0001 C CNN "TME Link"
+F 5 "0.77794" H 0   0   50  0001 C CNN "TME Price"
 	1    8450 2600
 	1    0    0    -1  
 $EndComp
@@ -1081,4 +1068,17 @@ Text Label 6550 3050 0    50   ~ 0
 MOSI
 Text Label 6550 3150 0    50   ~ 0
 SCK
+$Comp
+L Device:C C5
+U 1 1 5D0FD74D
+P 8950 2600
+F 0 "C5" H 9065 2646 50  0000 L CNN
+F 1 "4p7" H 9065 2555 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8988 2450 50  0001 C CNN
+F 3 "~" H 8950 2600 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/c0603c479c1gactu/0603-mlcc-smd-capacitors/kemet/" H 500 0   50  0001 C CNN "TME Link"
+F 5 "0.77794" H 500 0   50  0001 C CNN "TME Price"
+	1    8950 2600
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
