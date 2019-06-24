@@ -340,21 +340,20 @@ L Device:Crystal Y1
 U 1 1 5CD874E3
 P 1000 4950
 F 0 "Y1" H 1000 4800 50  0000 C CNN
-F 1 "32.768K-CFPX217" V 650 4700 50  0000 C CNN
-F 2 "humidity:IQD_CFPX-217" H 1000 4950 50  0001 C CNN
-F 3 "https://www.tme.eu/Document/cb9f4587d37439d0355f90ad313873e6/cfpx-217.pdf" H 1000 4950 50  0001 C CNN
-F 4 "32.768K-CFPX217" H 1000 4950 50  0001 C CNN "Part"
-F 5 "https://www.tme.eu/se/en/details/32.768k-cfpx217/smd-quartz-crystals/iqd-frequency-products/lfxtal009678/" H 0   0   50  0001 C CNN "TME Link"
-F 6 "3.42863" H 0   0   50  0001 C CNN "TME Price"
+F 1 "32.768K" H 1000 5100 50  0000 C CNN
+F 2 "Crystal:Crystal_C26-LF_D2.1mm_L6.5mm_Horizontal" H 1000 4950 50  0001 C CNN
+F 3 "" H 1000 4950 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/26-hx5f-32.768k/tht-quartz-crystals/ilsi/26-hx5f12-5-32-768khz/" H 1000 4950 50  0001 C CNN "TME Link"
+F 5 "1.52097" H 1000 4950 50  0001 C CNN "TME Price"
 	1    1000 4950
-	-1   0    0    1   
+	-1   0    0    -1  
 $EndComp
 $Comp
 L Device:C C12
 U 1 1 5CD87672
 P 750 5200
-F 0 "C12" H 636 5154 50  0000 R CNN
-F 1 "18p" H 636 5245 50  0000 R CNN
+F 0 "C12" H 700 5100 50  0000 R CNN
+F 1 "18p" H 700 5300 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 788 5050 50  0001 C CNN
 F 3 "~" H 750 5200 50  0001 C CNN
 F 4 "https://www.tme.eu/se/en/details/vj0603a180jxacw2bc/0603-mlcc-smd-capacitors/vishay/" H 0   0   50  0001 C CNN "TME Link"
@@ -366,8 +365,8 @@ $Comp
 L Device:C C13
 U 1 1 5CD878C7
 P 1250 5200
-F 0 "C13" H 1365 5246 50  0000 L CNN
-F 1 "18p" H 1365 5155 50  0000 L CNN
+F 0 "C13" H 1300 5300 50  0000 L CNN
+F 1 "18p" H 1300 5100 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 1288 5050 50  0001 C CNN
 F 3 "~" H 1250 5200 50  0001 C CNN
 F 4 "https://www.tme.eu/se/en/details/vj0603a180jxacw2bc/0603-mlcc-smd-capacitors/vishay/" H 0   0   50  0001 C CNN "TME Link"
@@ -1480,7 +1479,7 @@ U 1 1 5D574B6A
 P 10650 1250
 F 0 "J1" H 10750 1350 50  0000 R CNN
 F 1 "BOOT0_Jumper" V 10550 1200 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 10650 1250 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Horizontal" H 10650 1250 50  0001 C CNN
 F 3 "~" H 10650 1250 50  0001 C CNN
 	1    10650 1250
 	-1   0    0    1   

@@ -99,134 +99,55 @@ Wire Wire Line
 $Comp
 L Device:Crystal Y1
 U 1 1 5CF7B659
-P 8700 2150
-F 0 "Y1" H 8700 2300 50  0000 C CNN
-F 1 "32768 - 6pF" H 8700 2000 50  0000 C CNN
-F 2 "humidity:Crystal LFXTAL016178" H 8700 2150 50  0001 C CNN
-F 3 "https://www.tme.eu/Document/1590aad5e7e715d4e1ddba2015ebdc85/LFXTAL016178Reel.pdf" H 8700 2150 50  0001 C CNN
-F 4 "https://www.tme.eu/se/en/details/32.768k-85smxr/smd-quartz-crystals/iqd-frequency-products/lfxtal016178reel/" H 8700 2150 50  0001 C CNN "TME Link"
-F 5 "6.09368" H 0   0   50  0001 C CNN "TME Price"
-	1    8700 2150
-	-1   0    0    1   
-$EndComp
-$Comp
-L Timer:MCP7940N-xSN U2
-U 1 1 5CEF9BB0
-P 7750 2250
-F 0 "U2" H 7850 1900 50  0000 C CNN
-F 1 "MCP7940N-xSN" H 7300 1850 50  0000 C CNN
-F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 7750 2250 50  0001 C CNN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/20005010F.pdf" H 7750 2250 50  0001 C CNN
-F 4 "https://www.tme.eu/se/en/details/mcp7940n-i_sn/rtc-circuits/microchip-technology/" H 0   0   50  0001 C CNN "TME Link"
-F 5 "7.56" H 0   0   50  0001 C CNN "TME Price"
-	1    7750 2250
-	1    0    0    -1  
+P 6950 2400
+F 0 "Y1" H 6950 2550 50  0000 C CNN
+F 1 "32768 " H 6950 2250 50  0000 C CNN
+F 2 "Crystal:Crystal_C26-LF_D2.1mm_L6.5mm_Horizontal" H 6950 2400 50  0001 C CNN
+F 3 "" H 6950 2400 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/26-hx5f-32.768k/tht-quartz-crystals/ilsi/26-hx5f12-5-32-768khz/" H 6950 2400 50  0001 C CNN "TME Link"
+F 5 "1.52097" H -1750 250 50  0001 C CNN "TME Price"
+	1    6950 2400
+	0    1    1    0   
 $EndComp
 $Comp
 L Device:Battery_Cell BT1
 U 1 1 5CF7BB91
-P 9450 1300
-F 0 "BT1" V 9300 1300 50  0000 L CNN
-F 1 "KEYS3000" V 9650 1300 50  0000 C CNN
-F 2 "humidity:CR1216_Keystone_3000" V 9450 1360 50  0001 C CNN
-F 3 "~" V 9450 1360 50  0001 C CNN
-F 4 "https://www.tme.eu/se/en/details/keys3000/batteries-holders/keystone/3000/" V 9450 1300 50  0001 C CNN "TME Link"
-F 5 "4.2504" H 850 0   50  0001 C CNN "TME Price"
-	1    9450 1300
+P 8150 1350
+F 0 "BT1" V 8000 1350 50  0000 L CNN
+F 1 "KEYS3000" V 8300 1400 50  0000 C CNN
+F 2 "humidity:CR1216_Keystone_3000" V 8150 1410 50  0001 C CNN
+F 3 "~" V 8150 1410 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/keys3000/batteries-holders/keystone/3000/" V 8150 1350 50  0001 C CNN "TME Link"
+F 5 "4.2504" H -450 50  50  0001 C CNN "TME Price"
+	1    8150 1350
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R15
-U 1 1 5CF7BDA8
-P 8450 900
-F 0 "R15" V 8550 900 50  0000 C CNN
-F 1 "1k" V 8450 900 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8380 900 50  0001 C CNN
-F 3 "~" H 8450 900 50  0001 C CNN
-	1    8450 900 
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	9450 1100 9450 900 
-$Comp
 L power:GND #PWR025
 U 1 1 5CF7C329
-P 9450 1450
-F 0 "#PWR025" H 9450 1200 50  0001 C CNN
-F 1 "GND" H 9455 1277 50  0000 C CNN
-F 2 "" H 9450 1450 50  0001 C CNN
-F 3 "" H 9450 1450 50  0001 C CNN
-	1    9450 1450
+P 8150 1650
+F 0 "#PWR025" H 8150 1400 50  0001 C CNN
+F 1 "GND" H 8155 1477 50  0000 C CNN
+F 2 "" H 8150 1650 50  0001 C CNN
+F 3 "" H 8150 1650 50  0001 C CNN
+	1    8150 1650
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GND #PWR023
 U 1 1 5CF7C3FA
-P 7750 2750
-F 0 "#PWR023" H 7750 2500 50  0001 C CNN
-F 1 "GND" H 7755 2577 50  0000 C CNN
-F 2 "" H 7750 2750 50  0001 C CNN
-F 3 "" H 7750 2750 50  0001 C CNN
-	1    7750 2750
+P 7850 2750
+F 0 "#PWR023" H 7850 2500 50  0001 C CNN
+F 1 "GND" H 7855 2577 50  0000 C CNN
+F 2 "" H 7850 2750 50  0001 C CNN
+F 3 "" H 7850 2750 50  0001 C CNN
+	1    7850 2750
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	7750 2650 7750 2750
-$Comp
-L Device:C C4
-U 1 1 5CF7C5FA
-P 8450 2600
-F 0 "C4" H 8565 2646 50  0000 L CNN
-F 1 "4p7" H 8565 2555 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8488 2450 50  0001 C CNN
-F 3 "~" H 8450 2600 50  0001 C CNN
-F 4 "https://www.tme.eu/se/en/details/c0603c479c1gactu/0603-mlcc-smd-capacitors/kemet/" H 0   0   50  0001 C CNN "TME Link"
-F 5 "0.77794" H 0   0   50  0001 C CNN "TME Price"
-	1    8450 2600
-	1    0    0    -1  
-$EndComp
+	11000 2100 11000 1900
 Wire Wire Line
-	8150 2350 8950 2350
-Wire Wire Line
-	8950 2350 8950 2150
-Wire Wire Line
-	8950 2150 8850 2150
-Wire Wire Line
-	8450 2450 8450 2150
-Wire Wire Line
-	8150 2150 8450 2150
-Connection ~ 8450 2150
-Wire Wire Line
-	8450 2150 8550 2150
-Wire Wire Line
-	8950 2450 8950 2350
-Connection ~ 8950 2350
-$Comp
-L power:GND #PWR024
-U 1 1 5CF7CD47
-P 8450 2800
-F 0 "#PWR024" H 8450 2550 50  0001 C CNN
-F 1 "GND" H 8455 2627 50  0000 C CNN
-F 2 "" H 8450 2800 50  0001 C CNN
-F 3 "" H 8450 2800 50  0001 C CNN
-	1    8450 2800
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR026
-U 1 1 5CF7CD6C
-P 8950 2800
-F 0 "#PWR026" H 8950 2550 50  0001 C CNN
-F 1 "GND" H 8955 2627 50  0000 C CNN
-F 2 "" H 8950 2800 50  0001 C CNN
-F 3 "" H 8950 2800 50  0001 C CNN
-	1    8950 2800
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	8950 2750 8950 2800
-Wire Wire Line
-	8450 2750 8450 2800
+	11000 1900 10900 1900
 Wire Wire Line
 	7750 750  7750 900 
 $Comp
@@ -734,25 +655,6 @@ Wire Wire Line
 	5250 3450 5250 3900
 Text Label 5250 3500 3    50   ~ 0
 LED1
-$Comp
-L Device:D_Schottky D3
-U 1 1 5D01B3AF
-P 9100 900
-F 0 "D3" H 9100 1000 50  0000 R CNN
-F 1 "B0520LW-7-F" H 9100 800 50  0000 C CNN
-F 2 "Diode_SMD:D_SOD-123" H 9100 900 50  0001 C CNN
-F 3 "https://www.tme.eu/Document/a7874355cfbb9c8a2b34695c20bc31e8/B0520LW.pdf" H 9100 900 50  0001 C CNN
-F 4 "https://www.tme.eu/se/en/details/b0520lw-7-f/smd-schottky-diodes/diodes-incorporated/" V 9100 900 50  0001 C CNN "TME Link"
-F 5 "0.50890" H 850 0   50  0001 C CNN "TME Price"
-	1    9100 900 
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	9450 900  9250 900 
-Wire Wire Line
-	8600 900  8950 900 
-Wire Wire Line
-	9450 1400 9450 1450
 Wire Wire Line
 	2600 1050 2600 1100
 Wire Wire Line
@@ -807,17 +709,13 @@ Text Label 6700 4900 0    50   ~ 0
 RFM_RESET
 Text Label 6600 5700 0    50   ~ 0
 RFM_INT
-Text Label 9300 900  0    50   ~ 0
-VBAT_IN
-Text Label 8650 900  0    50   ~ 0
-VBAT_D
 Text Label 7850 1750 1    50   ~ 0
 VBAT
 Text Label 8650 4400 0    50   ~ 0
 ANT
-Text Label 8250 2150 0    50   ~ 0
+Text Label 7100 2250 0    50   ~ 0
 X1
-Text Label 8250 2350 0    50   ~ 0
+Text Label 7100 2550 0    50   ~ 0
 X2
 $Comp
 L humidity:AP130-xxY U3
@@ -948,17 +846,6 @@ F 3 "" H 6200 1550 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L humidity:+3V3_PI #PWR0108
-U 1 1 5D0B9C82
-P 7750 750
-F 0 "#PWR0108" H 7750 600 50  0001 C CNN
-F 1 "+3V3_PI" H 7765 923 50  0000 C CNN
-F 2 "" H 7750 750 50  0001 C CNN
-F 3 "" H 7750 750 50  0001 C CNN
-	1    7750 750 
-	1    0    0    -1  
-$EndComp
-$Comp
 L humidity:+3V3_REG #PWR0109
 U 1 1 5D0BA502
 P 8050 3350
@@ -987,24 +874,7 @@ Wire Wire Line
 	2400 3800 2400 3900
 Connection ~ 2400 3900
 Wire Wire Line
-	4500 1150 4500 1350
-$Comp
-L Device:C C7
-U 1 1 5D06EFEE
-P 8150 1400
-F 0 "C7" H 8200 1300 50  0000 L CNN
-F 1 "100n" V 8000 1400 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8188 1250 50  0001 C CNN
-F 3 "~" H 8150 1400 50  0001 C CNN
-F 4 "https://www.tme.eu/se/en/details/cl10b104ko8nnnc/0603-mlcc-smd-capacitors/samsung/" H 0   0   50  0001 C CNN "TME Link"
-F 5 "0.13310" H 0   0   50  0001 C CNN "TME Price"
-	1    8150 1400
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	8300 900  8150 900 
-Wire Wire Line
-	8150 1250 8150 900 
+	4500 1150 4500 1200
 Connection ~ 8150 900 
 Wire Wire Line
 	8150 900  7850 900 
@@ -1013,53 +883,33 @@ Wire Wire Line
 Wire Wire Line
 	7850 900  7850 1850
 $Comp
-L power:GND #PWR04
-U 1 1 5D08E603
-P 8150 1650
-F 0 "#PWR04" H 8150 1400 50  0001 C CNN
-F 1 "GND" H 8155 1477 50  0000 C CNN
-F 2 "" H 8150 1650 50  0001 C CNN
-F 3 "" H 8150 1650 50  0001 C CNN
-	1    8150 1650
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	8150 1550 8150 1650
-$Comp
 L Device:R R5
 U 1 1 5D093C3A
-P 6950 1800
-F 0 "R5" V 6850 1750 50  0000 L CNN
-F 1 "10k" V 6950 1800 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 6880 1800 50  0001 C CNN
-F 3 "~" H 6950 1800 50  0001 C CNN
-F 4 "https://www.tme.eu/se/en/details/crcw060310k0fktabc/0603-smd-resistors/vishay/" H 0   0   50  0001 C CNN "TME Link"
-F 5 "0.12458" H 0   0   50  0001 C CNN "TME Price"
-	1    6950 1800
+P 8500 2000
+F 0 "R5" V 8400 1950 50  0000 L CNN
+F 1 "10k" V 8500 2000 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8430 2000 50  0001 C CNN
+F 3 "~" H 8500 2000 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/crcw060310k0fktabc/0603-smd-resistors/vishay/" H 1550 200 50  0001 C CNN "TME Link"
+F 5 "0.12458" H 1550 200 50  0001 C CNN "TME Price"
+	1    8500 2000
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	6950 1950 6950 2350
-Wire Wire Line
-	6950 2350 7350 2350
 $Comp
 L humidity:+3V3_PI #PWR02
 U 1 1 5D0991BC
-P 6950 1550
-F 0 "#PWR02" H 6950 1400 50  0001 C CNN
-F 1 "+3V3_PI" H 6965 1723 50  0000 C CNN
-F 2 "" H 6950 1550 50  0001 C CNN
-F 3 "" H 6950 1550 50  0001 C CNN
-	1    6950 1550
+P 8500 1750
+F 0 "#PWR02" H 8500 1600 50  0001 C CNN
+F 1 "+3V3_PI" H 8515 1923 50  0000 C CNN
+F 2 "" H 8500 1750 50  0001 C CNN
+F 3 "" H 8500 1750 50  0001 C CNN
+	1    8500 1750
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	6950 1550 6950 1650
-Wire Wire Line
-	5200 2350 6950 2350
-Connection ~ 6950 2350
+	8500 1750 8500 1850
 Text Label 5800 2350 0    50   ~ 0
-MFP
+RTC_SQ_OUT
 Text Label 6550 2850 0    50   ~ 0
 CS
 Text Label 6550 2950 0    50   ~ 0
@@ -1069,16 +919,95 @@ MOSI
 Text Label 6550 3150 0    50   ~ 0
 SCK
 $Comp
-L Device:C C5
-U 1 1 5D0FD74D
-P 8950 2600
-F 0 "C5" H 9065 2646 50  0000 L CNN
-F 1 "4p7" H 9065 2555 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8988 2450 50  0001 C CNN
-F 3 "~" H 8950 2600 50  0001 C CNN
-F 4 "https://www.tme.eu/se/en/details/c0603c479c1gactu/0603-mlcc-smd-capacitors/kemet/" H 500 0   50  0001 C CNN "TME Link"
-F 5 "0.77794" H 500 0   50  0001 C CNN "TME Price"
-	1    8950 2600
+L Timer_RTC:DS1307Z+ U2
+U 1 1 5D124767
+P 7850 2250
+F 0 "U2" H 7500 1900 50  0000 L CNN
+F 1 "DS1307Z+" H 7950 1900 50  0000 L CNN
+F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 7850 1750 50  0001 C CNN
+F 3 "https://datasheets.maximintegrated.com/en/ds/DS1307.pdf" H 7850 2250 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/ds1307z+/rtc-circuits/maxim-integrated/" H 7850 2250 50  0001 C CNN "TME Link"
+F 5 "15.02" H 7850 2250 50  0001 C CNN "TME Price"
+	1    7850 2250
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	8150 900  8150 1150
+Wire Wire Line
+	8150 1650 8150 1450
+Wire Wire Line
+	7850 2650 7850 2750
+Wire Wire Line
+	6950 2250 7200 2250
+Wire Wire Line
+	7200 2250 7200 2350
+Wire Wire Line
+	7200 2350 7350 2350
+Wire Wire Line
+	6950 2550 7200 2550
+Wire Wire Line
+	7200 2550 7200 2450
+Wire Wire Line
+	7200 2450 7350 2450
+$Comp
+L humidity:+5V_PI #PWR0108
+U 1 1 5D1533CB
+P 7750 750
+F 0 "#PWR0108" H 7750 600 50  0001 C CNN
+F 1 "+5V_PI" H 7765 923 50  0000 C CNN
+F 2 "" H 7750 750 50  0001 C CNN
+F 3 "" H 7750 750 50  0001 C CNN
+	1    7750 750 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8500 2150 8500 2250
+Wire Wire Line
+	8500 2250 8350 2250
+Wire Wire Line
+	6650 2350 6650 2700
+Wire Wire Line
+	6650 2700 7550 2700
+Wire Wire Line
+	7550 2700 7550 3000
+Wire Wire Line
+	7550 3000 8500 3000
+Wire Wire Line
+	8500 3000 8500 2250
+Wire Wire Line
+	5200 2350 6650 2350
+Connection ~ 8500 2250
+$Comp
+L power:PWR_FLAG #FLG0101
+U 1 1 5D15D37F
+P 4800 1050
+F 0 "#FLG0101" H 4800 1125 50  0001 C CNN
+F 1 "PWR_FLAG" H 4800 1250 50  0000 C CNN
+F 2 "" H 4800 1050 50  0001 C CNN
+F 3 "~" H 4800 1050 50  0001 C CNN
+	1    4800 1050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4800 1050 4800 1200
+Wire Wire Line
+	4800 1200 4500 1200
+Connection ~ 4500 1200
+Wire Wire Line
+	4500 1200 4500 1350
+$Comp
+L power:PWR_FLAG #FLG0102
+U 1 1 5D1628EE
+P 3950 1050
+F 0 "#FLG0102" H 3950 1125 50  0001 C CNN
+F 1 "PWR_FLAG" H 3950 1250 50  0000 C CNN
+F 2 "" H 3950 1050 50  0001 C CNN
+F 3 "~" H 3950 1050 50  0001 C CNN
+	1    3950 1050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3950 1050 3950 1250
+Wire Wire Line
+	3950 1250 4200 1250
 $EndSCHEMATC
