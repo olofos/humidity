@@ -1479,7 +1479,7 @@ U 1 1 5D574B6A
 P 10650 1250
 F 0 "J1" H 10750 1350 50  0000 R CNN
 F 1 "BOOT0_Jumper" V 10550 1200 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Horizontal" H 10650 1250 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 10650 1250 50  0001 C CNN
 F 3 "~" H 10650 1250 50  0001 C CNN
 	1    10650 1250
 	-1   0    0    1   
@@ -1819,30 +1819,6 @@ Wire Wire Line
 	7600 2400 7600 2550
 NoConn ~ 7700 2400
 $Comp
-L Connector:TestPoint TP1
-U 1 1 5D000549
-P 8400 4200
-F 0 "TP1" V 8400 4400 50  0000 L CNN
-F 1 "TestPoint" H 8458 4229 50  0001 L CNN
-F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 4200 50  0001 C CNN
-F 3 "~" H 8600 4200 50  0001 C CNN
-F 4 "-" H 0   0   50  0001 C CNN "TME Link"
-	1    8400 4200
-	0    1    1    0   
-$EndComp
-$Comp
-L Connector:TestPoint TP3
-U 1 1 5D0114C3
-P 8400 4350
-F 0 "TP3" V 8400 4550 50  0000 L CNN
-F 1 "TestPoint" H 8458 4379 50  0001 L CNN
-F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 4350 50  0001 C CNN
-F 3 "~" H 8600 4350 50  0001 C CNN
-F 4 "-" H 0   0   50  0001 C CNN "TME Link"
-	1    8400 4350
-	0    1    1    0   
-$EndComp
-$Comp
 L Connector:TestPoint TP2
 U 1 1 5D0333AA
 P 8400 5900
@@ -1869,10 +1845,6 @@ F 4 "-" H 0   0   50  0001 C CNN "TME Link"
 	1    8400 5750
 	0    1    1    0   
 $EndComp
-Text Label 7800 4200 0    50   ~ 0
-V_BAT
-Wire Wire Line
-	8400 4200 7800 4200
 $Comp
 L power:GND #PWR0101
 U 1 1 5D0688FF
@@ -1888,10 +1860,6 @@ Wire Wire Line
 	7650 5900 7650 5950
 Wire Wire Line
 	7650 5900 8300 5900
-Text Label 7800 4350 0    50   ~ 0
-V_BAT_MID
-Wire Wire Line
-	8400 4350 7800 4350
 $Comp
 L power:VCC #PWR0102
 U 1 1 5D0D4995
