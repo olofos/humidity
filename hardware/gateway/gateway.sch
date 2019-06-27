@@ -800,7 +800,6 @@ Wire Wire Line
 Connection ~ 4200 1250
 Wire Wire Line
 	4200 1250 4200 1350
-NoConn ~ 4600 1350
 $Comp
 L humidity:+5V_PI #PWR0104
 U 1 1 5D0A28CD
@@ -1010,4 +1009,75 @@ Wire Wire Line
 	3950 1050 3950 1250
 Wire Wire Line
 	3950 1250 4200 1250
+$Comp
+L Device:R R6
+U 1 1 5D2FBF60
+P 6600 4150
+F 0 "R6" V 6500 4100 50  0000 L CNN
+F 1 "10k" V 6600 4150 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 6530 4150 50  0001 C CNN
+F 3 "~" H 6600 4150 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/crcw060310k0fktabc/0603-smd-resistors/vishay/" H -350 2350 50  0001 C CNN "TME Link"
+F 5 "0.12458" H -350 2350 50  0001 C CNN "TME Price"
+	1    6600 4150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6600 4300 6600 4700
+Wire Wire Line
+	6600 4700 6800 4700
+Connection ~ 6800 4700
+Wire Wire Line
+	6600 3550 6600 4000
+Wire Wire Line
+	4600 1350 4600 1300
+$Comp
+L power:PWR_FLAG #FLG0103
+U 1 1 5D30D5AE
+P 5200 1050
+F 0 "#FLG0103" H 5200 1125 50  0001 C CNN
+F 1 "PWR_FLAG" H 5200 1250 50  0000 C CNN
+F 2 "" H 5200 1050 50  0001 C CNN
+F 3 "~" H 5200 1050 50  0001 C CNN
+	1    5200 1050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5200 1050 5200 1300
+Text Label 4700 1300 0    50   ~ 0
+3V3_PI_17
+Wire Wire Line
+	4600 1300 5200 1300
+Text Label 6600 3900 1    50   ~ 0
+3V3_PI_17
+$Comp
+L Device:CP1 C?
+U 1 1 5D325ADD
+P 1150 4200
+F 0 "C?" H 1265 4246 50  0000 L CNN
+F 1 "22u" H 1265 4155 50  0000 L CNN
+F 2 "Capacitor_SMD:CP_Elec_5x5.3" H 1150 4200 50  0001 C CNN
+F 3 "~" H 1150 4200 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/sc1e226m05005vr/85degc-smd-electrolytic-capacitors/samwha/" H 1150 4200 50  0001 C CNN "TME Link"
+F 5 "0.36794" H 1150 4200 50  0001 C CNN "TME Price"
+	1    1150 4200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1500 3900 1150 3900
+Wire Wire Line
+	1150 3900 1150 4050
+$Comp
+L power:GND #PWR?
+U 1 1 5D32BD4F
+P 1150 4400
+F 0 "#PWR?" H 1150 4150 50  0001 C CNN
+F 1 "GND" H 1155 4227 50  0000 C CNN
+F 2 "" H 1150 4400 50  0001 C CNN
+F 3 "" H 1150 4400 50  0001 C CNN
+	1    1150 4400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1150 4350 1150 4400
 $EndSCHEMATC
