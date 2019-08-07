@@ -2167,37 +2167,47 @@ Wire Wire Line
 $Comp
 L humidity:SW_Push_4pin SW2
 U 1 1 5D4CC3C1
-P 8350 3400
-F 0 "SW2" H 8450 3550 40  0000 C CNN
-F 1 "DTSM-65R-V-B" H 8350 3200 40  0000 C CNN
-F 2 "humidity:SW_SPST_DTSM-6" H 8350 3400 40  0001 C CNN
-F 3 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H 8350 3400 40  0001 C CNN
-F 4 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H -2300 850 50  0001 C CNN "TME Link"
-F 5 "1.8894" H -2300 850 50  0001 C CNN "TME Price"
-	1    8350 3400
+P 8550 2650
+F 0 "SW2" H 8650 2800 40  0000 C CNN
+F 1 "DTSM-65R-V-B" H 8550 2450 40  0000 C CNN
+F 2 "humidity:SW_SPST_DTSM-6" H 8550 2650 40  0001 C CNN
+F 3 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H 8550 2650 40  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H -2100 100 50  0001 C CNN "TME Link"
+F 5 "1.8894" H -2100 100 50  0001 C CNN "TME Price"
+	1    8550 2650
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GND #PWR0103
 U 1 1 5D4DD0C9
-P 8800 3500
-F 0 "#PWR0103" H 8800 3250 50  0001 C CNN
-F 1 "GND" H 8805 3327 50  0000 C CNN
-F 2 "" H 8800 3500 50  0001 C CNN
-F 3 "" H 8800 3500 50  0001 C CNN
-	1    8800 3500
+P 9000 2750
+F 0 "#PWR0103" H 9000 2500 50  0001 C CNN
+F 1 "GND" H 9005 2577 50  0000 C CNN
+F 2 "" H 9000 2750 50  0001 C CNN
+F 3 "" H 9000 2750 50  0001 C CNN
+	1    9000 2750
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8800 3500 8800 3400
+	9000 2750 9000 2650
 Wire Wire Line
-	8800 3400 8600 3400
+	9000 2650 8800 2650
 Wire Wire Line
-	8100 3500 7800 3500
-NoConn ~ 8600 3500
-NoConn ~ 8100 3400
-Text Label 7800 3500 0    50   ~ 0
+	8300 2750 8000 2750
+NoConn ~ 8800 2750
+NoConn ~ 8300 2650
+Text Label 8000 2750 0    50   ~ 0
 SW
 Wire Wire Line
 	11000 2750 10900 2750
+Text Notes 8000 2500 0    75   Italic 15
+Button
+Wire Notes Line
+	7950 2350 9100 2350
+Wire Notes Line
+	9100 2350 9100 3000
+Wire Notes Line
+	9100 3000 7950 3000
+Wire Notes Line
+	7950 2350 7950 3000
 $EndSCHEMATC
