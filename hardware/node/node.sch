@@ -635,9 +635,7 @@ F 3 "" H 11000 3050 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	10900 2550 11000 2550
-Wire Wire Line
-	11000 2550 11000 3050
+	11000 2750 11000 3050
 $Comp
 L Device:LED D2
 U 1 1 5CE64770
@@ -1230,22 +1228,7 @@ Text Notes 2750 7400 1    35   ~ 0
 Wire Wire Line
 	2150 3200 2750 3200
 Text Label 2750 3200 2    50   ~ 0
-PA15
-Text Label 3100 5050 0    50   ~ 0
-PA15
-$Comp
-L Device:R R25
-U 1 1 5CF21A18
-P 3800 5050
-F 0 "R25" V 3700 5050 50  0000 C CNN
-F 1 "100k" V 3800 5050 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 3730 5050 50  0001 C CNN
-F 3 "~" H 3800 5050 50  0001 C CNN
-F 4 "https://www.tme.eu/se/en/details/cq0603-100k-1%25/0603-smd-resistors/royal-ohm/cq03saf1003t5e/" H 0   0   50  0001 C CNN "TME Link"
-F 5 "0.18525" H 0   0   50  0001 C CNN "TME Price"
-	1    3800 5050
-	0    1    1    0   
-$EndComp
+SW
 $Comp
 L power:GND #PWR028
 U 1 1 5CF2CE2C
@@ -1257,8 +1240,6 @@ F 3 "" H 4000 5200 50  0001 C CNN
 	1    4000 5200
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	4000 5050 4000 5200
 Text Notes 4350 2750 0    40   ~ 0
 RX: PayloadReady \n    (Mapping 01)\nTX: PacketSent\n    (Mapping 00)
 $Comp
@@ -1304,10 +1285,6 @@ Wire Notes Line
 	5450 6450 4050 6450
 Wire Notes Line
 	4050 6450 4050 5650
-Wire Wire Line
-	3100 5050 3650 5050
-Wire Wire Line
-	4000 5050 3950 5050
 Text Notes 3100 4350 0    75   Italic 15
 Unused Pins
 Wire Notes Line
@@ -1523,11 +1500,8 @@ F 5 "0.18525" H 0   0   50  0001 C CNN "TME Price"
 $EndComp
 Wire Wire Line
 	3650 4850 3100 4850
-Connection ~ 4000 5050
 Wire Wire Line
 	3950 4850 4000 4850
-Wire Wire Line
-	4000 4850 4000 5050
 Wire Wire Line
 	8800 850  9000 850 
 Wire Wire Line
@@ -1681,18 +1655,18 @@ $EndComp
 $Comp
 L humidity:SW_Push_4pin SW1
 U 1 1 5DEFB807
-P 10650 2550
-F 0 "SW1" H 10750 2700 40  0000 C CNN
-F 1 "DTSM-65R-V-B" H 10650 2350 40  0000 C CNN
-F 2 "humidity:SW_SPST_DTSM-6" H 10650 2550 40  0001 C CNN
-F 3 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H 10650 2550 40  0001 C CNN
-F 4 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H 0   0   50  0001 C CNN "TME Link"
-F 5 "1.8894" H 0   0   50  0001 C CNN "TME Price"
-	1    10650 2550
+P 10650 2650
+F 0 "SW1" H 10750 2800 40  0000 C CNN
+F 1 "DTSM-65R-V-B" H 10650 2450 40  0000 C CNN
+F 2 "humidity:SW_SPST_DTSM-6" H 10650 2650 40  0001 C CNN
+F 3 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H 10650 2650 40  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H 0   100 50  0001 C CNN "TME Link"
+F 5 "1.8894" H 0   100 50  0001 C CNN "TME Price"
+	1    10650 2650
 	1    0    0    -1  
 $EndComp
 NoConn ~ 10900 2650
-NoConn ~ 10400 2550
+NoConn ~ 10400 2750
 Text Notes 4100 7700 0    40   ~ 0
 Vary duty cycle linearly  depending\non VCC to get constant luminosity
 $Comp
@@ -1818,215 +1792,198 @@ Wire Wire Line
 Wire Wire Line
 	7600 2400 7600 2550
 NoConn ~ 7700 2400
-$Comp
-L Connector:TestPoint TP2
-U 1 1 5D0333AA
-P 8400 5900
-F 0 "TP2" V 8400 6100 50  0000 L CNN
-F 1 "TestPoint" H 8458 5929 50  0001 L CNN
-F 2 "TestPoint:TestPoint_THTPad_1.5x1.5mm_Drill0.7mm" H 8600 5900 50  0001 C CNN
-F 3 "~" H 8600 5900 50  0001 C CNN
-F 4 "-" H 0   0   50  0001 C CNN "TME Link"
-	1    8400 5900
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	850  7450 850  7500
 Connection ~ 850  7450
 $Comp
 L Connector:TestPoint TP4
 U 1 1 5D044718
-P 8400 5750
-F 0 "TP4" V 8400 5950 50  0000 L CNN
-F 1 "TestPoint" H 8458 5779 50  0001 L CNN
-F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 5750 50  0001 C CNN
-F 3 "~" H 8600 5750 50  0001 C CNN
-F 4 "-" H 0   0   50  0001 C CNN "TME Link"
-	1    8400 5750
+P 9800 5900
+F 0 "TP4" V 9800 6100 50  0000 L CNN
+F 1 "TestPoint" H 9858 5929 50  0001 L CNN
+F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 10000 5900 50  0001 C CNN
+F 3 "~" H 10000 5900 50  0001 C CNN
+F 4 "-" H 1400 150 50  0001 C CNN "TME Link"
+	1    9800 5900
 	0    1    1    0   
 $EndComp
 $Comp
 L power:GND #PWR0101
 U 1 1 5D0688FF
-P 7650 5950
-F 0 "#PWR0101" H 7650 5700 50  0001 C CNN
-F 1 "GND" H 7655 5777 50  0000 C CNN
-F 2 "" H 7650 5950 50  0001 C CNN
-F 3 "" H 7650 5950 50  0001 C CNN
-	1    7650 5950
+P 9050 6100
+F 0 "#PWR0101" H 9050 5850 50  0001 C CNN
+F 1 "GND" H 9055 5927 50  0000 C CNN
+F 2 "" H 9050 6100 50  0001 C CNN
+F 3 "" H 9050 6100 50  0001 C CNN
+	1    9050 6100
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	7650 5900 7650 5950
+	9050 6050 9050 6100
 Wire Wire Line
-	7650 5900 8300 5900
+	9050 6050 9700 6050
 $Comp
 L power:VCC #PWR0102
 U 1 1 5D0D4995
-P 7650 5650
-F 0 "#PWR0102" H 7650 5500 50  0001 C CNN
-F 1 "VCC" H 7667 5823 50  0000 C CNN
-F 2 "" H 7650 5650 50  0001 C CNN
-F 3 "" H 7650 5650 50  0001 C CNN
-	1    7650 5650
+P 9050 5800
+F 0 "#PWR0102" H 9050 5650 50  0001 C CNN
+F 1 "VCC" H 9067 5973 50  0000 C CNN
+F 2 "" H 9050 5800 50  0001 C CNN
+F 3 "" H 9050 5800 50  0001 C CNN
+	1    9050 5800
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8400 5750 7650 5750
+	9800 5900 9050 5900
 Wire Wire Line
-	7650 5750 7650 5650
+	9050 5900 9050 5800
 Wire Wire Line
 	750  7050 1300 7050
 Wire Wire Line
 	3100 6650 3400 6650
-Text Label 7800 4500 0    50   ~ 0
+Text Label 9200 4650 0    50   ~ 0
 I2C1_SCL
-Text Label 7800 4650 0    50   ~ 0
+Text Label 9200 4800 0    50   ~ 0
 I2C1_SDA
 $Comp
 L Connector:TestPoint TP5
 U 1 1 5D186BB9
-P 8400 4500
-F 0 "TP5" V 8400 4700 50  0000 L CNN
-F 1 "TestPoint" H 8458 4529 50  0001 L CNN
-F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 4500 50  0001 C CNN
-F 3 "~" H 8600 4500 50  0001 C CNN
-F 4 "-" H 0   0   50  0001 C CNN "TME Link"
-	1    8400 4500
+P 9800 4650
+F 0 "TP5" V 9800 4850 50  0000 L CNN
+F 1 "TestPoint" H 9858 4679 50  0001 L CNN
+F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 10000 4650 50  0001 C CNN
+F 3 "~" H 10000 4650 50  0001 C CNN
+F 4 "-" H 1400 150 50  0001 C CNN "TME Link"
+	1    9800 4650
 	0    1    1    0   
 $EndComp
 $Comp
 L Connector:TestPoint TP6
 U 1 1 5D186C47
-P 8400 4650
-F 0 "TP6" V 8400 4850 50  0000 L CNN
-F 1 "TestPoint" H 8458 4679 50  0001 L CNN
-F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 4650 50  0001 C CNN
-F 3 "~" H 8600 4650 50  0001 C CNN
-F 4 "-" H 0   0   50  0001 C CNN "TME Link"
-	1    8400 4650
+P 9800 4800
+F 0 "TP6" V 9800 5000 50  0000 L CNN
+F 1 "TestPoint" H 9858 4829 50  0001 L CNN
+F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 10000 4800 50  0001 C CNN
+F 3 "~" H 10000 4800 50  0001 C CNN
+F 4 "-" H 1400 150 50  0001 C CNN "TME Link"
+	1    9800 4800
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	8400 4650 7800 4650
+	9800 4800 9200 4800
 Wire Wire Line
-	7800 4500 8400 4500
-Text Label 7800 4800 0    50   ~ 0
+	9200 4650 9800 4650
+Text Label 9200 4950 0    50   ~ 0
 SPI1_SCK
-Text Label 7800 4950 0    50   ~ 0
+Text Label 9200 5100 0    50   ~ 0
 SPI1_MOSI
-Text Label 7800 5100 0    50   ~ 0
+Text Label 9200 5250 0    50   ~ 0
 SPI1_MISO
 $Comp
 L Connector:TestPoint TP7
 U 1 1 5D1BC03F
-P 8400 4800
-F 0 "TP7" V 8400 5000 50  0000 L CNN
-F 1 "TestPoint" H 8458 4829 50  0001 L CNN
-F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 4800 50  0001 C CNN
-F 3 "~" H 8600 4800 50  0001 C CNN
-F 4 "-" H 0   0   50  0001 C CNN "TME Link"
-	1    8400 4800
+P 9800 4950
+F 0 "TP7" V 9800 5150 50  0000 L CNN
+F 1 "TestPoint" H 9858 4979 50  0001 L CNN
+F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 10000 4950 50  0001 C CNN
+F 3 "~" H 10000 4950 50  0001 C CNN
+F 4 "-" H 1400 150 50  0001 C CNN "TME Link"
+	1    9800 4950
 	0    1    1    0   
 $EndComp
 $Comp
 L Connector:TestPoint TP8
 U 1 1 5D1BC0D1
-P 8400 4950
-F 0 "TP8" V 8400 5150 50  0000 L CNN
-F 1 "TestPoint" H 8458 4979 50  0001 L CNN
-F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 4950 50  0001 C CNN
-F 3 "~" H 8600 4950 50  0001 C CNN
-F 4 "-" H 0   0   50  0001 C CNN "TME Link"
-	1    8400 4950
+P 9800 5100
+F 0 "TP8" V 9800 5300 50  0000 L CNN
+F 1 "TestPoint" H 9858 5129 50  0001 L CNN
+F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 10000 5100 50  0001 C CNN
+F 3 "~" H 10000 5100 50  0001 C CNN
+F 4 "-" H 1400 150 50  0001 C CNN "TME Link"
+	1    9800 5100
 	0    1    1    0   
 $EndComp
 $Comp
 L Connector:TestPoint TP9
 U 1 1 5D1BC165
-P 8400 5100
-F 0 "TP9" V 8400 5300 50  0000 L CNN
-F 1 "TestPoint" H 8458 5129 50  0001 L CNN
-F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 5100 50  0001 C CNN
-F 3 "~" H 8600 5100 50  0001 C CNN
-F 4 "-" H 0   0   50  0001 C CNN "TME Link"
-	1    8400 5100
+P 9800 5250
+F 0 "TP9" V 9800 5450 50  0000 L CNN
+F 1 "TestPoint" H 9858 5279 50  0001 L CNN
+F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 10000 5250 50  0001 C CNN
+F 3 "~" H 10000 5250 50  0001 C CNN
+F 4 "-" H 1400 150 50  0001 C CNN "TME Link"
+	1    9800 5250
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	8400 5100 7800 5100
+	9800 5250 9200 5250
 Wire Wire Line
-	7800 4950 8400 4950
+	9200 5100 9800 5100
 Wire Wire Line
-	8400 4800 7800 4800
-Text Label 7800 5250 0    50   ~ 0
+	9800 4950 9200 4950
+Text Label 9200 5400 0    50   ~ 0
 CS_RFM69
-Text Label 7800 5400 0    50   ~ 0
+Text Label 9200 5550 0    50   ~ 0
 CS_FLASH
 $Comp
 L Connector:TestPoint TP10
 U 1 1 5D20457A
-P 8400 5250
-F 0 "TP10" V 8400 5450 50  0000 L CNN
-F 1 "TestPoint" H 8458 5279 50  0001 L CNN
-F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 5250 50  0001 C CNN
-F 3 "~" H 8600 5250 50  0001 C CNN
-F 4 "-" H 0   0   50  0001 C CNN "TME Link"
-	1    8400 5250
+P 9800 5400
+F 0 "TP10" V 9800 5600 50  0000 L CNN
+F 1 "TestPoint" H 9858 5429 50  0001 L CNN
+F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 10000 5400 50  0001 C CNN
+F 3 "~" H 10000 5400 50  0001 C CNN
+F 4 "-" H 1400 150 50  0001 C CNN "TME Link"
+	1    9800 5400
 	0    1    1    0   
 $EndComp
 $Comp
 L Connector:TestPoint TP11
 U 1 1 5D204612
-P 8400 5400
-F 0 "TP11" V 8400 5600 50  0000 L CNN
-F 1 "TestPoint" H 8458 5429 50  0001 L CNN
-F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 8600 5400 50  0001 C CNN
-F 3 "~" H 8600 5400 50  0001 C CNN
-F 4 "-" H 0   0   50  0001 C CNN "TME Link"
-	1    8400 5400
+P 9800 5550
+F 0 "TP11" V 9800 5750 50  0000 L CNN
+F 1 "TestPoint" H 9858 5579 50  0001 L CNN
+F 2 "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm" H 10000 5550 50  0001 C CNN
+F 3 "~" H 10000 5550 50  0001 C CNN
+F 4 "-" H 1400 150 50  0001 C CNN "TME Link"
+	1    9800 5550
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	8400 5400 7800 5400
+	9800 5550 9200 5550
 Wire Wire Line
-	7800 5250 8400 5250
+	9200 5400 9800 5400
 $Comp
 L Connector:TestPoint TP12
 U 1 1 5D229E6E
-P 8400 6000
-F 0 "TP12" V 8400 6200 50  0000 L CNN
-F 1 "TestPoint" H 8458 6029 50  0001 L CNN
-F 2 "TestPoint:TestPoint_THTPad_1.5x1.5mm_Drill0.7mm" H 8600 6000 50  0001 C CNN
-F 3 "~" H 8600 6000 50  0001 C CNN
-F 4 "-" H 0   0   50  0001 C CNN "TME Link"
-	1    8400 6000
+P 9800 6050
+F 0 "TP12" V 9800 6250 50  0000 L CNN
+F 1 "TestPoint" H 9858 6079 50  0001 L CNN
+F 2 "TestPoint:TestPoint_THTPad_1.5x1.5mm_Drill0.7mm" H 10000 6050 50  0001 C CNN
+F 3 "~" H 10000 6050 50  0001 C CNN
+F 4 "-" H 1400 50  50  0001 C CNN "TME Link"
+	1    9800 6050
 	0    1    1    0   
 $EndComp
 $Comp
 L Connector:TestPoint TP13
 U 1 1 5D229F08
-P 8400 6100
-F 0 "TP13" V 8400 6300 50  0000 L CNN
-F 1 "TestPoint" H 8458 6129 50  0001 L CNN
-F 2 "TestPoint:TestPoint_THTPad_1.5x1.5mm_Drill0.7mm" H 8600 6100 50  0001 C CNN
-F 3 "~" H 8600 6100 50  0001 C CNN
-F 4 "-" H 0   0   50  0001 C CNN "TME Link"
-	1    8400 6100
+P 9800 6150
+F 0 "TP13" V 9800 6350 50  0000 L CNN
+F 1 "TestPoint" H 9858 6179 50  0001 L CNN
+F 2 "TestPoint:TestPoint_THTPad_1.5x1.5mm_Drill0.7mm" H 10000 6150 50  0001 C CNN
+F 3 "~" H 10000 6150 50  0001 C CNN
+F 4 "-" H 1400 50  50  0001 C CNN "TME Link"
+	1    9800 6150
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	8400 6000 8300 6000
+	9800 6150 9700 6150
 Wire Wire Line
-	8300 6000 8300 5900
-Connection ~ 8300 5900
+	9700 6150 9700 6050
+Connection ~ 9700 6050
 Wire Wire Line
-	8300 5900 8400 5900
-Wire Wire Line
-	8300 6000 8300 6100
-Wire Wire Line
-	8300 6100 8400 6100
-Connection ~ 8300 6000
+	9700 6050 9800 6050
 Text Label 2900 2250 0    50   ~ 0
 RFM69_RST
 Wire Wire Line
@@ -2054,16 +2011,16 @@ Wire Wire Line
 Connection ~ 3900 2700
 Text Notes 1600 6950 0    50   ~ 0
 BAT_MID on ADC_IN9
-Text Notes 7600 4050 0    75   Italic 15
+Text Notes 9000 4200 0    75   Italic 15
 Test points
 Wire Notes Line
-	8850 6200 8850 3900
+	10250 6350 10250 4050
 Wire Notes Line
-	8850 3900 7550 3900
+	10250 4050 8950 4050
 Wire Notes Line
-	7550 3900 7550 6200
+	8950 4050 8950 6350
 Wire Notes Line
-	7550 6200 8850 6200
+	8950 6350 10250 6350
 Wire Wire Line
 	8000 850  8500 850 
 Wire Wire Line
@@ -2205,4 +2162,42 @@ F 3 "" H 700 1300 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	700  1250 700  1300
+Wire Wire Line
+	4000 4850 4000 5200
+$Comp
+L humidity:SW_Push_4pin SW2
+U 1 1 5D4CC3C1
+P 8350 3400
+F 0 "SW2" H 8450 3550 40  0000 C CNN
+F 1 "DTSM-65R-V-B" H 8350 3200 40  0000 C CNN
+F 2 "humidity:SW_SPST_DTSM-6" H 8350 3400 40  0001 C CNN
+F 3 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H 8350 3400 40  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H -2300 850 50  0001 C CNN "TME Link"
+F 5 "1.8894" H -2300 850 50  0001 C CNN "TME Price"
+	1    8350 3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0103
+U 1 1 5D4DD0C9
+P 8800 3500
+F 0 "#PWR0103" H 8800 3250 50  0001 C CNN
+F 1 "GND" H 8805 3327 50  0000 C CNN
+F 2 "" H 8800 3500 50  0001 C CNN
+F 3 "" H 8800 3500 50  0001 C CNN
+	1    8800 3500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8800 3500 8800 3400
+Wire Wire Line
+	8800 3400 8600 3400
+Wire Wire Line
+	8100 3500 7800 3500
+NoConn ~ 8600 3500
+NoConn ~ 8100 3400
+Text Label 7800 3500 0    50   ~ 0
+SW
+Wire Wire Line
+	11000 2750 10900 2750
 $EndSCHEMATC
