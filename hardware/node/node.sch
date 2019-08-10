@@ -426,7 +426,7 @@ Wire Wire Line
 	2150 1700 2750 1700
 Wire Wire Line
 	2150 1800 2750 1800
-Text Label 2750 1700 2    50   ~ 0
+Text Label 2750 3200 2    50   ~ 0
 LEDR
 Wire Wire Line
 	2150 1900 2750 1900
@@ -1227,7 +1227,7 @@ Text Notes 2750 7400 1    35   ~ 0
 |Vgs(th)| <= 1V
 Wire Wire Line
 	2150 3200 2750 3200
-Text Label 2750 3200 2    50   ~ 0
+Text Label 2750 1700 2    50   ~ 0
 SW
 $Comp
 L power:GND #PWR028
@@ -2167,47 +2167,80 @@ Wire Wire Line
 $Comp
 L humidity:SW_Push_4pin SW2
 U 1 1 5D4CC3C1
-P 8550 2650
-F 0 "SW2" H 8650 2800 40  0000 C CNN
-F 1 "DTSM-65R-V-B" H 8550 2450 40  0000 C CNN
-F 2 "humidity:SW_SPST_DTSM-6" H 8550 2650 40  0001 C CNN
-F 3 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H 8550 2650 40  0001 C CNN
-F 4 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H -2100 100 50  0001 C CNN "TME Link"
-F 5 "1.8894" H -2100 100 50  0001 C CNN "TME Price"
-	1    8550 2650
+P 8600 2700
+F 0 "SW2" H 8700 2850 40  0000 C CNN
+F 1 "DTSM-65R-V-B" H 8600 2500 40  0000 C CNN
+F 2 "humidity:SW_SPST_DTSM-6" H 8600 2700 40  0001 C CNN
+F 3 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H 8600 2700 40  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/dtsm-65r-v-b/microswitches-tact/diptronics/" H -2050 150 50  0001 C CNN "TME Link"
+F 5 "1.8894" H -2050 150 50  0001 C CNN "TME Price"
+	1    8600 2700
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GND #PWR0103
 U 1 1 5D4DD0C9
-P 9000 2750
-F 0 "#PWR0103" H 9000 2500 50  0001 C CNN
-F 1 "GND" H 9005 2577 50  0000 C CNN
-F 2 "" H 9000 2750 50  0001 C CNN
-F 3 "" H 9000 2750 50  0001 C CNN
-	1    9000 2750
+P 8200 3100
+F 0 "#PWR0103" H 8200 2850 50  0001 C CNN
+F 1 "GND" H 8205 2927 50  0000 C CNN
+F 2 "" H 8200 3100 50  0001 C CNN
+F 3 "" H 8200 3100 50  0001 C CNN
+	1    8200 3100
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	9000 2750 9000 2650
-Wire Wire Line
-	9000 2650 8800 2650
-Wire Wire Line
-	8300 2750 8000 2750
-NoConn ~ 8800 2750
-NoConn ~ 8300 2650
-Text Label 8000 2750 0    50   ~ 0
+NoConn ~ 8850 2700
+NoConn ~ 8350 2800
+Text Label 8000 2700 0    50   ~ 0
 SW
 Wire Wire Line
 	11000 2750 10900 2750
 Text Notes 8000 2500 0    75   Italic 15
 Button
 Wire Notes Line
-	7950 2350 9100 2350
+	7950 2350 9150 2350
 Wire Notes Line
-	9100 2350 9100 3000
+	9150 2350 9150 3350
 Wire Notes Line
-	9100 3000 7950 3000
+	9150 3350 7950 3350
 Wire Notes Line
-	7950 2350 7950 3000
+	7950 2350 7950 3350
+Text Notes 700  50   0    150  ~ 30
+TODO:\nChange SW(PA15) <-> LEDR(PA0) to use SW as wakeup
+Wire Wire Line
+	8350 2700 8200 2700
+Wire Wire Line
+	9050 2800 8850 2800
+$Comp
+L power:VCC #PWR0104
+U 1 1 5D5C76F0
+P 9050 2600
+F 0 "#PWR0104" H 9050 2450 50  0001 C CNN
+F 1 "VCC" H 9067 2773 50  0000 C CNN
+F 2 "" H 9050 2600 50  0001 C CNN
+F 3 "" H 9050 2600 50  0001 C CNN
+	1    9050 2600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9050 2600 9050 2800
+Wire Wire Line
+	8200 2750 8200 2700
+Connection ~ 8200 2700
+Wire Wire Line
+	8200 2700 8000 2700
+Wire Wire Line
+	8200 3100 8200 3050
+$Comp
+L Device:R R6
+U 1 1 5D6B13F6
+P 8200 2900
+F 0 "R6" V 8100 2900 50  0000 C CNN
+F 1 "100k" V 8200 2900 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8130 2900 50  0001 C CNN
+F 3 "~" H 8200 2900 50  0001 C CNN
+F 4 "https://www.tme.eu/se/en/details/cq0603-100k-1%25/0603-smd-resistors/royal-ohm/cq03saf1003t5e/" H 4400 -1950 50  0001 C CNN "TME Link"
+F 5 "0.18525" H 4400 -1950 50  0001 C CNN "TME Price"
+	1    8200 2900
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
