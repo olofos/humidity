@@ -2204,8 +2204,6 @@ Wire Notes Line
 	9150 3350 7950 3350
 Wire Notes Line
 	7950 2350 7950 3350
-Text Notes 700  50   0    150  ~ 30
-TODO:\nChange SW(PA15) <-> LEDR(PA0) to use SW as wakeup
 Wire Wire Line
 	8350 2700 8200 2700
 Wire Wire Line
