@@ -1,27 +1,5 @@
 #include "stm32l0xx.h"
-
-// Check:
-// How does the Clock Security System of the LSE work if the interrupt is disabled?
-
-
-// https://lowpowerlab.com/forum/rf-range-antennas-rfm69-library/definition-of-rxbw-with-rfm69/
-
-
-void delay(uint32_t millis)
-{
-    // for(uint32_t tick = systick; systick - tick < millis;) {
-    //     __WFI();
-    // }
-    for(uint32_t i = 0; i < millis * 1000; i++) {
-        __asm__("nop");
-    }
-}
-
-
-static void init_clocks(void)
-{
-    RCC->IOPENR = RCC_IOPENR_IOPAEN;
-}
+#include "vector.h"
 
 #define GPIO_MODER_INPUT  0x0UL
 #define GPIO_MODER_OUTPUT 0x1UL
@@ -45,6 +23,41 @@ static void init_clocks(void)
 #define GPIO_PUPDR_NONE 0x00
 #define GPIO_PUPDR_PU   0x01
 #define GPIO_PUPDR_PD   0x02
+
+volatile uint32_t systick;
+
+
+
+// Check:
+// How does the Clock Security System of the LSE work if the interrupt is disabled?
+
+
+// https://lowpowerlab.com/forum/rf-range-antennas-rfm69-library/definition-of-rxbw-with-rfm69/
+
+
+void delay(uint32_t millis)
+{
+    for(uint32_t tick = systick; systick - tick < millis;) {
+        __WFI();
+    }
+    // for(uint32_t i = 0; i < millis * 1000; i++) {
+    //     __asm__("nop");
+    // }
+}
+
+
+static void init_clocks(void)
+{
+    RCC->IOPENR = RCC_IOPENR_IOPAEN;
+
+    RCC->APB1ENR = RCC_APB1ENR_LPUART1EN;
+    RCC->APB2ENR = RCC_APB2ENR_DBGEN | RCC_APB2ENR_SYSCFGEN;
+
+    SysTick->CTRL = 0;
+    SysTick->LOAD = 2097;
+    SysTick->VAL = 0;
+    SysTick->CTRL = SysTick_CTRL_ENABLE_Msk | SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_CLKSOURCE_Msk;
+}
 
 static void init_gpio(void)
 {
@@ -170,6 +183,7 @@ void init(void)
 
 //     init_hw69();
 //     init_shtc3();
+
 //     init_flash();
 }
 
@@ -188,16 +202,16 @@ int main(void)
     //     sleep();
     //     wakeup();
 
+        GPIOA->BSRR = GPIO_BSRR_BS_15;
+        delay(500);
+
         GPIOA->BSRR = GPIO_BSRR_BR_15;
         delay(500);
 
-        GPIOA->BSRR = GPIO_BSRR_BS_15;
-        delay(500);
     }
 }
 
-// void _exit (int status)
-// {
-//     while (1) {}		/* Make sure we hang here */
-// }
-// void __register_exitproc(void) { }
+void SysTick_Handler(void)
+{
+    systick++;
+}
