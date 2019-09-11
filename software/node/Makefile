@@ -22,7 +22,7 @@ SRC := $(C_SOURCES:%.c=$(SRCDIR)/%.c) $(ASM_SOURCES:%.s=$(SRCDIR)/%.s)
 OBJ := $(C_SOURCES:%.c=$(OBJDIR)/%.o) $(ASM_SOURCES:%.s=$(OBJDIR)/%.o)
 DEPS := $(C_SOURCES:%.c=$(DEPDIR)/%.d)
 
-SOURCES_TST = $(wildcard $(TSTDIR)*.c)
+SOURCES_TST = $(wildcard $(TSTDIR)/*.c)
 
 AR = arm-none-eabi-ar
 CC = arm-none-eabi-gcc
@@ -48,8 +48,8 @@ TST_CC = gcc
 TST_WRAP =
 TST_CFLAGS = -Wall -I$(SRCDIR) -ggdb -fsanitize=address -fno-omit-frame-pointer --coverage $(TST_WRAP)
 
-TST_RESULTS = $(patsubst $(TSTDIR)test_%.c,$(TSTRESDIR)test_%.txt,$(SOURCES_TST))
-TST_DEPS = $(TSTDEPDIR)*.d
+TST_RESULTS = $(patsubst $(TSTDIR)/test_%.c,$(TSTRESDIR)/test_%.txt,$(SOURCES_TST))
+TST_DEPS = $(TSTDEPDIR)/*.d
 
 .PHONY: all bin flash clean erase test build_dirs
 
@@ -83,39 +83,39 @@ erase:
 
 test: build_dirs $(TST_RESULTS)
 	@echo "-----------------------"
-	@echo "SKIPPED:" `grep -o '\[  SKIPPED \]' $(TSTRESDIR)*.txt|wc -l`
+	@echo "SKIPPED:" `grep -o '\[  SKIPPED \]' $(TSTRESDIR)/*.txt|wc -l`
 	@echo "-----------------------"
-	@grep -s '\[  SKIPPED \]' $(TSTRESDIR)*.txt || true
+	@grep -s '\[  SKIPPED \]' $(TSTRESDIR)/*.txt || true
 	@echo "\n-----------------------"
-	@echo "FAILED:" `grep -o '\[  FAILED  \]' $(TSTRESDIR)*.txt|wc -l`
+	@echo "FAILED:" `grep -o '\[  FAILED  \]' $(TSTRESDIR)/*.txt|wc -l`
 	@echo "-----------------------"
-	@grep -s 'FAILED\|LINE\|ERROR' $(TSTRESDIR)*.txt || true
+	@grep -s 'FAILED\|LINE\|ERROR' $(TSTRESDIR)/*.txt || true
 	@echo "\n-----------------------"
-	@echo "PASSED:" `grep -o '\[       OK \]' $(TSTRESDIR)*.txt|wc -l`
+	@echo "PASSED:" `grep -o '\[       OK \]' $(TSTRESDIR)/*.txt|wc -l`
 	@echo "-----------------------"
 	@echo
-	@! grep -s '\[  FAILED  \]' $(TSTRESDIR)*.txt 2>&1 1>/dev/null
+	@! grep -s '\[  FAILED  \]' $(TSTRESDIR)/*.txt 2>&1 1>/dev/null
 
 build_dirs:
 	$(V)mkdir -p $(BUILD_DIRS)
 
 
-$(TSTRESDIR)%.txt: $(TSTBINDIR)%
+$(TSTRESDIR)/%.txt: $(TSTBINDIR)/%
 	@echo Running $<
 	@echo
 	$(V)./$< > $@ 2>&1 || true
 
-$(TSTOBJDIR)%.o : $(TSTDIR)%.c
+$(TSTOBJDIR)/%.o : $(TSTDIR)/%.c
 	@echo CC $@
 	$(V)$(TST_CC) $(TST_CFLAGS)  $(INCLUDES) -c $< -o $@
 	$(V)$(TST_CC) -MM -MT $@ $(TST_CFLAGS) $(INCLUDES) $< > $(TSTDEPDIR)$*.d
 
-$(TSTOBJDIR)%.o : $(SRCDIR)/%.c
+$(TSTOBJDIR)/%.o : $(SRCDIR)/%.c
 	@echo CC $@
 	$(V)$(TST_CC) $(TST_CFLAGS)  $(INCLUDES) -c $< -o $@
 	$(V)$(TST_CC) -MM -MT $@ $(TST_CFLAGS) $(INCLUDES) $< > $(TSTDEPDIR)$*.d
 
-$(TSTBINDIR)test_%: $(TSTOBJDIR)test_%.o
+$(TSTBINDIR)/test_%: $(TSTOBJDIR)/test_%.o $(TSTOBJDIR)/%.o
 	@echo CC $@
 	$(V)$(TST_CC) -o $@ $(TST_CFLAGS) $^ -lcmocka
 
