@@ -14,16 +14,26 @@ void spi_deinit(void)
     RCC->APB2ENR &= ~RCC_APB2ENR_SPI1EN;
 }
 
-uint8_t spi_transfer(uint8_t out)
-{
+void spi_write(uint8_t out) {
     while(!(SPI1->SR & SPI_SR_TXE)) {
     }
 
     SPI1->DR = out;
+}
+
+uint8_t spi_read(void) {
+    // Read DR to clear SPI_SR_RXNE
+
+    uint32_t dummy = SPI1->DR;
+
+    while(!(SPI1->SR & SPI_SR_TXE)) {
+    }
+
+    // Reusing previously read value saves a load
+    SPI1->DR = dummy;
 
     while(!(SPI1->SR & SPI_SR_RXNE)) {
     }
 
-    uint8_t in = SPI1->DR;
-    return in;
+    return SPI1->DR;
 }
