@@ -10,6 +10,17 @@ void spi_init(void)
 
 void spi_deinit(void)
 {
+    while(!(SPI1->SR & SPI_SR_RXNE)) {
+    }
+
+    while(!(SPI1->SR & SPI_SR_TXE)) {
+    }
+
+    while(!(SPI1->SR & SPI_SR_BSY)) {
+    }
+
+    uint32_t dummy __attribute__((unused)) = SPI1->DR;
+
     SPI1->CR1 = 0x00;
     RCC->APB2ENR &= ~RCC_APB2ENR_SPI1EN;
 }
