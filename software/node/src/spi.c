@@ -25,23 +25,23 @@ void spi_deinit(void)
     RCC->APB2ENR &= ~RCC_APB2ENR_SPI1EN;
 }
 
-void spi_write(uint8_t out) {
+void spi_write_byte(uint8_t out) {
     while(!(SPI1->SR & SPI_SR_TXE)) {
     }
 
     SPI1->DR = out;
+
+    while(!(SPI1->SR & SPI_SR_RXNE)) {
+    }
+    uint32_t dummy __attribute__((unused)) = SPI1->DR;
 }
 
-uint8_t spi_read(void) {
-    // Read DR to clear SPI_SR_RXNE
-
-    uint32_t dummy = SPI1->DR;
-
+uint8_t spi_read_byte(void)
+{
     while(!(SPI1->SR & SPI_SR_TXE)) {
     }
 
-    // Reusing previously read value saves a load
-    SPI1->DR = dummy;
+    SPI1->DR = 0xFF;
 
     while(!(SPI1->SR & SPI_SR_RXNE)) {
     }

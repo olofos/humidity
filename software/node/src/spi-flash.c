@@ -50,7 +50,7 @@ static inline void spi_flash_cs_deassert(void)
 static void spi_flash_write_enable(void)
 {
     spi_flash_cs_assert();
-    spi_write(SPI_FLASH_CMD_WRITE_ENABLE);
+    spi_write_byte(SPI_FLASH_CMD_WRITE_ENABLE);
     spi_flash_cs_deassert();
 }
 
@@ -58,12 +58,12 @@ static void spi_flash_wait_until_ready(void)
 {
     spi_flash_cs_assert();
 
-    spi_write(SPI_FLASH_CMD_READ_STATUS);
+    spi_write_byte(SPI_FLASH_CMD_READ_STATUS);
 
     uint8_t status;
 
     do {
-        status = spi_read();
+        status = spi_read_byte();
     } while(status & SPI_FLASH_STATUS_BSY);
 
     spi_flash_cs_deassert();
@@ -79,10 +79,10 @@ void spi_flash_erase_page(uint32_t address)
 
     spi_flash_cs_assert();
 
-    spi_write(SPI_FLASH_CMD_PAGE_ERASE);
-    spi_write(address_hi);
-    spi_write(address_mid);
-    spi_write(address_low);
+    spi_write_byte(SPI_FLASH_CMD_PAGE_ERASE);
+    spi_write_byte(address_hi);
+    spi_write_byte(address_mid);
+    spi_write_byte(address_low);
 
     spi_flash_cs_deassert();
 
@@ -99,13 +99,13 @@ void spi_flash_write_page(uint32_t address, uint8_t *buf, uint16_t length)
 
     spi_flash_cs_assert();
 
-    spi_write(SPI_FLASH_CMD_PAGE_PROGRAM);
-    spi_write(address_hi);
-    spi_write(address_mid);
-    spi_write(address_low);
+    spi_write_byte(SPI_FLASH_CMD_PAGE_PROGRAM);
+    spi_write_byte(address_hi);
+    spi_write_byte(address_mid);
+    spi_write_byte(address_low);
 
     for(uint16_t i = 0; i < length; i++) {
-        spi_write(buf[i]);
+        spi_write_byte(buf[i]);
     }
 
     spi_flash_cs_deassert();
@@ -121,13 +121,13 @@ void spi_flash_read(uint32_t address, uint8_t *buf, uint32_t length)
 
     spi_flash_cs_assert();
 
-    spi_write(SPI_FLASH_CMD_READ_ARRAY);
-    spi_write(address_hi);
-    spi_write(address_mid);
-    spi_write(address_low);
+    spi_write_byte(SPI_FLASH_CMD_READ_ARRAY);
+    spi_write_byte(address_hi);
+    spi_write_byte(address_mid);
+    spi_write_byte(address_low);
 
     while(length--) {
-        *buf++ = spi_read();
+        *buf++ = spi_read_byte();
     }
 
     spi_flash_cs_deassert();
@@ -137,11 +137,11 @@ uint32_t spi_flash_read_id(void)
 {
     spi_flash_cs_assert();
 
-    spi_write(SPI_FLASH_CMD_READ_ID);
+    spi_write_byte(SPI_FLASH_CMD_READ_ID);
 
-    uint8_t manufacturer_id = spi_read();
-    uint8_t device_id_1 = spi_read();
-    uint8_t device_id_2 = spi_read();
+    uint8_t manufacturer_id = spi_read_byte();
+    uint8_t device_id_1 = spi_read_byte();
+    uint8_t device_id_2 = spi_read_byte();
 
     spi_flash_cs_deassert();
 

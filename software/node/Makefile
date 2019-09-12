@@ -1,6 +1,6 @@
 V=@
 
-C_SOURCES := main.c vector.c
+C_SOURCES := main.c vector.c spi.c spi-flash.c
 ASM_SOURCES :=
 # ASM_SOURCES :=
 
