@@ -84,7 +84,7 @@ void spi_flash_erase_page(uint32_t address)
     spi_write(address_mid);
     spi_write(address_low);
 
-    spi_flash_cs_assert();
+    spi_flash_cs_deassert();
 
     spi_flash_wait_until_ready();
 }
