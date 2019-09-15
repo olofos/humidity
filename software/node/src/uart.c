@@ -1,0 +1,119 @@
+#include <stdio.h>
+#include <string.h>
+
+#include "stm32l0xx.h"
+#include "vector.h"
+#include "cbuf.h"
+#include "uart.h"
+
+#define tx_cbuf_LEN 64
+
+struct tx_cbuf {
+    volatile uint8_t head;
+    volatile uint8_t tail;
+    volatile uint8_t next_tail;
+    uint8_t buf[tx_cbuf_LEN];
+} tx_cbuf;
+
+void uart_init(void)
+{
+    RCC->APB1ENR |= RCC_APB1ENR_LPUART1EN;
+
+    LPUART1->BRR = 0x369;
+    LPUART1->CR1 = USART_CR1_TE | USART_CR1_UE;
+
+    DMA1_CSELR->CSELR = (0x05 << DMA_CSELR_C7S_Pos);
+
+    DMA1_Channel7->CPAR = (uint32_t) &LPUART1->TDR;
+
+    cbuf_init(tx_cbuf);
+}
+
+void uart_init_dma(void)
+{
+    LPUART1->CR3 |= USART_CR3_DMAT;
+    NVIC_EnableIRQ(DMA1_Channel4_5_6_7_IRQn);
+
+    uart_init();
+}
+
+
+void uart_deinit(void)
+{
+    while(!(LPUART1->ISR & USART_ISR_TC)) {
+    }
+
+    LPUART1->CR1 = 0;
+    NVIC_DisableIRQ(DMA1_Channel4_5_6_7_IRQn);
+    RCC->APB1ENR &= ~RCC_APB1ENR_LPUART1EN;
+}
+
+
+static void uart_dma_tx_start(void)
+{
+    uint32_t len = cbuf_linear_len(tx_cbuf);
+
+    if(len > 0) {
+        tx_cbuf.next_tail = tx_cbuf.tail + len;
+
+        DMA1_Channel7->CMAR = (uint32_t) cbuf_tail(tx_cbuf);
+        DMA1_Channel7->CNDTR = len;
+        DMA1_Channel7->CCR = DMA_CCR_MINC | DMA_CCR_DIR | DMA_CCR_TCIE | DMA_CCR_EN;
+    }
+}
+
+ssize_t _write_r(struct _reent *reent, int fd, const void *buf, size_t count)
+{
+    (void) reent;
+
+    if(fd == 1) {
+        const char *s = buf;
+
+        if(LPUART1->CR3 & USART_CR3_DMAT) {
+            size_t num_left = count;
+
+            GPIOA->BSRR = GPIO_BSRR_BS_15;
+            while(num_left > 0) {
+                size_t cap = cbuf_capacity(tx_cbuf);
+                size_t num_to_write = num_left < cap ? num_left : cap;
+
+                while(num_to_write) {
+                    cbuf_push(tx_cbuf, *s++);
+                    num_to_write--;
+                    num_left--;
+                }
+
+                if(!(DMA1_Channel7->CCR & DMA_CCR_EN)) {
+                    uart_dma_tx_start();
+                }
+            }
+            GPIOA->BSRR = GPIO_BSRR_BR_15;
+        } else {
+            for(size_t i = 0; i < count; i++) {
+                while(!(LPUART1->ISR & USART_ISR_TXE)) {
+                }
+
+                LPUART1->TDR = s[i];
+            }
+        }
+
+        return count;
+    } else {
+        return -1;
+    }
+}
+
+void DMA1_Channel4_5_6_7_IRQHandler(void)
+{
+    if(DMA1->ISR & DMA_ISR_TCIF7) {
+        DMA1_Channel7->CCR = 0;
+
+        tx_cbuf.tail = tx_cbuf.next_tail;
+
+        if(!cbuf_empty(tx_cbuf)) {
+            uart_dma_tx_start();
+        }
+
+        DMA1->IFCR = DMA_IFCR_CTCIF7 | DMA_IFCR_CHTIF7 | DMA_IFCR_CGIF7;
+    }
+}
