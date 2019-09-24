@@ -3,6 +3,7 @@
 
 extern volatile uint32_t systick;
 
+void systick_init(void);
 void delay(uint32_t millis);
 
 #endif
