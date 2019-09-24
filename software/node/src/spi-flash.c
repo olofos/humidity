@@ -79,10 +79,9 @@ void spi_flash_erase_page(uint32_t address)
 
     spi_flash_cs_assert();
 
-    spi_write_byte(SPI_FLASH_CMD_PAGE_ERASE);
-    spi_write_byte(address_hi);
-    spi_write_byte(address_mid);
-    spi_write_byte(address_low);
+    uint8_t cmd[] = { SPI_FLASH_CMD_PAGE_ERASE, address_hi, address_mid, address_low };
+
+    spi_write(cmd, sizeof(cmd));
 
     spi_flash_cs_deassert();
 
@@ -99,14 +98,11 @@ void spi_flash_write_page(uint32_t address, uint8_t *buf, uint16_t length)
 
     spi_flash_cs_assert();
 
-    spi_write_byte(SPI_FLASH_CMD_PAGE_PROGRAM);
-    spi_write_byte(address_hi);
-    spi_write_byte(address_mid);
-    spi_write_byte(address_low);
+    uint8_t cmd[] = { SPI_FLASH_CMD_PAGE_PROGRAM, address_hi, address_mid, address_low };
 
-    for(uint16_t i = 0; i < length; i++) {
-        spi_write_byte(buf[i]);
-    }
+    spi_write(cmd, sizeof(cmd));
+
+    spi_write(buf, length);
 
     spi_flash_cs_deassert();
 
@@ -121,14 +117,11 @@ void spi_flash_read(uint32_t address, uint8_t *buf, uint32_t length)
 
     spi_flash_cs_assert();
 
-    spi_write_byte(SPI_FLASH_CMD_READ_ARRAY);
-    spi_write_byte(address_hi);
-    spi_write_byte(address_mid);
-    spi_write_byte(address_low);
+    uint8_t cmd[] = { SPI_FLASH_CMD_READ_ARRAY, address_hi, address_mid, address_low };
 
-    while(length--) {
-        *buf++ = spi_read_byte();
-    }
+    spi_write(cmd, sizeof(cmd));
+
+    spi_read(buf, length);
 
     spi_flash_cs_deassert();
 }
@@ -139,11 +132,11 @@ uint32_t spi_flash_read_id(void)
 
     spi_write_byte(SPI_FLASH_CMD_READ_ID);
 
-    uint8_t manufacturer_id = spi_read_byte();
-    uint8_t device_id_1 = spi_read_byte();
-    uint8_t device_id_2 = spi_read_byte();
+    uint8_t buf[3];
+
+    spi_read(buf, sizeof(buf));
 
     spi_flash_cs_deassert();
 
-    return (manufacturer_id << 16) | (device_id_1 << 8) | device_id_2;
+    return (buf[0] << 16) | (buf[1] << 8) | buf[2];
 }
