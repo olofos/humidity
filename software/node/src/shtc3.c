@@ -2,6 +2,7 @@
 
 #include "stm32l0xx.h"
 #include "shtc3.h"
+#include "shtc3-crc.h"
 #include "shtc3-registers.h"
 #include "i2c.h"
 #include "systick.h"
@@ -16,13 +17,14 @@ int shtc3_read(int32_t *temperature, uint32_t *humidity)
         if(systick - start >= SHTC3_TIMEOUT) return I2C_ERROR;
     }
 
-    const uint8_t temp_hi = buf[0];
-    const uint8_t temp_lo = buf[1];
-    const uint8_t humidity_hi = buf[3];
-    const uint8_t humidity_lo = buf[4];
+    const uint32_t t = (buf[0] << 8) | buf[1];
+    const uint32_t h = (buf[3] << 8) | buf[4];
 
-    *temperature = ((temp_hi << 8) | temp_lo) * 175 - (45 << 16);
-    *humidity = (humidity_hi << 8) | humidity_lo;
+    if(buf[2] != shtc3_crc(t)) return I2C_ERROR;
+    if(buf[5] != shtc3_crc(h)) return I2C_ERROR;
+
+    *temperature = t * 175 - (45 << 16);
+    *humidity = h;
 
     return I2C_OK;
 }
@@ -39,7 +41,7 @@ int shtc3_read_id(uint16_t *id)
 
     *id = (buf[0] << 8) | buf[1];
 
-    return I2C_OK;
+    return buf[2] == shtc3_crc(*id);
 }
 
 int shtc3_wakeup(void)

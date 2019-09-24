@@ -1,6 +1,6 @@
 V=@
 
-C_SOURCES := main.c vector.c spi.c spi-flash.c uart.c i2c.c systick.c shtc3.c
+C_SOURCES := main.c vector.c spi.c spi-flash.c uart.c i2c.c systick.c shtc3.c shtc3-crc.c
 ASM_SOURCES :=
 # ASM_SOURCES :=
 
