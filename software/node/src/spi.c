@@ -88,19 +88,34 @@ uint8_t spi_read_byte(void)
 
 void spi_read(uint8_t *buf, uint32_t length)
 {
-    for(uint32_t i = 0; i < length; i++) {
-        buf[i] = spi_read_byte();
+    uint32_t i = 0;
+    spi_wait_for_txe();
+    spi_send(SPI_DUMMY);
+
+    while(i < length - 1) {
+        spi_wait_for_txe();
+        spi_send(SPI_DUMMY);
+
+        spi_wait_for_rxne();
+        buf[i++] = spi_receive();
     }
+
+    spi_wait_for_rxne();
+    buf[i++] = spi_receive();
 }
 
 void spi_write(uint8_t *buf, uint32_t length)
 {
-    spi_wait_for_busy();
+    uint32_t i = 0;
+    spi_wait_for_txe();
+    spi_send(buf[i++]);
 
-    for(uint32_t i = 0; i < length; i++) {
+    while(i < length) {
         spi_wait_for_txe();
+        spi_send(buf[i++]);
 
-        spi_send(buf[i]);
+        spi_wait_for_rxne();
+        uint32_t dummy __attribute__((unused)) = spi_receive();
     }
 
     spi_wait_for_rxne();
