@@ -1,7 +1,14 @@
+#include <stdint.h>
+
+#ifndef UNIT_TESTING
 #include "stm32l0xx.h"
+#endif
+
 #include "spi.h"
 
 #define SPI_DUMMY 0x55
+
+#ifndef UNIT_TESTING
 
 void spi_init(void)
 {
@@ -49,6 +56,16 @@ void spi_deinit(void)
     SPI1->CR1 = 0x00;
     RCC->APB2ENR &= ~RCC_APB2ENR_SPI1EN;
 }
+
+#else
+
+void spi_wait_for_txe(void);
+void spi_wait_for_rxne(void);
+void spi_wait_for_busy(void);
+uint8_t spi_receive(void);
+void spi_send(uint8_t data);
+
+#endif
 
 void spi_write_byte(uint8_t out) {
     spi_wait_for_txe();

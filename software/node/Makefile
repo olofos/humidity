@@ -46,7 +46,7 @@ INCLUDES += -I$(CURDIR)/src
 
 TST_CC = gcc
 TST_WRAP =
-TST_CFLAGS = -Wall -I$(SRCDIR) -ggdb -fsanitize=address -fno-omit-frame-pointer --coverage $(TST_WRAP)
+TST_CFLAGS = -Wall -I$(SRCDIR) -ggdb -fsanitize=address -fno-omit-frame-pointer --coverage $(TST_WRAP) -DUNIT_TESTING=1
 
 TST_RESULTS = $(patsubst $(TSTDIR)/test_%.c,$(TSTRESDIR)/test_%.txt,$(SOURCES_TST))
 TST_DEPS = $(TSTDEPDIR)/*.d
