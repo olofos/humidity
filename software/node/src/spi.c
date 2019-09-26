@@ -9,16 +9,23 @@ void spi_init(void)
     SPI1->CR1 = (0x0 << SPI_CR1_BR_Pos) | SPI_CR1_MSTR | SPI_CR1_SSM | SPI_CR1_SSI | SPI_CR1_SPE;
 }
 
+static void spi_wait_for(const uint32_t flag)
+{
+    while(!(SPI1->SR & flag)) {
+    }
+}
+
+static void spi_wait_for_busy(void)
+{
+    while(SPI1->SR & SPI_SR_BSY) {
+    }
+}
+
 void spi_deinit(void)
 {
-    while(!(SPI1->SR & SPI_SR_RXNE)) {
-    }
-
-    while(!(SPI1->SR & SPI_SR_TXE)) {
-    }
-
-    while(!(SPI1->SR & SPI_SR_BSY)) {
-    }
+    spi_wait_for(SPI_SR_RXNE);
+    spi_wait_for(SPI_SR_TXE);
+    spi_wait_for_busy();
 
     uint32_t dummy __attribute__((unused)) = SPI1->DR;
 
@@ -27,25 +34,20 @@ void spi_deinit(void)
 }
 
 void spi_write_byte(uint8_t out) {
-    while(!(SPI1->SR & SPI_SR_TXE)) {
-    }
-
+    spi_wait_for(SPI_SR_TXE);
     SPI1->DR = out;
 
-    while(!(SPI1->SR & SPI_SR_RXNE)) {
-    }
+    spi_wait_for(SPI_SR_RXNE);
     uint32_t dummy __attribute__((unused)) = SPI1->DR;
 }
 
 uint8_t spi_read_byte(void)
 {
-    while(!(SPI1->SR & SPI_SR_TXE)) {
-    }
+    spi_wait_for(SPI_SR_TXE);
 
     SPI1->DR = 0xFF;
 
-    while(!(SPI1->SR & SPI_SR_RXNE)) {
-    }
+    spi_wait_for(SPI_SR_RXNE);
 
     return SPI1->DR;
 }
@@ -59,16 +61,14 @@ void spi_read(uint8_t *buf, uint32_t length)
 
 void spi_write(uint8_t *buf, uint32_t length)
 {
-    while(SPI1->SR & SPI_SR_BSY) ;
+    spi_wait_for_busy();
 
     for(uint32_t i = 0; i < length; i++) {
-        while(!(SPI1->SR & SPI_SR_TXE)) {
-        }
+        spi_wait_for(SPI_SR_TXE);
 
         SPI1->DR = buf[i];
     }
 
-    while(!(SPI1->SR & SPI_SR_RXNE)) {
-    }
+    spi_wait_for(SPI_SR_RXNE);
     uint32_t dummy __attribute__((unused)) = SPI1->DR;
 }
