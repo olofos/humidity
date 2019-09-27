@@ -154,6 +154,7 @@ void spi_flash_wakeup(void)
 {
     spi_flash_cs_assert();
 
+    // Write a dummy byte to waste some time waiting for flash to wake up
     spi_write_byte(SPI_FLASH_CMD_READ_STATUS);
 
     spi_flash_cs_deassert();
