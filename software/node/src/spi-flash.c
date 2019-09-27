@@ -140,3 +140,21 @@ uint32_t spi_flash_read_id(void)
 
     return (buf[0] << 16) | (buf[1] << 8) | buf[2];
 }
+
+void spi_flash_sleep(void)
+{
+    spi_flash_cs_assert();
+
+    spi_write_byte(SPI_FLASH_CMD_ULTRA_DEEP_POWER_DOWN);
+
+    spi_flash_cs_deassert();
+}
+
+void spi_flash_wakeup(void)
+{
+    spi_flash_cs_assert();
+
+    spi_write_byte(SPI_FLASH_CMD_READ_STATUS);
+
+    spi_flash_cs_deassert();
+}
