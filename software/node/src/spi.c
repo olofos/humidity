@@ -10,11 +10,19 @@
 
 #ifndef UNIT_TESTING
 
+#define SPI_CR_BR_DIV_2   (0x0 << SPI_CR1_BR_Pos)
+#define SPI_CR_BR_DIV_4   (0x1 << SPI_CR1_BR_Pos)
+#define SPI_CR_BR_DIV_8   (0x2 << SPI_CR1_BR_Pos)
+#define SPI_CR_BR_DIV_16  (0x3 << SPI_CR1_BR_Pos)
+#define SPI_CR_BR_DIV_32  (0x4 << SPI_CR1_BR_Pos)
+#define SPI_CR_BR_DIV_64  (0x5 << SPI_CR1_BR_Pos)
+#define SPI_CR_BR_DIV_128 (0x6 << SPI_CR1_BR_Pos)
+#define SPI_CR_BR_DIV_256 (0x7 << SPI_CR1_BR_Pos)
+
 void spi_init(void)
 {
     RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;
-    SPI1->CR1 = (0x0 << SPI_CR1_BR_Pos) | SPI_CR1_MSTR | SPI_CR1_SSM | SPI_CR1_SSI;
-    SPI1->CR1 = (0x0 << SPI_CR1_BR_Pos) | SPI_CR1_MSTR | SPI_CR1_SSM | SPI_CR1_SSI | SPI_CR1_SPE;
+    SPI1->CR1 = SPI_CR_BR_DIV_2 | SPI_CR1_MSTR | SPI_CR1_SSM | SPI_CR1_SSI | SPI_CR1_SPE;
 }
 
 static void spi_wait_for_txe(void)
