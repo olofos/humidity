@@ -108,12 +108,12 @@ $(TSTRESDIR)/%.txt: $(TSTBINDIR)/%
 $(TSTOBJDIR)/%.o : $(TSTDIR)/%.c
 	@echo CC $@
 	$(V)$(TST_CC) $(TST_CFLAGS)  $(INCLUDES) -c $< -o $@
-	$(V)$(TST_CC) -MM -MT $@ $(TST_CFLAGS) $(INCLUDES) $< > $(TSTDEPDIR)$*.d
+	$(V)$(TST_CC) -MM -MT $@ $(TST_CFLAGS) $(INCLUDES) $< > $(TSTDEPDIR)/$*.d
 
 $(TSTOBJDIR)/%.o : $(SRCDIR)/%.c
 	@echo CC $@
 	$(V)$(TST_CC) $(TST_CFLAGS)  $(INCLUDES) -c $< -o $@
-	$(V)$(TST_CC) -MM -MT $@ $(TST_CFLAGS) $(INCLUDES) $< > $(TSTDEPDIR)$*.d
+	$(V)$(TST_CC) -MM -MT $@ $(TST_CFLAGS) $(INCLUDES) $< > $(TSTDEPDIR)/$*.d
 
 $(TSTBINDIR)/test_%: $(TSTOBJDIR)/test_%.o $(TSTOBJDIR)/%.o
 	@echo CC $@
