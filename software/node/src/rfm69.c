@@ -29,12 +29,6 @@ static void rfm69_wait_irq1(uint8_t flag)
         ;
 }
 
-static void rfm69_wait_irq2(uint8_t flag)
-{
-    while(!(rfm69_read_byte(RFM69_REG_IRQ_FLAGS2) & flag))
-        ;
-}
-
 void rfm69_set_mode(uint8_t mode)
 {
     // Note: does not support SequencerOff or Listen Mode
@@ -109,13 +103,10 @@ uint8_t rfm69_get_version(void)
 
 void rfm69_send(uint8_t *buf, uint8_t len)
 {
-    uint8_t header[4] = { 0xFF, 0xFF, 0x00, 0x00 };
+    uint8_t header[5] = { len + 4, 0xFF, 0xFF, 0x00, 0x00 };
 
-    rfm69_fifo_write_begin();
-    rfm69_fifo_write_byte(len + 4);
-    rfm69_fifo_write(header, sizeof(header));
-    rfm69_fifo_write(buf, len);
-    rfm69_fifo_write_end();
+    rfm69_write(RFM69_REG_FIFO, header, sizeof(header));
+    rfm69_write(RFM69_REG_FIFO, buf, len);
 
     if(rfm69_pa_boost) {
         rfm69_write_byte(RFM69_REG_TEST_PA1, RFM69_PA1_BOOST);
@@ -125,7 +116,7 @@ void rfm69_send(uint8_t *buf, uint8_t len)
     rfm69_write_byte(RFM69_REG_DIO_MAPPING1, RFM69_DIO0_MAP_TX);
     rfm69_set_mode(RFM69_MODE_TX);
 
-    rfm69_wait_irq2(RFM69_IRQ2_PACKET_SENT);
+    rfm69_wait_for_packet_sent();
 
     printf("RFM69 Flags: %02X %02X\r\n", rfm69_read_byte(RFM69_REG_IRQ_FLAGS1), rfm69_read_byte(RFM69_REG_IRQ_FLAGS2));
 
@@ -142,22 +133,20 @@ struct rfm69_packet *rfm69_receive(void)
     rfm69_write_byte(RFM69_REG_DIO_MAPPING1, RFM69_DIO0_MAP_RX);
     rfm69_set_mode(RFM69_MODE_RX);
 
-    if(!rfm69_wait_for_packet()) {
+    if(!rfm69_wait_for_payload_ready()) {
         rfm69_set_mode(RFM69_MODE_STANDBY);
         return NULL;
     }
 
     rfm69_set_mode(RFM69_MODE_STANDBY);
 
-    rfm69_fifo_read_begin();
-
-    uint8_t len = rfm69_fifo_read_byte();
+    uint8_t len = rfm69_read_byte(RFM69_REG_FIFO);
 
     if(len < 4) {
         // Handle invalid packet
         return NULL;
     } else {
-        rfm69_fifo_read(rfm69_packet.buf, len);
+        rfm69_read(RFM69_REG_FIFO, rfm69_packet.buf, len);
         rfm69_packet.len = len;
 
         return &rfm69_packet;
