@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <stdio.h>
 #include "rfm69-registers.h"
 #include "rfm69-hal.h"
 #include "rfm69.h"
@@ -116,8 +115,6 @@ int rfm69_write(uint8_t *buf, uint8_t len)
     rfm69_set_mode(RFM69_MODE_TX);
 
     rfm69_wait_for_packet_sent();
-
-    printf("RFM69 Flags: %02X %02X\r\n", rfm69_hal_read_byte(RFM69_REG_IRQ_FLAGS1), rfm69_hal_read_byte(RFM69_REG_IRQ_FLAGS2));
 
     rfm69_set_mode(RFM69_MODE_STANDBY);
 
