@@ -92,7 +92,11 @@ uint8_t rfm69_get_version(void)
     return rfm69_hal_read_byte(RFM69_REG_VERSION);
 }
 
-
+// The RSSI in dBm is given by -rfm69_get_rssi() / 2
+int rfm69_get_rssi(void)
+{
+    return rfm69_hal_read_byte(RFM69_REG_RSSI_VALUE);
+}
 
 
 int rfm69_write(uint8_t *buf, uint8_t len)

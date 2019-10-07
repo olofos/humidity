@@ -2,8 +2,10 @@
 #define RFM69_H_
 
 void rfm69_init(void);
-uint8_t rfm69_get_version(void);
 void rfm69_set_mode(uint8_t mode);
+
+uint8_t rfm69_get_version(void);
+int rfm69_get_rssi(void);
 
 int rfm69_write(uint8_t *buf, uint8_t len);
 int rfm69_read(uint8_t *buf, uint8_t len);
