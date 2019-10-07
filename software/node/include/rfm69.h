@@ -1,16 +1,12 @@
 #ifndef RFM69_H_
 #define RFM69_H_
 
-struct rfm69_packet {
-    uint8_t len;
-    uint8_t *buf;
-};
-
 void rfm69_init(void);
 uint8_t rfm69_get_version(void);
 void rfm69_set_mode(uint8_t mode);
-void rfm69_send(uint8_t *buf, uint8_t len);
-struct rfm69_packet *rfm69_receive(void);
+
+int rfm69_write(uint8_t *buf, uint8_t len);
+int rfm69_read(uint8_t *buf, uint8_t len);
 
 #define RFM69_MODE_SLEEP   (0x0 << 2)
 #define RFM69_MODE_STANDBY (0x1 << 2)

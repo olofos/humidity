@@ -13,12 +13,7 @@
 
 static uint8_t rfm69_sync_word[] = { 0x2D, 0xD4 };
 static uint8_t rfm69_pa_boost;
-
-uint8_t rfm69_packet_buf[64];
-struct rfm69_packet rfm69_packet = {
-    .len = 0,
-    .buf = rfm69_packet_buf,
-};
+static uint8_t rfm69_temp_buf[64];
 
 // Follow Adafruits circuit python driver
 // https://github.com/adafruit/Adafruit_CircuitPython_RFM69/blob/master/adafruit_rfm69.py
@@ -101,8 +96,12 @@ uint8_t rfm69_get_version(void)
 
 
 
-void rfm69_send(uint8_t *buf, uint8_t len)
+int rfm69_write(uint8_t *buf, uint8_t len)
 {
+    if(len > 60) {
+        len = 60;
+    }
+
     uint8_t header[5] = { len + 4, 0xFF, 0xFF, 0x00, 0x00 };
 
     rfm69_hal_write(RFM69_REG_FIFO, header, sizeof(header));
@@ -126,16 +125,18 @@ void rfm69_send(uint8_t *buf, uint8_t len)
         rfm69_hal_write_byte(RFM69_REG_TEST_PA1, RFM69_PA1_NORMAL);
         rfm69_hal_write_byte(RFM69_REG_TEST_PA2, RFM69_PA2_NORMAL);
     }
+
+    return len;
 }
 
-struct rfm69_packet *rfm69_receive(void)
+int rfm69_read(uint8_t *buf, uint8_t n)
 {
     rfm69_hal_write_byte(RFM69_REG_DIO_MAPPING1, RFM69_DIO0_MAP_RX);
     rfm69_set_mode(RFM69_MODE_RX);
 
     if(!rfm69_wait_for_payload_ready()) {
         rfm69_set_mode(RFM69_MODE_STANDBY);
-        return NULL;
+        return -1;
     }
 
     rfm69_set_mode(RFM69_MODE_STANDBY);
@@ -144,11 +145,13 @@ struct rfm69_packet *rfm69_receive(void)
 
     if(len < 4) {
         // Handle invalid packet
-        return NULL;
+        return -1;
+    } else if(len > n) {
+        rfm69_hal_read(RFM69_REG_FIFO, buf, n);
+        rfm69_hal_read(RFM69_REG_FIFO, rfm69_temp_buf, len - n);
+        return n;
     } else {
-        rfm69_hal_read(RFM69_REG_FIFO, rfm69_packet.buf, len);
-        rfm69_packet.len = len;
-
-        return &rfm69_packet;
+        rfm69_hal_read(RFM69_REG_FIFO, buf, len);
+        return len;
     }
 }
