@@ -16,7 +16,7 @@ static void rfm69_cs_deassert(void)
 }
 
 
-void rfm69_write_byte(uint8_t reg, uint8_t val)
+void rfm69_hal_write_byte(uint8_t reg, uint8_t val)
 {
     rfm69_cs_assert();
 
@@ -26,7 +26,7 @@ void rfm69_write_byte(uint8_t reg, uint8_t val)
     rfm69_cs_deassert();
 }
 
-void rfm69_write(uint8_t reg, uint8_t *buf, uint8_t len)
+void rfm69_hal_write(uint8_t reg, uint8_t *buf, uint8_t len)
 {
     rfm69_cs_assert();
 
@@ -36,7 +36,7 @@ void rfm69_write(uint8_t reg, uint8_t *buf, uint8_t len)
     rfm69_cs_deassert();
 }
 
-uint8_t rfm69_read_byte(uint8_t reg)
+uint8_t rfm69_hal_read_byte(uint8_t reg)
 {
     rfm69_cs_assert();
 
@@ -48,7 +48,7 @@ uint8_t rfm69_read_byte(uint8_t reg)
     return val;
 }
 
-void rfm69_read(uint8_t reg, uint8_t *buf, uint8_t len)
+void rfm69_hal_read(uint8_t reg, uint8_t *buf, uint8_t len)
 {
     rfm69_cs_assert();
 
@@ -63,7 +63,7 @@ int rfm69_wait_for_payload_ready(void)
     uint32_t start = systick;
 
     while((systick - start) < 2000) {
-        if(rfm69_read_byte(RFM69_REG_IRQ_FLAGS2) & RFM69_IRQ2_PAYLOAD_READY) {
+        if(rfm69_hal_read_byte(RFM69_REG_IRQ_FLAGS2) & RFM69_IRQ2_PAYLOAD_READY) {
             return 1;
         }
     }
@@ -77,7 +77,7 @@ int rfm69_wait_for_packet_sent(void)
     uint32_t start = systick;
 
     while((systick - start) < 2000) {
-        if(rfm69_read_byte(RFM69_REG_IRQ_FLAGS2) & RFM69_IRQ2_PACKET_SENT) {
+        if(rfm69_hal_read_byte(RFM69_REG_IRQ_FLAGS2) & RFM69_IRQ2_PACKET_SENT) {
             return 1;
         }
     }
