@@ -1,4 +1,6 @@
 #include <stdint.h>
+#include <errno.h>
+
 #include "rfm69-registers.h"
 #include "rfm69-hal.h"
 #include "rfm69.h"
@@ -137,7 +139,7 @@ int rfm69_read(uint8_t *buf, uint8_t n)
 
     if(!rfm69_wait_for_payload_ready()) {
         rfm69_set_mode(RFM69_MODE_STANDBY);
-        return -1;
+        return -ETIMEDOUT;
     }
 
     rfm69_set_mode(RFM69_MODE_STANDBY);
@@ -146,7 +148,7 @@ int rfm69_read(uint8_t *buf, uint8_t n)
 
     if(len < 4) {
         // Handle invalid packet
-        return -1;
+        return -EIO;
     } else if(len > n) {
         rfm69_hal_read(RFM69_REG_FIFO, buf, n);
         rfm69_hal_read(RFM69_REG_FIFO, rfm69_temp_buf, len - n);
