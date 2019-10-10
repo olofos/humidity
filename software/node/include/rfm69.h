@@ -2,6 +2,7 @@
 #define RFM69_H_
 
 void rfm69_init(void);
+void rfm69_deinit(void);
 void rfm69_set_mode(uint8_t mode);
 
 uint8_t rfm69_get_version(void);

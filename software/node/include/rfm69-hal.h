@@ -1,6 +1,9 @@
 #ifndef RFM69_HAL_H_
 #define RFM69_HAL_H_
 
+void rfm69_hal_init(void);
+void rfm69_hal_deinit(void);
+
 void rfm69_hal_write_byte(uint8_t reg, uint8_t val);
 void rfm69_hal_write(uint8_t reg, uint8_t *buf, uint8_t len);
 
