@@ -127,7 +127,7 @@ int rfm69_write(uint8_t *buf, uint8_t len)
     rfm69_hal_write_byte(RFM69_REG_DIO_MAPPING1, RFM69_DIO0_MAP_TX);
     rfm69_set_mode(RFM69_MODE_TX);
 
-    rfm69_wait_for_packet_sent();
+    int ret = rfm69_wait_for_packet_sent();
 
     rfm69_set_mode(RFM69_MODE_STANDBY);
 
@@ -136,7 +136,11 @@ int rfm69_write(uint8_t *buf, uint8_t len)
         rfm69_hal_write_byte(RFM69_REG_TEST_PA2, RFM69_PA2_NORMAL);
     }
 
-    return len;
+    if(ret <= 0) {
+        return ret;
+    } else {
+        return len;
+    }
 }
 
 int rfm69_read(uint8_t *buf, uint8_t n)
@@ -144,12 +148,13 @@ int rfm69_read(uint8_t *buf, uint8_t n)
     rfm69_hal_write_byte(RFM69_REG_DIO_MAPPING1, RFM69_DIO0_MAP_RX);
     rfm69_set_mode(RFM69_MODE_RX);
 
-    if(!rfm69_wait_for_payload_ready()) {
-        rfm69_set_mode(RFM69_MODE_STANDBY);
-        return -ETIMEDOUT;
-    }
+    int ret = rfm69_wait_for_payload_ready();
 
     rfm69_set_mode(RFM69_MODE_STANDBY);
+
+    if(ret <= 0) {
+        return ret;
+    }
 
     uint8_t len = rfm69_hal_read_byte(RFM69_REG_FIFO);
 
