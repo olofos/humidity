@@ -53,7 +53,7 @@ TST_DEPS = $(TSTDEPDIR)/*.d
 
 .PHONY: all bin flash clean erase test build_dirs
 
-all: build_dirs $(BINDIR)/$(TARGET).hex
+all: build_dirs $(BINDIR)/$(TARGET).elf
 
 -include $(DEPS)
 -include $(TST_DEPS)
@@ -67,13 +67,25 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.s
 	@echo CC $@
 	$(V)$(CC) $(CFLAGS) -c $< -o $@
 
-$(BINDIR)/$(TARGET).elf : $(OBJ)
+$(OBJDIR)/$(TARGET).elf : $(OBJ)
 	@echo LINKING $@
 	$(V)$(CC) $^ $(LDFLAGS) -o $@
+
+$(BINDIR)/$(TARGET).elf : $(OBJDIR)/$(TARGET).elf $(OBJDIR)/$(TARGET).sum
+	@echo COPYING $@
+	$(V)$(OBJCOPY) --update-section .checksum=$(OBJDIR)/$(TARGET).sum $(OBJDIR)/$(TARGET).elf $(BINDIR)/$(TARGET).elf
 
 %.hex : %.elf
 	@echo CREATING HEX IMAGE $@
 	$(V)$(OBJCOPY) -O ihex $< $(@)
+
+$(OBJDIR)/$(TARGET).bin : $(OBJDIR)/$(TARGET).elf
+	@echo CREATING HEX IMAGE $@
+	$(V)$(OBJCOPY) -O binary $< $(@)
+
+%.sum : %.bin
+	@echo CREATING CHECKSUM $@
+	$(V)b2sum -l 64 -b $< | cut -d' ' -f1 | xxd -r -p - > $@
 
 flash: $(BINDIR)/$(TARGET).hex
 	@echo Not implemented
@@ -121,7 +133,7 @@ $(TSTBINDIR)/test_%: $(TSTOBJDIR)/test_%.o $(TSTOBJDIR)/%.o
 
 clean:
 	@echo Cleaning
-	$(V)-rm -f $(OBJ) $(TSTOBJDIR)/*.o $(TSTBINDIR)/test_* $(TSTRESDIR)/*.txt $(DEPDIR)/*.d $(BINDIR)/*
+	$(V)-rm -f $(OBJ) $(TSTOBJDIR)/*.o $(TSTBINDIR)/test_* $(TSTRESDIR)/*.txt $(DEPDIR)/*.d $(BINDIR)/* $(OBJDIR)/*
 
 .PRECIOUS: $(TSTBINDIR)/test_%
 .PRECIOUS: $(DEPDIR)/%.d
