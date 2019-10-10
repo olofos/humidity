@@ -42,7 +42,8 @@ _Min_Stack_Size = 0x400; /* required amount of stack */
 MEMORY
 {
 RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 8K
-FLASH (rx)     : ORIGIN = 0x08000000, LENGTH = 32K
+FLASH (rx)     : ORIGIN = 0x08000000, LENGTH = 0x7FF0
+FLASH_CONST (r): ORIGIN = 0x08007FF0, LENGTH = 0x10
 EEPROM (r)     : ORIGIN = 0x08080000, LENGTH = 1K
 }
 
@@ -56,6 +57,13 @@ SECTIONS
     KEEP(*(.isr_vector)) /* Startup code */
     . = ALIGN(4);
   } >FLASH
+
+  .checksum :
+  {
+    . = ALIGN(4);
+    KEEP(*(.checksum))
+    . = ALIGN(4);
+  } > FLASH_CONST
 
   /* The program code and other data goes into FLASH */
   .text :
@@ -115,7 +123,7 @@ SECTIONS
   _sidata = LOADADDR(.data);
 
   /* Initialized data sections goes into RAM, load LMA copy after code */
-  .data : 
+  .data :
   {
     . = ALIGN(4);
     _sdata = .;        /* create a global symbol at data start */
@@ -126,7 +134,7 @@ SECTIONS
     _edata = .;        /* define a global symbol at data end */
   } >RAM AT> FLASH
 
-  
+
   /* Uninitialized data section */
   . = ALIGN(4);
   .bss :
@@ -154,7 +162,7 @@ SECTIONS
     . = ALIGN(8);
   } >RAM
 
-  
+
 
   /* Remove information from the standard libraries */
   /DISCARD/ :
