@@ -5,6 +5,8 @@ void rfm69_init(void);
 void rfm69_deinit(void);
 void rfm69_set_mode(uint8_t mode);
 
+int rfm69_test(void);
+
 uint8_t rfm69_get_version(void);
 int rfm69_get_rssi(void);
 
