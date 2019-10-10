@@ -105,7 +105,7 @@ void spi_read(uint8_t *buf, uint32_t length)
     }
 }
 
-void spi_write(uint8_t *buf, uint32_t length)
+void spi_write(const uint8_t *buf, uint32_t length)
 {
     for(uint32_t i = 0; i < length; i++) {
         spi_wait_for_txe();
