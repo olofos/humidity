@@ -9,6 +9,7 @@ uint8_t rfm69_get_version(void);
 int rfm69_get_rssi(void);
 
 void rfm69_set_node_address(uint8_t address);
+void rfm69_set_aes_key(const uint8_t* key);
 
 int rfm69_write(uint8_t address, uint8_t *buf, uint8_t len);
 int rfm69_read(uint8_t *buf, uint8_t len);

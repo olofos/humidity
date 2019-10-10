@@ -115,6 +115,18 @@ void rfm69_set_node_address(uint8_t address)
     rfm69_hal_write_byte(RFM69_REG_NODE_ADRS, address);
 }
 
+void rfm69_set_aes_key(const uint8_t* key)
+{
+    const uint8_t config = rfm69_hal_read_byte(RFM69_REG_PACKET_CONFIG2) & ~RFM69_PACKET_CONFIG2_AES_ON;
+
+    if(key) {
+        rfm69_hal_write(RFM69_REG_AES_KEY1, key, 16);
+        rfm69_hal_write_byte(RFM69_REG_PACKET_CONFIG2, config | RFM69_PACKET_CONFIG2_AES_ON);
+    } else {
+        rfm69_hal_write_byte(RFM69_REG_PACKET_CONFIG2, config | RFM69_PACKET_CONFIG2_AES_OFF);
+    }
+}
+
 int rfm69_write(uint8_t address, uint8_t *buf, uint8_t len)
 {
     if(len > 62) {
