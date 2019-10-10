@@ -141,6 +141,11 @@ uint32_t spi_flash_read_id(void)
     return (buf[0] << 16) | (buf[1] << 8) | buf[2];
 }
 
+int spi_flash_test(void)
+{
+    return spi_flash_read_id() != 0;
+}
+
 void spi_flash_sleep(void)
 {
     spi_flash_cs_assert();
