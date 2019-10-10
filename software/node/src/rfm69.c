@@ -55,6 +55,8 @@ void rfm69_set_tx_power(int power)
 
 void rfm69_init(void)
 {
+    rfm69_hal_init();
+
     rfm69_set_mode(RFM69_MODE_STANDBY);
 
     rfm69_hal_write_byte(RFM69_REG_FIFO_THRESH, 0x8F);          // Start packet transmission when FIFO not empty
@@ -87,6 +89,11 @@ void rfm69_init(void)
     rfm69_hal_write_byte(RFM69_REG_PACKET_CONFIG2, RFM69_PACKET_CONFIG2_AUTO_RX_RESTART_ON); // Keep default
 
     rfm69_set_tx_power(1);
+}
+
+void rfm69_deinit(void)
+{
+    rfm69_hal_deinit();
 }
 
 uint8_t rfm69_get_version(void)

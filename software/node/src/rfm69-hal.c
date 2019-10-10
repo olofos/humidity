@@ -5,6 +5,14 @@
 #include "systick.h"
 #include "gpio.h"
 
+void rfm69_hal_init(void)
+{
+}
+
+void rfm69_hal_deinit(void)
+{
+}
+
 static void rfm69_cs_assert(void)
 {
     GPIOA->BSRR = GPIO_BSRR_BR_4;
