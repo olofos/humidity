@@ -66,29 +66,29 @@ void rfm69_hal_read(uint8_t reg, uint8_t *buf, uint8_t len)
     rfm69_cs_deassert();
 }
 
-int rfm69_wait_for_payload_ready(void)
+int rfm69_wait_for_interrupt(uint32_t timeout)
 {
     uint32_t start = systick;
+    int result = 0;
 
-    while((systick - start) < 2000) {
-        if(rfm69_hal_read_byte(RFM69_REG_IRQ_FLAGS2) & RFM69_IRQ2_PAYLOAD_READY) {
-            return 1;
+    GPIOA->MODER = (GPIOA->MODER & ~(GPIO_MODER_MASK << 16)) | (GPIO_MODER_INPUT << 16);
+    while((systick - start) < timeout) {
+        if(GPIOA->IDR & (1 << 8)) {
+            result = 1;
+            break;
         }
     }
 
-    return 0;
+    GPIOA->MODER = (GPIOA->MODER & ~(GPIO_MODER_MASK << 16)) | (GPIO_MODER_ANALOG << 16);
+    return result;
 }
 
+int rfm69_wait_for_payload_ready(void)
+{
+    return rfm69_wait_for_interrupt(50);
+}
 
 int rfm69_wait_for_packet_sent(void)
 {
-    uint32_t start = systick;
-
-    while((systick - start) < 2000) {
-        if(rfm69_hal_read_byte(RFM69_REG_IRQ_FLAGS2) & RFM69_IRQ2_PACKET_SENT) {
-            return 1;
-        }
-    }
-
-    return 0;
+    return rfm69_wait_for_interrupt(50);
 }
