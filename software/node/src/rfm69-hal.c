@@ -34,7 +34,7 @@ void rfm69_hal_write_byte(uint8_t reg, uint8_t val)
     rfm69_cs_deassert();
 }
 
-void rfm69_hal_write(uint8_t reg, uint8_t *buf, uint8_t len)
+void rfm69_hal_write(uint8_t reg, const uint8_t *buf, uint8_t len)
 {
     rfm69_cs_assert();
 

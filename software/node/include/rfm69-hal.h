@@ -5,7 +5,7 @@ void rfm69_hal_init(void);
 void rfm69_hal_deinit(void);
 
 void rfm69_hal_write_byte(uint8_t reg, uint8_t val);
-void rfm69_hal_write(uint8_t reg, uint8_t *buf, uint8_t len);
+void rfm69_hal_write(uint8_t reg, const uint8_t *buf, uint8_t len);
 
 uint8_t rfm69_hal_read_byte(uint8_t reg);
 void rfm69_hal_read(uint8_t reg, uint8_t *buf, uint8_t len);
