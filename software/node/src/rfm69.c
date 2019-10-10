@@ -16,6 +16,7 @@
 static uint8_t rfm69_sync_word[] = RFM69_SYNC_WORD;
 static uint8_t rfm69_pa_boost;
 static uint8_t rfm69_temp_buf[64];
+static uint8_t rfm69_node_address;
 
 // Follow Adafruits circuit python driver
 // https://github.com/adafruit/Adafruit_CircuitPython_RFM69/blob/master/adafruit_rfm69.py
@@ -110,18 +111,20 @@ int rfm69_get_rssi(void)
 
 void rfm69_set_node_address(uint8_t address)
 {
+    rfm69_node_address = address;
     rfm69_hal_write_byte(RFM69_REG_NODE_ADRS, address);
 }
 
 int rfm69_write(uint8_t address, uint8_t *buf, uint8_t len)
 {
-    if(len > 63) {
-        len = 63;
+    if(len > 62) {
+        len = 62;
     }
 
     uint8_t header[] = {
-        len + 1,
+        len + 2,
         address,
+        rfm69_node_address,
     };
 
     rfm69_hal_write(RFM69_REG_FIFO, header, sizeof(header));
