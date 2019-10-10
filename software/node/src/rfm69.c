@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <errno.h>
 
+#include "rfm69-config.h"
 #include "rfm69-registers.h"
 #include "rfm69-hal.h"
 #include "rfm69.h"
@@ -12,7 +13,7 @@
 #define RFM69_FDEV_DIV ((uint16_t) ((RFM69_FDEV / RFM69_FSTEP) + 0.5))
 #define RFM69_FREQ_DIV ((uint32_t) (RFM69_FREQUENCY / RFM69_FSTEP))
 
-static uint8_t rfm69_sync_word[] = { 0x2D, 0xD4 };
+static uint8_t rfm69_sync_word[] = RFM69_SYNC_WORD;
 static uint8_t rfm69_pa_boost;
 static uint8_t rfm69_temp_buf[64];
 

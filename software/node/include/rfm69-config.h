@@ -1,0 +1,11 @@
+#ifndef RFM69_CONFIG_H_
+#define RFM69_CONFIG_H_
+
+#define RFM69_BIT_RATE 250000UL
+#define RFM69_FDEV     250000UL
+#define RFM69_FREQUENCY 433000000UL
+
+#define RFM69_SYNC_WORD { 0x2D, 0xD4 }
+#define RFM69_PREAMBLE_LEN 4
+
+#endif
