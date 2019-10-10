@@ -126,7 +126,7 @@ int i2c_register_read(uint8_t i2c_address, uint16_t reg, uint8_t *buf, uint8_t n
 }
 
 
-int i2c_register_write(uint8_t i2c_address, uint16_t reg, uint8_t *buf, uint8_t num, uint32_t start, uint32_t timeout)
+int i2c_register_write(uint8_t i2c_address, uint16_t reg, const uint8_t *buf, uint8_t num, uint32_t start, uint32_t timeout)
 {
     I2C1->CR2 = (i2c_address << 1) | ((num + 2) << I2C_CR2_NBYTES_Pos)  | (0 << I2C_CR2_RD_WRN_Pos) | I2C_CR2_AUTOEND | I2C_CR2_START;
 
