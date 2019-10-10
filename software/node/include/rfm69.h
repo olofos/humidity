@@ -8,7 +8,9 @@ void rfm69_set_mode(uint8_t mode);
 uint8_t rfm69_get_version(void);
 int rfm69_get_rssi(void);
 
-int rfm69_write(uint8_t *buf, uint8_t len);
+void rfm69_set_node_address(uint8_t address);
+
+int rfm69_write(uint8_t address, uint8_t *buf, uint8_t len);
 int rfm69_read(uint8_t *buf, uint8_t len);
 
 #define RFM69_MODE_SLEEP   (0x0 << 2)

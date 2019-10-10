@@ -77,7 +77,7 @@ void rfm69_init(void)
     rfm69_hal_write_byte(RFM69_REG_RX_BW, 0xE0); // ??
     rfm69_hal_write_byte(RFM69_REG_AFC_BW, 0xE0); // ??
 
-    rfm69_hal_write_byte(RFM69_REG_PACKET_CONFIG1, RFM69_PACKET_CONFIG1_FORMAT_VARIABLE | RFM69_PACKET_CONFIG1_DC_WHITENING | RFM69_PACKET_CONFIG1_CRC_ON | RFM69_PACKET_CONFIG1_CRC_CLEAR | RFM69_PACKET_CONFIG1_ADDRESS_FILTER_NONE);
+    rfm69_hal_write_byte(RFM69_REG_PACKET_CONFIG1, RFM69_PACKET_CONFIG1_FORMAT_VARIABLE | RFM69_PACKET_CONFIG1_DC_WHITENING | RFM69_PACKET_CONFIG1_CRC_ON | RFM69_PACKET_CONFIG1_CRC_CLEAR | RFM69_PACKET_CONFIG1_ADDRESS_FILTER);
 
     rfm69_hal_write_byte(RFM69_REG_PREAMBLE_MSB, (RFM69_PREAMBLE_LEN >> 8) & 0xFF);
     rfm69_hal_write_byte(RFM69_REG_PREAMBLE_LSB, RFM69_PREAMBLE_LEN & 0xFF);
@@ -107,14 +107,21 @@ int rfm69_get_rssi(void)
     return rfm69_hal_read_byte(RFM69_REG_RSSI_VALUE);
 }
 
-
-int rfm69_write(uint8_t *buf, uint8_t len)
+void rfm69_set_node_address(uint8_t address)
 {
-    if(len > 60) {
-        len = 60;
+    rfm69_hal_write_byte(RFM69_REG_NODE_ADRS, address);
+}
+
+int rfm69_write(uint8_t address, uint8_t *buf, uint8_t len)
+{
+    if(len > 63) {
+        len = 63;
     }
 
-    uint8_t header[5] = { len + 4, 0xFF, 0xFF, 0x00, 0x00 };
+    uint8_t header[] = {
+        len + 1,
+        address,
+    };
 
     rfm69_hal_write(RFM69_REG_FIFO, header, sizeof(header));
     rfm69_hal_write(RFM69_REG_FIFO, buf, len);
@@ -158,10 +165,7 @@ int rfm69_read(uint8_t *buf, uint8_t n)
 
     uint8_t len = rfm69_hal_read_byte(RFM69_REG_FIFO);
 
-    if(len < 4) {
-        // Handle invalid packet
-        return -EIO;
-    } else if(len > n) {
+    if(len > n) {
         rfm69_hal_read(RFM69_REG_FIFO, buf, n);
         rfm69_hal_read(RFM69_REG_FIFO, rfm69_temp_buf, len - n);
         return n;
