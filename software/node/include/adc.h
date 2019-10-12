@@ -10,6 +10,6 @@ struct supply_voltages {
 
 void adc_init(void);
 void adc_deinit(void);
-struct supply_voltages adc_measure_voltages(void);
+int adc_measure_voltages(struct supply_voltages *voltages);
 
 #endif

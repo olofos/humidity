@@ -2,6 +2,9 @@
 
 #include "stm32l0xx.h"
 #include "adc.h"
+#include "systick.h"
+
+#define ADC_TIMEOUT 100
 
 #define VREF_CAL (*((uint16_t*) ((uint32_t ) 0x1FF80078)))
 #define ADC_FULL_SCALE ((1<<12) - 1)
@@ -55,7 +58,7 @@ void adc_deinit(void)
     RCC->APB2ENR &= ~RCC_APB2ENR_ADCEN;
 }
 
-struct supply_voltages adc_measure_voltages(void)
+int adc_measure_voltages(struct supply_voltages *voltages)
 {
     ADC1->CHSELR = ADC_CHSELR_CHSEL17 | ADC_CHSELR_CHSEL9;
 
@@ -68,24 +71,18 @@ struct supply_voltages adc_measure_voltages(void)
 
     uint16_t vcc = (3 * (1 << ADC_VOLTAGE_SHIFT) * VREF_CAL) / m_vcc;
 
-    while(!(ADC1->ISR & ADC_ISR_EOC))
-        ;
+    uint32_t start = systick;
 
-    uint32_t m_mid = ADC1->DR;
+    while(!(ADC1->ISR & ADC_ISR_EOC)) {
+        if(systick - start >= ADC_TIMEOUT) return 0;
+    }
 
-    uint16_t vmid = (vcc * m_mid) / ADC_FULL_SCALE;
+    const uint32_t m_mid = ADC1->DR;
 
-    struct supply_voltages voltages = {
-        .vcc = vcc,
-        .vmid = vmid,
-    };
+    const uint16_t vmid = (vcc * m_mid) / ADC_FULL_SCALE;
 
-//     printf("Read #1: %04X\r\n", m_vcc);
-//     printf("Read #2: %04lX\r\n", m_mid);
-//     printf("Cal: %d\r\n", VREF_CAL);
+    voltages->vcc = vcc;
+    voltages->vmid = vmid;
 
-//     printf("V1 = %d (%04X)\r\n", vcc, vcc);
-//     printf("V2 = %d (%04X)\r\n", vmid, vmid);
-
-    return voltages;
+    return 1;
 }
