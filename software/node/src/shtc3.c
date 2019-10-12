@@ -22,8 +22,7 @@ int shtc3_read(struct shtc3_measurement *measurement)
 
     if(buf[2] != shtc3_crc(t)) return I2C_ERROR;
     if(buf[5] != shtc3_crc(h)) return I2C_ERROR;
-
-    measurement->temperature = t * 175 - (45 << 16);
+    measurement->temperature = (t * 175 - (45 << 16)) >> SHTC3_TEMPERATURE_SHIFT;
     measurement->humidity = h;
 
     return I2C_OK;
