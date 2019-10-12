@@ -1,6 +1,7 @@
 #include "stm32l0xx.h"
 #include "rtc.h"
 #include "vector.h"
+#include "systick.h"
 
 // Checksum generated during build
 static uint32_t __attribute__((section(".checksum"))) rtc_checksum[2];
@@ -32,6 +33,17 @@ int rtc_are_peripherals_initialized(void)
     }
 
     return match;
+}
+
+void rtc_wait_for_lse(void)
+{
+    while(!(RCC->CSR & RCC_CSR_LSERDY)) {
+        GPIOA->BSRR = GPIO_BSRR_BS_15;
+        delay(100);
+
+        GPIOA->BSRR = GPIO_BSRR_BR_15;
+        delay(100);
+    }
 }
 
 void rtc_set_time(struct rtc_timestamp timestamp)

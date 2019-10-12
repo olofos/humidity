@@ -10,7 +10,7 @@ struct rtc_timestamp {
 
 int rtc_is_rtc_clock_initialized(void);
 int rtc_are_peripherals_initialized(void);
-
+void rtc_wait_for_lse(void);
 int rtc_check_version(void);
 
 void rtc_set_time(struct rtc_timestamp timestamp);
