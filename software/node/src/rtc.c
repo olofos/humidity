@@ -1,5 +1,6 @@
 #include "stm32l0xx.h"
 #include "rtc.h"
+#include "vector.h"
 
 // Checksum generated during build
 static uint32_t __attribute__((section(".checksum"))) rtc_checksum[2];
@@ -60,4 +61,33 @@ struct rtc_timestamp rtc_get_time(void)
     timestamp.date = RTC->DR & 0x00FF1F3F;
 
     return timestamp;
+}
+
+void rtc_set_periodic_wakeup(uint16_t seconds)
+{
+    rtc_write_protect_unlock();
+
+    RTC->CR &= ~RTC_CR_WUTE;
+
+    while(!(RTC->ISR & RTC_ISR_WUTWF)) {
+    }
+
+    RTC->CR = (RTC->CR & ~(RTC_CR_WUCKSEL_Msk)) | (0x04 << RTC_CR_WUCKSEL_Pos) | RTC_CR_WUTIE;
+    RTC->WUTR = seconds - 1;
+
+    RTC->CR |= RTC_CR_WUTE;
+
+    rtc_write_protect_lock();
+
+    EXTI->IMR |= 1 << 20;
+    EXTI->RTSR |= 1 << 20;
+
+    NVIC_EnableIRQ(RTC_IRQn);
+
+    RTC->ISR = 0;
+}
+
+void RTC_IRQHandler(void)
+{
+    EXTI->PR = 1 << 20;
 }
