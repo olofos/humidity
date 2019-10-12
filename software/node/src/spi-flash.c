@@ -69,6 +69,7 @@ static void spi_flash_wait_until_ready(void)
     spi_flash_cs_deassert();
 }
 
+// Erase one 256 byte page
 void spi_flash_erase_page(uint32_t address)
 {
     const uint8_t address_hi  = (address & 0x00FF0000) >> 16;
