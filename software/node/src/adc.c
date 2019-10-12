@@ -58,7 +58,7 @@ void adc_deinit(void)
     RCC->APB2ENR &= ~RCC_APB2ENR_ADCEN;
 }
 
-int adc_measure_voltages(struct supply_voltages *voltages)
+int adc_measure_voltages(struct adc_supply_voltages *voltages)
 {
     ADC1->CHSELR = ADC_CHSELR_CHSEL17 | ADC_CHSELR_CHSEL9;
 
