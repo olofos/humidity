@@ -7,7 +7,7 @@
 #include "i2c.h"
 #include "systick.h"
 
-int shtc3_read(int32_t *temperature, uint32_t *humidity)
+int shtc3_read(struct shtc3_measurement *measurement)
 {
     uint32_t start = systick;
 
@@ -23,8 +23,8 @@ int shtc3_read(int32_t *temperature, uint32_t *humidity)
     if(buf[2] != shtc3_crc(t)) return I2C_ERROR;
     if(buf[5] != shtc3_crc(h)) return I2C_ERROR;
 
-    *temperature = t * 175 - (45 << 16);
-    *humidity = h;
+    measurement->temperature = t * 175 - (45 << 16);
+    measurement->humidity = h;
 
     return I2C_OK;
 }
