@@ -64,14 +64,16 @@ int adc_measure_voltages(struct adc_supply_voltages *voltages)
 
     ADC1->CR = ADC_CR_ADSTART;
 
-    while(!(ADC1->ISR & ADC_ISR_EOC))
-        ;
+    uint32_t start = systick;
+
+    while(!(ADC1->ISR & ADC_ISR_EOC)) {
+        if(systick - start >= ADC_TIMEOUT) return 0;
+    }
 
     uint16_t m_vcc = ADC1->DR;
 
     uint16_t vcc = (3 * (1 << ADC_VOLTAGE_SHIFT) * VREF_CAL) / m_vcc;
 
-    uint32_t start = systick;
 
     while(!(ADC1->ISR & ADC_ISR_EOC)) {
         if(systick - start >= ADC_TIMEOUT) return 0;
