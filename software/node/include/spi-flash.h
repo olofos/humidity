@@ -1,6 +1,8 @@
 #ifndef SPI_FLASH_H_
 #define SPI_FLASH_H_
 
+#define SPI_FLASH_PAGE_SIZE 256
+
 int spi_flash_test(void);
 
 void spi_flash_erase_page(uint32_t address);
