@@ -47,7 +47,7 @@ int sf_cbuf_push(uint8_t *data, uint8_t len)
     return len;
 }
 
-int sf_cbuf_pop(uint8_t *data, uint8_t len)
+int sf_cbuf_read(uint8_t *data, uint8_t len)
 {
     uint8_t saved_len;
 
@@ -57,7 +57,10 @@ int sf_cbuf_pop(uint8_t *data, uint8_t len)
 
     spi_flash_read(sf_cbuf_tail_address() + 1, data, len);
 
-    sf_cbuf_tail++;
-
     return len;
+}
+
+void sf_cbuf_pop(void)
+{
+    sf_cbuf_tail++;
 }

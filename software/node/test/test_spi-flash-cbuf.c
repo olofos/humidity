@@ -76,7 +76,7 @@ static void test__spi_flash_cbuf_len__returns_the_length_when_length_is_one(void
         uint8_t d = i & 0xFF;
         sf_cbuf_push(&d, 1);
         assert_int_equal(sf_cbuf_len(), 1);
-        sf_cbuf_pop(&d, 1);
+        sf_cbuf_pop();
     }
 }
 
@@ -87,7 +87,7 @@ static void test__spi_flash_cbuf_len__returns_the_length_when_length_is_two(void
     for(int i = 0; i < 512; i++) {
         sf_cbuf_push(&d, 1);
         assert_int_equal(sf_cbuf_len(), 2);
-        sf_cbuf_pop(&d, 1);
+        sf_cbuf_pop();
     }
 }
 
@@ -105,7 +105,7 @@ static void test__spi_flash_cbuf_empty__returns_true_when_empty(void **state)
     uint8_t d = 0xAB;
     for(int i = 0; i < 512; i++) {
         sf_cbuf_push(&d, 1);
-        uint8_t dummy __attribute__((unused)) =  sf_cbuf_pop(&d, 1);
+        sf_cbuf_pop();
         assert_true(sf_cbuf_empty());
     }
 }
@@ -145,15 +145,21 @@ static void test__spi_flash_cbuf_push__and__cbuf_pop__works(void **state)
         assert_int_equal(len, sizeof(w3));
 
 
-        len = sf_cbuf_pop(r, sizeof(r));
+        len = sf_cbuf_read(r, sizeof(r));
+        sf_cbuf_pop();
+
         assert_int_equal(len, sizeof(w1));
         assert_memory_equal(w1, r, sizeof(w1));
 
-        len = sf_cbuf_pop(r, sizeof(r));
+        len = sf_cbuf_read(r, sizeof(r));
+        sf_cbuf_pop();
+
         assert_int_equal(len, sizeof(w2));
         assert_memory_equal(w2, r, sizeof(w2));
 
-        len = sf_cbuf_pop(r, sizeof(r));
+        len = sf_cbuf_read(r, sizeof(r));
+        sf_cbuf_pop();
+
         assert_int_equal(len, sizeof(w3));
         assert_memory_equal(w3, r, sizeof(w3));
     }
