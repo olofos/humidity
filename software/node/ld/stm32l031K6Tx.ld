@@ -134,6 +134,17 @@ SECTIONS
     _edata = .;        /* define a global symbol at data end */
   } >RAM AT> FLASH
 
+  _si_bootloader = LOADADDR(.bootloader);
+
+  .bootloader :
+  {
+    . = ALIGN(4);
+    _s_bootloader = .;
+    *(.bootloader)
+    . = ALIGN(4);
+    _e_bootloader = .;
+  } >RAM AT> FLASH
+
 
   /* Uninitialized data section */
   . = ALIGN(4);
