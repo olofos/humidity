@@ -28,6 +28,8 @@ void adc_init(void)
     ADC1->CFGR1 = ADC_CFGR1_SCANDIR;
     ADC1->CFGR2 = (1UL << ADC_CFGR2_CKMODE_Pos);
 
+    ADC1->SMPR = 0x07; // 160.5 ADC clock cycles sampling time
+
     if(!(ADC1->ISR & ADC_ISR_EOCAL)) {
         adc_cal();
     }
