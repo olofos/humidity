@@ -62,7 +62,7 @@ static void gpio_init(void)
         (GPIO_OTYPER_OD << 11) ;   // PA11: RFM69 Reset
 
     GPIOA->OSPEEDR =
-        (GPIO_OSPEEDR_MID <<  2) | // PA1:  LEDR
+        (GPIO_OSPEEDR_MID <<  2) | // PA1:  LEDG
         (GPIO_OSPEEDR_MID <<  4) | // PA2:  USRT2 TX
         (GPIO_OSPEEDR_HI  <<  8) | // PA4:  RFM69 CS
         (GPIO_OSPEEDR_VHI << 10) | // PA5:  SPI1 SCK
