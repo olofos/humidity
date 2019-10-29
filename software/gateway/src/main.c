@@ -148,56 +148,62 @@ int main(void)
                 pkg_read_timestamp(p, &pkg_timestamp);
                 time_t timestamp = convert_pkg_timestamp_to_time(pkg_timestamp);
 
-                uint16_t humidity_raw = pkg_read_word(p);
-                int16_t temperature_raw = pkg_read_word(p);
-                uint16_t vcc_raw = pkg_read_word(p);
-                uint16_t vmid_raw = pkg_read_word(p);
+                if(pkg_timestamp.year > 0) {
+                    uint16_t humidity_raw = pkg_read_word(p);
+                    int16_t temperature_raw = pkg_read_word(p);
+                    uint16_t vcc_raw = pkg_read_word(p);
+                    uint16_t vmid_raw = pkg_read_word(p);
 
-                double humidity = (100.0 * humidity_raw) / (1 << 16);
-                double temperature = ((double) temperature_raw) / (1 << SHTC3_TEMPERATURE_SHIFT);
-                double vcc = ((double) vcc_raw) / (1 << ADC_VOLTAGE_SHIFT);
-                double vmid = ((double) vmid_raw) / (1 << ADC_VOLTAGE_SHIFT);
+                    double humidity = (100.0 * humidity_raw) / (1 << 16);
+                    double temperature = ((double) temperature_raw) / (1 << SHTC3_TEMPERATURE_SHIFT);
+                    double vcc = ((double) vcc_raw) / (1 << ADC_VOLTAGE_SHIFT);
+                    double vmid = ((double) vmid_raw) / (1 << ADC_VOLTAGE_SHIFT);
 
-                int ret = db_add_measurement(node, timestamp, humidity, temperature, vcc, vmid);
-                if(ret == DB_OK) {
-                    uint8_t flags = 0x00;
+                    int ret = db_add_measurement(node, timestamp, humidity, temperature, vcc, vmid);
+                    if(ret == DB_OK) {
+                        uint8_t flags = 0x00;
 
-                    int uptodate = db_check_firmware_is_uptodate(node);
+                        int uptodate = db_check_firmware_is_uptodate(node);
 
-                    if(!uptodate) {
-                        uint64_t latest_hash = db_get_latest_firmware_hash();
+                        if(!uptodate) {
+                            uint64_t latest_hash = db_get_latest_firmware_hash();
 
-                        if(latest_hash) {
-                            flags |= PKG_FLAG_UPDATE_AVAILABLE;
+                            if(latest_hash) {
+                                flags |= PKG_FLAG_UPDATE_AVAILABLE;
+                            }
                         }
+
+                        pkg_write_byte(p, PKG_ACK);
+                        pkg_write_byte(p, flags);
+                        pkg_write(node, p);
+
+                        printf("New measurement\n");
+                        printf("Node id:     %d\n", node);
+                        printf("Timestamp:   %s", ctime(&timestamp));
+                        printf("Temperature: %.2fC\n", temperature);
+                        printf("Humidity:    %.2f%%\n", humidity);
+                        printf("VCC:         %.2fV\n", vcc);
+                        printf("Vmid:        %.2fV\n", vmid);
+                    } else {
+                        printf("Error when adding measurement\n");
+
+                        uint8_t flags = 0x00;
+
+                        if(ret == DB_NOT_REGISTERED) {
+                            flags = PKG_FLAG_NOT_REGISTERED;
+                        }
+
+                        pkg_write_byte(p, PKG_NACK);
+                        pkg_write_byte(p, flags);
+                        pkg_write(node, p);
                     }
-
-                    pkg_write_byte(p, PKG_ACK);
-                    pkg_write_byte(p, flags);
-                    pkg_write(node, p);
-
-                    printf("New measurement\n");
-                    printf("Node id:     %d\n", node);
-                    printf("Timestamp:   %s", ctime(&timestamp));
-                    printf("Temperature: %.2fC\n", temperature);
-                    printf("Humidity:    %.2f%%\n", humidity);
-                    printf("VCC:         %.2fV\n", vcc);
-                    printf("Vmid:        %.2fV\n", vmid);
                 } else {
-                    printf("Error when adding measurement\n");
-
-                    uint8_t flags = 0x00;
-
-                    if(ret == DB_NOT_REGISTERED) {
-                        flags = PKG_FLAG_NOT_REGISTERED;
-                    }
+                    printf("Timestamp too old\n");
 
                     pkg_write_byte(p, PKG_NACK);
-                    pkg_write_byte(p, flags);
+                    pkg_write_byte(p, PKG_FLAG_NOT_REGISTERED);
                     pkg_write(node, p);
                 }
-
-
             }
             break;
             }
