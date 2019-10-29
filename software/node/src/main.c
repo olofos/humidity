@@ -15,7 +15,7 @@
 #include "rfm69-hal.h"
 #include "rtc.h"
 #include "package.h"
-
+#include "pretty-print.h"
 
 #define GATEWAY_ADDRESS 0x01
 
@@ -29,6 +29,8 @@ uint32_t __attribute__((section(".checksum"))) firmware_checksum[2];
 
 // https://lowpowerlab.com/forum/rf-range-antennas-rfm69-library/definition-of-rxbw-with-rfm69/
 
+__attribute__((section(".bootloader"), long_call)) void flash_test(void);
+void bootloader_init(void);
 
 static void clocks_init(void)
 {
@@ -123,14 +125,6 @@ static void gpio_init(void)
     GPIOB->BSRR = GPIO_BSRR_BS_0;
 }
 
-void init_hw69(void)
-{
-}
-
-void init_shtc3(void)
-{
-}
-
 #define CONF_MASK 0xF8UL
 #define CONF_SHIFT 3
 
@@ -150,6 +144,7 @@ uint8_t read_config(void)
         (GPIO_MODER_INPUT  << 12) | // BP6: Config 3
         (GPIO_MODER_INPUT  << 14) ; // BP7: Config 4
 
+    // Wait a bit so that we can correctly read the pins
     __NOP();
 
     uint8_t conf = (GPIOB->IDR & CONF_MASK) >> CONF_SHIFT;
@@ -160,70 +155,43 @@ uint8_t read_config(void)
     return conf;
 }
 
-void print_temperature(int16_t temperature)
-{
-    uint32_t t;
-    char s;
+#define SLEEP_MODE_SLEEP   0x01
+#define SLEEP_MODE_DEEP    0x02
+#define SLEEP_MODE_STANDBY 0x03
 
-    if(temperature >= 0) {
-        s = ' ';
-        t = temperature;
-    } else {
-        s = '-';
-        t = -temperature;
-    }
-
-    int integer = t  >> SHTC3_TEMPERATURE_SHIFT;
-    int fraction = (100 * (t & 0x00FF)) >> SHTC3_TEMPERATURE_SHIFT;
-
-    printf("Temperature: %c%d.%02dC\r\n", s, integer, fraction);
-}
-
-void print_humidity(uint16_t humidity)
-{
-    uint32_t h = humidity * 100;
-    int integer = h  >> 16;
-    int fraction = (100 * (h & 0x0000FFFF)) >> 16;
-
-    printf("Humidity:     %d.%02d%%\r\n", integer, fraction);
-}
-
-void print_measurement(struct shtc3_measurement measurement)
-{
-    print_temperature(measurement.temperature);
-    print_humidity(measurement.humidity);
-}
-
-void print_voltages(struct adc_supply_voltages voltages)
-{
-    printf("Vcc:          %d.%dV\r\n", voltages.vcc >> ADC_VOLTAGE_SHIFT, (100 * (voltages.vcc & ((1<<ADC_VOLTAGE_SHIFT)-1))) >> ADC_VOLTAGE_SHIFT);
-    printf("Vmid:         %d.%dV\r\n", voltages.vmid >> ADC_VOLTAGE_SHIFT, (100 * (voltages.vmid & ((1<<ADC_VOLTAGE_SHIFT)-1))) >> ADC_VOLTAGE_SHIFT);
-}
-
-void print_timestamp(const struct pkg_timestamp *timestamp)
-{
-    printf("20%02X-%02X-%02X %02X:%02X:%02X\r\n",
-           timestamp->year,
-           timestamp->month,
-           timestamp->day,
-           timestamp->hour,
-           timestamp->minute,
-           timestamp->second);
-}
-
-void sleep(void)
+static void sleep_do_sleep(void)
 {
     systick_pause();
     while(!(RTC->ISR & RTC_ISR_WUTF)) {
         __WFI();
     }
+
     RTC->ISR = 0;
+    PWR->CR |= PWR_CR_CWUF;
     systick_resume();
+}
+
+void sleep(uint8_t mode)
+{
+    if(mode == SLEEP_MODE_DEEP) {
+        SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
+        PWR->CR |= PWR_CR_ULP;
+    } else if(mode == SLEEP_MODE_STANDBY) {
+        SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
+        PWR->CR |= PWR_CR_ULP;
+        PWR->CR |= PWR_CR_PDDS;
+    }
+
+    sleep_do_sleep();
+
+    PWR->CR &= ~PWR_CR_PDDS;
+    PWR->CR &= ~PWR_CR_ULP;
+    SCB->SCR &= ~SCB_SCR_SLEEPDEEP_Msk;
 }
 
 static const uint8_t aes_key[16] = { 0xc6, 0xe0, 0xca, 0x0a, 0xbd, 0x23, 0x3d, 0x84, 0x5d, 0x06, 0x8f, 0x0f, 0x8c, 0x5d, 0xa8, 0xf3 };
 
-void init_always(void)
+void init_mcu(void)
 {
     clocks_init();
     gpio_init();
@@ -233,7 +201,7 @@ void init_always(void)
     spi_init();
 }
 
-void init_full(void)
+void init_external_peripherals(void)
 {
     i2c_init();
     shtc3_wakeup();
@@ -287,6 +255,7 @@ void rtc_set_timestamp(const struct pkg_timestamp *pkg_timestamp)
 void rtc_get_timestamp(struct pkg_timestamp *pkg_timestamp)
 {
     const struct rtc_timestamp rtc_timestamp = rtc_get_time();
+
     pkg_timestamp->year = (rtc_timestamp.date >> 16) & 0x000000FF;
     pkg_timestamp->month = (rtc_timestamp.date >> 8) & 0x000000FF;
     pkg_timestamp->day = rtc_timestamp.date & 0x000000FF;
@@ -316,8 +285,6 @@ state_handler_t *state_handlers[STATE_NUM] = {
     [STATE_UPDATE] = do_update,
 };
 
-extern uint32_t rtc_checksum[2];
-
 static struct pkg_buffer pkg_buffer;
 
 enum state do_register(void)
@@ -328,8 +295,8 @@ enum state do_register(void)
 
     pkg_write_byte(p, PKG_REGISTER);
     pkg_write_byte(p, PKG_NODE_TYPE_HUMIDITY);
-    pkg_write_dword(p, rtc_checksum[0]);
-    pkg_write_dword(p, rtc_checksum[1]);
+    pkg_write_dword(p, firmware_checksum[0]);
+    pkg_write_dword(p, firmware_checksum[1]);
 
     rfm69_set_mode(RFM69_MODE_STANDBY);
 
@@ -391,7 +358,6 @@ enum state do_measure(void)
 
     adc_init();
     struct adc_supply_voltages voltages;
-
     if(adc_measure_voltages(&voltages)) {
         print_voltages(voltages);
     } else {
@@ -399,7 +365,6 @@ enum state do_measure(void)
         printf("Reading voltages failed\r\n");
     }
     adc_deinit();
-
 
     if(measurement_failed) {
         printf("Measurement failed\r\n");
@@ -449,29 +414,51 @@ enum state do_update(void)
     return STATE_MEASURE;
 }
 
-
 int main(void)
 {
     DBGMCU->CR = DBGMCU_CR_DBG;
 
-    init_always();
+    uint32_t woke_from_standby = PWR->CSR & PWR_CSR_SBF;
 
-    printf("\r\n\r\n");
+    init_mcu();
+
+    if(!woke_from_standby) {
+        printf("\033[2JStarting...\r\n");
+    }
+
+    for(int i = 0; i < 4*2; i++) {
+        GPIOA->BSRR = GPIO_BSRR_BS_15;
+        delay(125);
+        GPIOA->BSRR = GPIO_BSRR_BR_15;
+        delay(125);
+    }
+
+    printf("\r\n");
 
     uint8_t conf = read_config();
     printf("Config: %d\r\n", conf);
 
-    if(!rtc_are_peripherals_initialized()) {
-        init_full();
+    enum state state;
+
+    if(woke_from_standby) {
+        state = RTC->BKP0R & 0x0F;
+    } else {
+        init_external_peripherals();
+        state = STATE_REGISTER;
+        rtc_set_periodic_wakeup(20);
     }
 
-    rtc_set_periodic_wakeup(5);
     rfm69_set_node_address((PKG_NODE_TYPE_HUMIDITY << 6) | conf);
 
-    enum state state = STATE_REGISTER;
-
     for(;;) {
+        uart_init_dma();
         state = state_handlers[state]();
-        sleep();
+
+        GPIOA->BSRR = GPIO_BSRR_BR_15;
+
+        RTC->BKP0R = state;
+        uart_deinit();
+        sleep(SLEEP_MODE_STANDBY);
+        GPIOA->BSRR = GPIO_BSRR_BS_15;
     }
 }
