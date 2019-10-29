@@ -17,24 +17,28 @@ struct tx_cbuf {
 
 void uart_init(void)
 {
-    RCC->APB1ENR |= RCC_APB1ENR_LPUART1EN;
+    if(!(LPUART1->CR1 & USART_CR1_UE)) {
+        RCC->APB1ENR |= RCC_APB1ENR_LPUART1EN;
 
-    LPUART1->BRR = 0x369;
-    LPUART1->CR1 = USART_CR1_TE | USART_CR1_UE;
+        LPUART1->BRR = 0x369;
+        LPUART1->CR1 = USART_CR1_TE | USART_CR1_UE;
 
-    DMA1_CSELR->CSELR = (0x05 << DMA_CSELR_C7S_Pos);
+        DMA1_CSELR->CSELR = (0x05 << DMA_CSELR_C7S_Pos);
 
-    DMA1_Channel7->CPAR = (uint32_t) &LPUART1->TDR;
+        DMA1_Channel7->CPAR = (uint32_t) &LPUART1->TDR;
 
-    cbuf_init(tx_cbuf);
+        cbuf_init(tx_cbuf);
+    }
 }
 
 void uart_init_dma(void)
 {
-    LPUART1->CR3 |= USART_CR3_DMAT;
-    NVIC_EnableIRQ(DMA1_Channel4_5_6_7_IRQn);
+    if(!(LPUART1->CR1 & USART_CR1_UE)) {
+        LPUART1->CR3 |= USART_CR3_DMAT;
+        NVIC_EnableIRQ(DMA1_Channel4_5_6_7_IRQn);
 
-    uart_init();
+        uart_init();
+    }
 }
 
 
