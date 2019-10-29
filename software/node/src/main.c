@@ -38,11 +38,15 @@ static void clocks_init(void)
     RCC->APB1ENR = RCC_APB1ENR_PWREN;
     RCC->APB2ENR = RCC_APB2ENR_DBGEN | RCC_APB2ENR_SYSCFGEN;
 
-    PWR->CR |= PWR_CR_DBP;
+    PWR->CR = PWR_CR_DBP | PWR_CR_LPSDSR | PWR_CR_CWUF | PWR_CR_CSBF;
+
+    SCB->SCR = 0;
+
     RCC->CSR |= RCC_CSR_RTCSEL_0 ;
     RCC->CSR |= RCC_CSR_LSEON | RCC_CSR_RTCEN;
-
     RCC->CCIPR = RCC_CCIPR_LPUART1SEL_0 | RCC_CCIPR_LPUART1SEL_1;
+
+    RTC->ISR = 0;
 }
 
 static void gpio_init(void)
