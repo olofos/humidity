@@ -3,9 +3,6 @@
 #include "vector.h"
 #include "systick.h"
 
-// Checksum generated during build
-uint32_t __attribute__((section(".checksum"))) rtc_checksum[2];
-
 static void rtc_write_protect_unlock(void)
 {
     RTC->WPR = 0xCA;

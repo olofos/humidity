@@ -19,6 +19,10 @@
 
 #define GATEWAY_ADDRESS 0x01
 
+// Checksum generated during build
+uint32_t __attribute__((section(".checksum"))) firmware_checksum[2];
+
+
 // Check:
 // How does the Clock Security System of the LSE work if the interrupt is disabled?
 
