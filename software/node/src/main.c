@@ -15,6 +15,7 @@
 #include "rfm69-hal.h"
 #include "rtc.h"
 #include "package.h"
+#include "measurement.h"
 #include "pretty-print.h"
 
 #define GATEWAY_ADDRESS 0x01
@@ -155,6 +156,7 @@ uint8_t read_config(void)
     return conf;
 }
 
+#define SLEEP_MODE_NONE    0x00
 #define SLEEP_MODE_SLEEP   0x01
 #define SLEEP_MODE_DEEP    0x02
 #define SLEEP_MODE_STANDBY 0x03
@@ -173,7 +175,9 @@ static void sleep_do_sleep(void)
 
 void sleep(uint8_t mode)
 {
-    if(mode == SLEEP_MODE_DEEP) {
+    if(mode == SLEEP_MODE_NONE) {
+        return;
+    } else if(mode == SLEEP_MODE_DEEP) {
         SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
         PWR->CR |= PWR_CR_ULP;
     } else if(mode == SLEEP_MODE_STANDBY) {
@@ -268,6 +272,7 @@ void rtc_get_timestamp(struct pkg_timestamp *pkg_timestamp)
 enum state {
     STATE_REGISTER,
     STATE_MEASURE,
+    STATE_SEND_MEASUREMENT,
     STATE_UPDATE,
 
     STATE_NUM,
@@ -277,13 +282,18 @@ typedef enum state state_handler_t(void);
 
 enum state do_register(void);
 enum state do_measure(void);
+enum state do_send_measurement(void);
 enum state do_update(void);
 
 state_handler_t *state_handlers[STATE_NUM] = {
     [STATE_REGISTER] = do_register,
     [STATE_MEASURE] = do_measure,
+    [STATE_SEND_MEASUREMENT] = do_send_measurement,
     [STATE_UPDATE] = do_update,
 };
+
+uint8_t state_sleep_mode;
+uint16_t state_sleep_period;
 
 static struct pkg_buffer pkg_buffer;
 
@@ -316,6 +326,9 @@ enum state do_register(void)
                 printf("New time: ");
                 print_timestamp(&pkg_timestamp);
 
+                state_sleep_mode = SLEEP_MODE_NONE;
+                state_sleep_period = 0;
+
                 return STATE_MEASURE;
             } else if(response == PKG_NACK) {
                 printf("Registration failed\r\n");
@@ -329,6 +342,9 @@ enum state do_register(void)
         printf("Write failed\r\n");
     }
 
+    state_sleep_mode = SLEEP_MODE_STANDBY;
+    state_sleep_period = 10;
+
     return STATE_REGISTER;
 }
 
@@ -338,19 +354,14 @@ enum state do_measure(void)
 
     printf("\r\n");
 
-    struct pkg_timestamp pkg_timestamp;
-    rtc_get_timestamp(&pkg_timestamp);
+    struct measurement measurement;
 
-    printf("Timestamp:    ");
-    print_timestamp(&pkg_timestamp);
+    rtc_get_timestamp(&measurement.timestamp);
 
     i2c_init();
     shtc3_wakeup();
 
-    struct shtc3_measurement measurement;
-    if(shtc3_read(&measurement)) {
-        print_measurement(measurement);
-    } else {
+    if(!shtc3_read(&measurement.humidity_temperature)) {
         measurement_failed = 1;
         printf("Reading temperature and humidity failed\r\n");
     }
@@ -359,10 +370,7 @@ enum state do_measure(void)
     i2c_deinit();
 
     adc_init();
-    struct adc_supply_voltages voltages;
-    if(adc_measure_voltages(&voltages)) {
-        print_voltages(voltages);
-    } else {
+    if(!adc_measure_voltages(&measurement.voltages)) {
         measurement_failed = 1;
         printf("Reading voltages failed\r\n");
     }
@@ -370,54 +378,89 @@ enum state do_measure(void)
 
     if(measurement_failed) {
         printf("Measurement failed\r\n");
-    } else {
-        struct pkg_buffer *p = &pkg_buffer;
 
-        pkg_init(p);
+        state_sleep_mode = SLEEP_MODE_STANDBY;
+        state_sleep_period = 10;
 
-        pkg_write_byte(p, PKG_MEASUREMENT);
-
-        pkg_write_timestamp(p, &pkg_timestamp);
-        pkg_write_word(p, measurement.humidity);
-        pkg_write_word(p, measurement.temperature);
-        pkg_write_word(p, voltages.vcc);
-        pkg_write_word(p, voltages.vmid);
-
-        rfm69_set_mode(RFM69_MODE_STANDBY);
-
-        if(pkg_write(GATEWAY_ADDRESS, p) > 0) {
-            if(pkg_read(p) > 0) {
-                rfm69_set_mode(RFM69_MODE_SLEEP);
-
-                uint8_t response = pkg_read_byte(p);
-
-                if(response == PKG_ACK) {
-                    uint8_t flags = pkg_read_byte(p);
-
-                    if(flags & PKG_FLAG_UPDATE_AVAILABLE) {
-                        printf("Note:         New firmware version available\r\n");
-                    }
-                } else {
-                    uint8_t flags = pkg_read_byte(p);
-                    printf("Receive NACK (%02X)\r\n", flags);
-
-                    if(flags & PKG_FLAG_NOT_REGISTERED) {
-                        return STATE_REGISTER;
-                    }
-                }
-            } else {
-                printf("No reply\r\n");
-            }
-        } else {
-            printf("Write failed\r\n");
-        }
+        return STATE_MEASURE;
     }
 
-    return STATE_MEASURE;
+
+    print_measurement(&measurement);
+
+    measurement_add(&measurement);
+
+    state_sleep_mode = SLEEP_MODE_NONE;
+    state_sleep_period = 0;
+
+    return STATE_SEND_MEASUREMENT;
+}
+
+enum state do_send_measurement(void)
+{
+    struct pkg_buffer *p = &pkg_buffer;
+
+    struct measurement measurement;
+
+    measurement_get(&measurement);
+
+    pkg_init(p);
+
+    pkg_write_byte(p, PKG_MEASUREMENT);
+
+    pkg_write_timestamp(p, &measurement.timestamp);
+    pkg_write_word(p, measurement.humidity_temperature.humidity);
+    pkg_write_word(p, measurement.humidity_temperature.temperature);
+    pkg_write_word(p, measurement.voltages.vcc);
+    pkg_write_word(p, measurement.voltages.vmid);
+
+    rfm69_set_mode(RFM69_MODE_STANDBY);
+
+    if(pkg_write(GATEWAY_ADDRESS, p) > 0) {
+        if(pkg_read(p) > 0) {
+            rfm69_set_mode(RFM69_MODE_SLEEP);
+
+            uint8_t response = pkg_read_byte(p);
+
+            if(response == PKG_ACK) {
+                uint8_t flags = pkg_read_byte(p);
+
+                if(flags & PKG_FLAG_UPDATE_AVAILABLE) {
+                    printf("Note:         New firmware version available\r\n");
+                }
+
+                state_sleep_mode = SLEEP_MODE_STANDBY;
+                state_sleep_period = 10;
+
+                return STATE_MEASURE;
+            } else {
+                uint8_t flags = pkg_read_byte(p);
+                printf("Receive NACK (%02X)\r\n", flags);
+
+                if(flags & PKG_FLAG_NOT_REGISTERED) {
+                    state_sleep_mode = SLEEP_MODE_NONE;
+                    state_sleep_period = 0;
+                    return STATE_REGISTER;
+                }
+            }
+        } else {
+            printf("No reply\r\n");
+        }
+    } else {
+        printf("Write failed\r\n");
+    }
+
+    state_sleep_mode = SLEEP_MODE_STANDBY;
+    state_sleep_period = 5;
+
+    return STATE_SEND_MEASUREMENT;
 }
 
 enum state do_update(void)
 {
+    state_sleep_mode = SLEEP_MODE_STANDBY;
+    state_sleep_period = 10;
+
     return STATE_MEASURE;
 }
 
@@ -452,7 +495,6 @@ int main(void)
     } else {
         init_external_peripherals();
         state = STATE_REGISTER;
-        rtc_set_periodic_wakeup(20);
     }
 
     rfm69_set_node_address((PKG_NODE_TYPE_HUMIDITY << 6) | conf);
@@ -465,7 +507,8 @@ int main(void)
 
         RTC->BKP0R = state;
         uart_deinit();
-        sleep(SLEEP_MODE_STANDBY);
-        GPIOA->BSRR = GPIO_BSRR_BS_15;
+
+        rtc_set_periodic_wakeup(state_sleep_period);
+        sleep(state_sleep_mode);
     }
 }
