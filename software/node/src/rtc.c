@@ -22,19 +22,6 @@ int rtc_is_rtc_clock_initialized(void)
     return RTC->ISR & RTC_ISR_INITS;
 }
 
-int rtc_are_peripherals_initialized(void)
-{
-    // Check if the checksum of the binary matches the previously seen one
-    int match = (rtc_checksum[0] == RTC->BKP0R) && (rtc_checksum[1] == RTC->BKP1R);
-    if(!match) {
-        // Save checksum in backup registers
-        RTC->BKP0R = rtc_checksum[0];
-        RTC->BKP1R = rtc_checksum[1];
-    }
-
-    return match;
-}
-
 void rtc_wait_for_lse(void)
 {
     while(!(RCC->CSR & RCC_CSR_LSERDY)) {
