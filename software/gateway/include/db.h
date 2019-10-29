@@ -2,7 +2,8 @@
 #define DB_H_
 
 #define DB_OK 1
-#define DB_ERROR 0
+#define DB_ERROR -1
+#define DB_NOT_REGISTERED -2
 
 int db_init(const char *filename);
 void db_deinit(void);

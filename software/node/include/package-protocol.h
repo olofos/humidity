@@ -39,6 +39,8 @@ enum pkg_node_type {
 
 enum pkg_flags {
     PKG_FLAG_UPDATE_AVAILABLE = 0x01,
+
+    PKG_FLAG_NOT_REGISTERED = 0x02,
 };
 
 struct pkg_buffer {

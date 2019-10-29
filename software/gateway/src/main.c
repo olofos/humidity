@@ -121,7 +121,7 @@ int main(void)
                 uint32_t hash2 = pkg_read_dword(p);
                 uint64_t hash = (hash1 << 32) | hash2;
 
-                if(db_register_node(node, node_type, hash)) {
+                if(db_register_node(node, node_type, hash) == DB_OK) {
                     struct pkg_timestamp pkg_timestamp = convert_time_to_pkg_timestamp(time(0));
 
                     pkg_write_byte(p, PKG_SET_TIME);
@@ -158,7 +158,8 @@ int main(void)
                 double vcc = ((double) vcc_raw) / (1 << ADC_VOLTAGE_SHIFT);
                 double vmid = ((double) vmid_raw) / (1 << ADC_VOLTAGE_SHIFT);
 
-                if(db_add_measurement(node, timestamp, humidity, temperature, vcc, vmid) == DB_OK) {
+                int ret = db_add_measurement(node, timestamp, humidity, temperature, vcc, vmid);
+                if(ret == DB_OK) {
                     uint8_t flags = 0x00;
 
                     int uptodate = db_check_firmware_is_uptodate(node);
@@ -186,6 +187,10 @@ int main(void)
                     printf("Error when adding measurement\n");
 
                     uint8_t flags = 0x00;
+
+                    if(ret == DB_NOT_REGISTERED) {
+                        flags = PKG_FLAG_NOT_REGISTERED;
+                    }
 
                     pkg_write_byte(p, PKG_NACK);
                     pkg_write_byte(p, flags);

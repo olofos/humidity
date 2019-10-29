@@ -289,6 +289,8 @@ static struct pkg_buffer pkg_buffer;
 
 enum state do_register(void)
 {
+    printf("Registering\r\n");
+
     struct pkg_buffer *p = &pkg_buffer;
 
     pkg_init(p);
@@ -321,7 +323,7 @@ enum state do_register(void)
                 printf("Unexpected response %02X\r\n", response);
             }
         } else {
-            printf("Read failed\r\n");
+            printf("No reply\r\n");
         }
     } else {
         printf("Write failed\r\n");
@@ -396,10 +398,15 @@ enum state do_measure(void)
                         printf("Note:         New firmware version available\r\n");
                     }
                 } else {
-                    printf("Did not receive ack\r\n");
+                    uint8_t flags = pkg_read_byte(p);
+                    printf("Receive NACK (%02X)\r\n", flags);
+
+                    if(flags & PKG_FLAG_NOT_REGISTERED) {
+                        return STATE_REGISTER;
+                    }
                 }
             } else {
-                printf("Read failed\r\n");
+                printf("No reply\r\n");
             }
         } else {
             printf("Write failed\r\n");

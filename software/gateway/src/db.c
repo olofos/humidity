@@ -126,9 +126,14 @@ int db_add_measurement(uint8_t node_id, time_t timestamp, double humidity, doubl
     sqlite3_bind_double(stmt, sqlite3_bind_parameter_index(stmt, "@battery1_level"), vcc - vmid);
     sqlite3_bind_double(stmt, sqlite3_bind_parameter_index(stmt, "@battery2_level"), vmid);
 
-    if (sqlite3_step(stmt) != SQLITE_DONE ) {
-        fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
-        result = DB_ERROR;
+    int ret = sqlite3_step(stmt);
+    if (ret != SQLITE_DONE ) {
+        fprintf(stderr, "SQL error (%d): %s\n", ret, sqlite3_errmsg(db));
+        if(ret == SQLITE_CONSTRAINT) {
+            result = DB_NOT_REGISTERED;
+        } else {
+            result = DB_ERROR;
+        }
     }
 
     sqlite3_reset(stmt);
