@@ -474,7 +474,7 @@ enum state do_send_measurement(void)
         printf("Write failed\r\n");
     }
 
-    state_sleep_mode = SLEEP_MODE_STANDBY;
+    state_sleep_mode = SLEEP_MODE_DEEP;
     state_sleep_period = 5;
 
     return STATE_SEND_MEASUREMENT;
