@@ -205,6 +205,27 @@ void init_mcu(void)
     spi_init();
 }
 
+#define ERROR_LOOP_PERIOD 400
+#define ERROR_LOOP_MAX    10
+
+#define ERROR_LOOP_SHTC3  2
+#define ERROR_LOOP_RFM69  3
+#define ERROR_LOOP_FLASH  4
+
+static void error_loop(int n)
+{
+    for(;;) {
+        for(int i = 0; i < n; i++) {
+            GPIOA->BSRR = GPIO_BSRR_BS_15;
+            delay(ERROR_LOOP_PERIOD/2);
+            GPIOA->BSRR = GPIO_BSRR_BR_15;
+            delay(ERROR_LOOP_PERIOD/2);
+        }
+
+        delay((ERROR_LOOP_MAX - n) * ERROR_LOOP_PERIOD);
+    }
+}
+
 void init_external_peripherals(void)
 {
     i2c_init();
@@ -215,6 +236,7 @@ void init_external_peripherals(void)
         printf("SHTC3 detected (%04X)\r\n", shtc3_id);
     } else {
         printf("No SHTC3 detected\r\n");
+        error_loop(ERROR_LOOP_SHTC3);
     }
 
     shtc3_sleep();
@@ -224,6 +246,7 @@ void init_external_peripherals(void)
         printf("RFM69 detected\r\n");
     } else {
         printf("No RFM69 detected\r\n");
+        error_loop(ERROR_LOOP_RFM69);
     }
 
     rfm69_init();
@@ -235,6 +258,7 @@ void init_external_peripherals(void)
         printf("SPI Flash detected\r\n");
     } else {
         printf("No SPI Flash detected\r\n");
+        error_loop(ERROR_LOOP_FLASH);
     }
     spi_flash_sleep();
 
