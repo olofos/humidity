@@ -209,6 +209,40 @@ int main(void)
                 }
             }
             break;
+
+            case PKG_DEBUG:
+            {
+                struct pkg_timestamp pkg_timestamp;
+                pkg_read_timestamp(p, &pkg_timestamp);
+                time_t timestamp = convert_pkg_timestamp_to_time(pkg_timestamp);
+
+                char msg[64];
+
+                int len = pkg_read_string(p, msg, sizeof(msg));
+
+                if(pkg_timestamp.year > 0) {
+                    printf("Message from %d at %s%s\n", node, ctime(&timestamp), msg);
+
+                    int ret = db_add_debug_message(node, timestamp, msg, len);
+                    if(ret == DB_OK) {
+                        pkg_write_byte(p, PKG_ACK);
+                        pkg_write_byte(p, 0x00);
+                        pkg_write(node, p);
+                    } else {
+                        pkg_write_byte(p, PKG_NACK);
+                        pkg_write_byte(p, 0x00);
+                        pkg_write(node, p);
+                    }
+                } else {
+                    printf("Timestamp too old: %s", ctime(&timestamp));
+                    printf("Message from %d: \"%s\"\r\n", node, msg);
+
+                    pkg_write_byte(p, PKG_NACK);
+                    pkg_write_byte(p, PKG_FLAG_NOT_REGISTERED);
+                    pkg_write(node, p);
+                }
+            }
+            break;
             }
         } else {
             printf("Nothing\n");
