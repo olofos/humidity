@@ -7,10 +7,9 @@ struct measurement {
     struct adc_supply_voltages voltages;
 };
 
-void measurement_save(void);
-void measurement_restore(void);
-
 int measurement_add(const struct measurement *m);
 int measurement_get(struct measurement *m);
+void measurement_handled(void);
+int measurement_empty(void);
 
 #endif
