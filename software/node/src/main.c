@@ -325,6 +325,17 @@ uint16_t state_time_until_next_measurement;
 
 static struct pkg_buffer pkg_buffer;
 
+#define SLEEP_PERIOD_FIRST_MEASUREMENT 0
+#define SLEEP_PERIOD_RETRY_REGISTRATION 10
+#define SLEEP_PERIOD_SEND_MEASUREMENT 0
+#define SLEEP_PERIOD_RETRY_MEASUREMENT 10
+#define SLEEP_PERIOD_SEND_NEXT_MEASUREMENT 5
+#define SLEEP_PERIOD_RESEND_MEASUREMENT 5
+#define SLEEP_PERIOD_REDO_REGISTRATION 0
+#define SLEEP_PERIOD_DUMMY_UPDATE 10
+
+#define MEASUREMENT_PERIOD 20
+
 enum state do_register(void)
 {
     printf("Registering\r\n");
@@ -356,7 +367,7 @@ enum state do_register(void)
                 print_timestamp(&pkg_timestamp);
 
                 state_sleep_mode = SLEEP_MODE_NONE;
-                state_sleep_period = 0;
+                state_sleep_period = SLEEP_PERIOD_FIRST_MEASUREMENT;
 
                 return STATE_MEASURE;
             } else if(response == PKG_NACK) {
@@ -372,7 +383,7 @@ enum state do_register(void)
     }
 
     state_sleep_mode = SLEEP_MODE_STANDBY;
-    state_sleep_period = 10;
+    state_sleep_period = SLEEP_PERIOD_RETRY_REGISTRATION;
 
     return STATE_REGISTER;
 }
@@ -409,7 +420,7 @@ enum state do_measure(void)
         printf("Measurement failed\r\n");
 
         state_sleep_mode = SLEEP_MODE_STANDBY;
-        state_sleep_period = 10;
+        state_sleep_period = SLEEP_PERIOD_RETRY_MEASUREMENT;
         state_time_until_next_measurement = state_sleep_period;
 
         return STATE_MEASURE;
@@ -420,8 +431,8 @@ enum state do_measure(void)
     measurement_add(&measurement);
 
     state_sleep_mode = SLEEP_MODE_NONE;
-    state_sleep_period = 0;
-    state_time_until_next_measurement = 20;
+    state_sleep_period = SLEEP_PERIOD_SEND_MEASUREMENT;
+    state_time_until_next_measurement = MEASUREMENT_PERIOD;
 
     return STATE_SEND_MEASUREMENT;
 }
@@ -463,7 +474,7 @@ enum state do_send_measurement(void)
                 measurement_handled();
 
                 if(!measurement_empty()) {
-                    state_sleep_period = 5;
+                    state_sleep_period = SLEEP_PERIOD_SEND_NEXT_MEASUREMENT;
                     state_sleep_mode = SLEEP_MODE_DEEP;
 
                     if(state_time_until_next_measurement > state_sleep_period) {
@@ -482,7 +493,7 @@ enum state do_send_measurement(void)
 
                 if(flags & PKG_FLAG_NOT_REGISTERED) {
                     state_sleep_mode = SLEEP_MODE_NONE;
-                    state_sleep_period = 0;
+                    state_sleep_period = SLEEP_PERIOD_REDO_REGISTRATION;
                     return STATE_REGISTER;
                 }
             }
@@ -493,7 +504,7 @@ enum state do_send_measurement(void)
         printf("Write failed\r\n");
     }
 
-    state_sleep_period = 5;
+    state_sleep_period = SLEEP_PERIOD_RESEND_MEASUREMENT;
 
     if(state_time_until_next_measurement <= state_sleep_period) {
         state_sleep_mode = SLEEP_MODE_DEEP;
@@ -509,7 +520,7 @@ enum state do_send_measurement(void)
 enum state do_update(void)
 {
     state_sleep_mode = SLEEP_MODE_STANDBY;
-    state_sleep_period = 10;
+    state_sleep_period = SLEEP_PERIOD_DUMMY_UPDATE;
 
     return STATE_MEASURE;
 }
