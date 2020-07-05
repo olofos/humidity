@@ -88,4 +88,15 @@ static inline void pkg_read_timestamp(struct pkg_buffer *buf, struct pkg_timesta
     t->hour = buf->buf[buf->read_counter++];
 }
 
+static inline int pkg_read_string(struct pkg_buffer *buf, char *s, int len)
+{
+    int i;
+    for(i = 0; ((i < len - 1) && (buf->read_counter < buf->len)); i++) {
+        s[i] = buf->buf[buf->read_counter++];
+    }
+    s[i] = 0;
+
+    return i;
+}
+
 #endif
