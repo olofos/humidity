@@ -29,6 +29,8 @@ c = cbuf_pop(my_cbuf);
 
 #define cbuf_pop(cbuf) (cbuf.buf)[ cbuf.tail++ & ((cbuf##_LEN) - 1) ]
 
+#define cbuf_peek(cbuf) (cbuf.buf)[ cbuf.tail & ((cbuf##_LEN) - 1) ]
+
 #define cbuf_full(cbuf) ( cbuf_len(cbuf) == (cbuf##_LEN) )
 
 #define cbuf_empty(cbuf) ( cbuf_len(cbuf) == 0 )
