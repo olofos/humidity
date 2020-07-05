@@ -21,6 +21,8 @@
 
 #define GATEWAY_ADDRESS 0x01
 
+#define CLEAR_SCREEN "\033[2J"
+
 // Checksum generated during build
 uint32_t __attribute__((section(".checksum"))) firmware_checksum[2];
 
@@ -521,14 +523,7 @@ int main(void)
     init_mcu();
 
     if(!woke_from_standby) {
-        printf("\033[2JStarting...\r\n");
-    }
-
-    for(int i = 0; i < 4*2; i++) {
-        GPIOA->BSRR = GPIO_BSRR_BS_15;
-        delay(125);
-        GPIOA->BSRR = GPIO_BSRR_BR_15;
-        delay(125);
+        printf(CLEAR_SCREEN "\r\nStarting...\r\n");
     }
 
     printf("\r\n");
