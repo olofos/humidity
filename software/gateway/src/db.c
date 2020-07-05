@@ -19,7 +19,7 @@ static sqlite3_stmt *stmt_select_firmware_is_latest = 0;
 static int db_prepare_statements(void)
 {
     const char *sql_insert_measurement =
-        "INSERT OR REPLACE INTO measurements (node_id, timestamp, temperature, humidity, battery1_level, battery2_level) "
+        "INSERT OR IGNORE INTO measurements (node_id, timestamp, temperature, humidity, battery1_level, battery2_level) "
         "VALUES (@node_id, @timestamp, @temperature, @humidity, @battery1_level, @battery2_level)";
 
     const char *sql_insert_debug_message =
@@ -27,19 +27,19 @@ static int db_prepare_statements(void)
         "VALUES (@node_id, @timestamp, @message)";
 
     const char *sql_insert_node =
-        "INSERT OR REPLACE INTO nodes (node_id, node_type_id, node_firmware_id, name)"
+        "INSERT OR REPLACE INTO nodes (id, type_id, firmware_id, name) "
         "VALUES ("
         "@node_id, "
-        "@node_type_id, "
-        "(SELECT node_firmware_id FROM node_firmware_versions WHERE hash=@firmware_hash), "
-        "(SELECT name FROM nodes WHERE node_id=4)"
+        "@type_id, "
+        "(SELECT id FROM firmware_versions WHERE hash=@firmware_hash), "
+        "(SELECT name FROM nodes WHERE id=@node_id)"
         ")";
 
     const char *sql_select_latest_firmware_hash =
-        "SELECT hash FROM node_firmware_versions ORDER BY timestamp DESC LIMIT 1";
+        "SELECT hash FROM firmware_versions ORDER BY timestamp DESC LIMIT 1";
 
     const char *sql_select_firmware_is_latest =
-        "SELECT (SELECT node_firmware_id FROM nodes WHERE node_id = @node_id) = (SELECT node_firmware_id FROM node_firmware_versions ORDER BY timestamp DESC LIMIT 1)";
+        "SELECT (SELECT firmware_id FROM nodes WHERE id = @node_id) = (SELECT id FROM firmware_versions ORDER BY timestamp DESC LIMIT 1)";
 
     if(sqlite3_prepare_v2(db, sql_insert_measurement, -1, &stmt_insert_measurement, 0) != SQLITE_OK) goto err;
     if(sqlite3_prepare_v2(db, sql_insert_debug_message, -1, &stmt_insert_debug_message, 0) != SQLITE_OK) goto err;
@@ -100,7 +100,7 @@ int db_register_node(uint8_t node_id, uint8_t node_type_id, uint64_t firmware_ha
     sqlite3_stmt *stmt = stmt_insert_node;
 
     sqlite3_bind_int(stmt, sqlite3_bind_parameter_index(stmt, "@node_id"), node_id);
-    sqlite3_bind_int(stmt, sqlite3_bind_parameter_index(stmt, "@node_type_id"), node_type_id);
+    sqlite3_bind_int(stmt, sqlite3_bind_parameter_index(stmt, "@type_id"), node_type_id);
     sqlite3_bind_int64(stmt, sqlite3_bind_parameter_index(stmt, "@firmware_hash"), firmware_hash);
 
     if (sqlite3_step(stmt) != SQLITE_DONE ) {
