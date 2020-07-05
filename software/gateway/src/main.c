@@ -173,6 +173,8 @@ int main(void)
                             }
                         }
 
+                        float rssi = -rfm69_get_rssi() / 2.0;
+
                         pkg_write_byte(p, PKG_ACK);
                         pkg_write_byte(p, flags);
                         pkg_write(node, p);
@@ -184,6 +186,7 @@ int main(void)
                         printf("Humidity:    %.2f%%\n", humidity);
                         printf("VCC:         %.2fV\n", vcc);
                         printf("Vmid:        %.2fV\n", vmid);
+                        printf("RSSI:        %.2fdB\n", rssi);
                     } else {
                         printf("Error when adding measurement\n");
 
