@@ -201,7 +201,7 @@ int main(void)
                         pkg_write(node, p);
                     }
                 } else {
-                    printf("Timestamp too old\n");
+                    printf("Timestamp too old: %s\n", ctime(&timestamp));
 
                     pkg_write_byte(p, PKG_NACK);
                     pkg_write_byte(p, PKG_FLAG_NOT_REGISTERED);
