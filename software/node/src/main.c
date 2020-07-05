@@ -7,6 +7,7 @@
 #include "systick.h"
 #include "spi.h"
 #include "spi-flash.h"
+#include "spi-flash-cbuf.h"
 #include "rfm69.h"
 #include "shtc3.h"
 #include "i2c.h"
@@ -318,6 +319,7 @@ state_handler_t *state_handlers[STATE_NUM] = {
 
 uint8_t state_sleep_mode;
 uint16_t state_sleep_period;
+uint16_t state_time_until_next_measurement;
 
 static struct pkg_buffer pkg_buffer;
 
@@ -405,10 +407,10 @@ enum state do_measure(void)
 
         state_sleep_mode = SLEEP_MODE_STANDBY;
         state_sleep_period = 10;
+        state_time_until_next_measurement = state_sleep_period;
 
         return STATE_MEASURE;
     }
-
 
     print_measurement(&measurement);
 
@@ -416,6 +418,7 @@ enum state do_measure(void)
 
     state_sleep_mode = SLEEP_MODE_NONE;
     state_sleep_period = 0;
+    state_time_until_next_measurement = 20;
 
     return STATE_SEND_MEASUREMENT;
 }
@@ -453,8 +456,20 @@ enum state do_send_measurement(void)
                     printf("Note:         New firmware version available\r\n");
                 }
 
-                state_sleep_mode = SLEEP_MODE_STANDBY;
-                state_sleep_period = 10;
+                measurement_handled();
+
+                if(!measurement_empty()) {
+                    state_sleep_period = 5;
+                    state_sleep_mode = SLEEP_MODE_DEEP;
+
+                    if(state_time_until_next_measurement > state_sleep_period) {
+                        return STATE_SEND_MEASUREMENT;
+                    }
+                } else {
+                    state_sleep_mode = SLEEP_MODE_STANDBY;
+                }
+
+                state_sleep_period = state_time_until_next_measurement;
 
                 return STATE_MEASURE;
             } else {
@@ -474,8 +489,15 @@ enum state do_send_measurement(void)
         printf("Write failed\r\n");
     }
 
-    state_sleep_mode = SLEEP_MODE_DEEP;
     state_sleep_period = 5;
+
+    if(state_time_until_next_measurement <= state_sleep_period) {
+        state_sleep_mode = SLEEP_MODE_DEEP;
+        state_sleep_period = state_time_until_next_measurement;
+        return STATE_MEASURE;
+    }
+
+    state_sleep_mode = SLEEP_MODE_DEEP;
 
     return STATE_SEND_MEASUREMENT;
 }
@@ -516,6 +538,8 @@ int main(void)
 
     if(woke_from_standby) {
         state = RTC->BKP0R & 0x0F;
+        state_time_until_next_measurement = RTC->BKP1R & 0x0000FFFF;
+        sf_cbuf_restore();
     } else {
         init_external_peripherals();
         state = STATE_REGISTER;
@@ -527,12 +551,18 @@ int main(void)
         uart_init_dma();
         state = state_handlers[state]();
 
-        GPIOA->BSRR = GPIO_BSRR_BR_15;
+        rtc_set_periodic_wakeup(state_sleep_period);
 
-        RTC->BKP0R = state;
+        state_time_until_next_measurement -= state_sleep_period;
+
+        if(state_sleep_mode == SLEEP_MODE_STANDBY) {
+            RTC->BKP0R = state;
+            RTC->BKP1R = state_time_until_next_measurement;
+            sf_cbuf_save();
+        }
+
         uart_deinit();
 
-        rtc_set_periodic_wakeup(state_sleep_period);
         sleep(state_sleep_mode);
     }
 }

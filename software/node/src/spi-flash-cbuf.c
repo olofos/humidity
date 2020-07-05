@@ -1,5 +1,10 @@
 #include <stdint.h>
 
+#ifndef UNIT_TESTING
+#include "stm32l0xx.h"
+#include <stdio.h>
+#endif
+
 #include "spi-flash-cbuf.h"
 #include "spi-flash.h"
 
@@ -64,3 +69,18 @@ void sf_cbuf_pop(void)
 {
     sf_cbuf_tail++;
 }
+
+#ifndef UNIT_TESTING
+
+void sf_cbuf_save(void)
+{
+    RTC->BKP2R = ((uint32_t) sf_cbuf_head << 16) | sf_cbuf_tail;
+}
+
+void sf_cbuf_restore(void)
+{
+    sf_cbuf_head = RTC->BKP2R >> 16;
+    sf_cbuf_tail = RTC->BKP2R & 0x0000FFFF;
+}
+
+#endif

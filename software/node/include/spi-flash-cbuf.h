@@ -16,4 +16,7 @@ int sf_cbuf_push(uint8_t *data, uint8_t len);
 int sf_cbuf_read(uint8_t *data, uint8_t len);
 void sf_cbuf_pop(void);
 
+void sf_cbuf_save(void);
+void sf_cbuf_restore(void);
+
 #endif
