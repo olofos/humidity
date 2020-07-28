@@ -218,6 +218,11 @@ void ledr_off(void)
     GPIOA->BSRR = GPIO_BSRR_BR_15;
 }
 
+uint32_t button_pushed(void)
+{
+    return GPIOA->IDR & GPIO_IDR_ID0;
+}
+
 #define ERROR_LOOP_PERIOD 400
 #define ERROR_LOOP_MAX    10
 
@@ -535,6 +540,35 @@ enum state do_update(void)
     return STATE_MEASURE;
 }
 
+
+#define WAIT_PERIOD 200
+
+void wait_for_button(void)
+{
+    do {
+        ledr_on();
+        delay(WAIT_PERIOD/2);
+        ledr_off();
+        delay(WAIT_PERIOD/2);
+    } while(button_pushed());
+
+    printf("Push button to continue\r\n");
+
+    do {
+        ledr_on();
+        delay(WAIT_PERIOD/2);
+        ledr_off();
+        delay(WAIT_PERIOD/2);
+    } while(!button_pushed());
+
+    do {
+        ledr_on();
+        delay(WAIT_PERIOD/2);
+        ledr_off();
+        delay(WAIT_PERIOD/2);
+    } while(button_pushed());
+}
+
 int main(void)
 {
     DBGMCU->CR = DBGMCU_CR_DBG;
@@ -545,6 +579,10 @@ int main(void)
 
     if(!woke_from_standby) {
         printf(CLEAR_SCREEN "\r\nStarting...\r\n");
+    }
+
+    if(button_pushed()) {
+        wait_for_button();
     }
 
     printf("\r\n");
