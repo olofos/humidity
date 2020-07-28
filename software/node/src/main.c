@@ -208,6 +208,16 @@ void init_mcu(void)
     spi_init();
 }
 
+void ledr_on(void)
+{
+    GPIOA->BSRR = GPIO_BSRR_BS_15;
+}
+
+void ledr_off(void)
+{
+    GPIOA->BSRR = GPIO_BSRR_BR_15;
+}
+
 #define ERROR_LOOP_PERIOD 400
 #define ERROR_LOOP_MAX    10
 
@@ -219,9 +229,9 @@ static void error_loop(int n)
 {
     for(;;) {
         for(int i = 0; i < n; i++) {
-            GPIOA->BSRR = GPIO_BSRR_BS_15;
+            ledr_on();
             delay(ERROR_LOOP_PERIOD/2);
-            GPIOA->BSRR = GPIO_BSRR_BR_15;
+            ledr_off();
             delay(ERROR_LOOP_PERIOD/2);
         }
 
