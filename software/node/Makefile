@@ -51,9 +51,11 @@ TST_CFLAGS = -Wall -I$(SRCDIR) -ggdb -fsanitize=address -fno-omit-frame-pointer 
 TST_RESULTS = $(patsubst $(TSTDIR)/test_%.c,$(TSTRESDIR)/test_%.txt,$(SOURCES_TST))
 TST_DEPS = $(TSTDEPDIR)/*.d
 
-.PHONY: all bin flash clean erase test build_dirs
+.PHONY: all bin flash clean erase test build_dirs lss
 
 all: build_dirs $(BINDIR)/$(TARGET).elf
+
+lss: $(BINDIR)/$(TARGET).lss
 
 -include $(DEPS)
 -include $(TST_DEPS)
@@ -82,6 +84,10 @@ $(BINDIR)/$(TARGET).elf : $(OBJDIR)/$(TARGET).elf $(OBJDIR)/$(TARGET).sum
 $(OBJDIR)/$(TARGET).bin : $(OBJDIR)/$(TARGET).elf
 	@echo CREATING HEX IMAGE $@
 	$(V)$(OBJCOPY) -O binary $< $(@)
+
+%.lss : %.elf
+	@echo DUMPING $@
+	$(V)$(OBJDUMP) -h -S $< > $@
 
 %.sum : %.bin
 	@echo CREATING CHECKSUM $@
