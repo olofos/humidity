@@ -139,7 +139,7 @@ uint8_t read_config(void)
         (GPIO_PUPDR_PU <<  8) |      // PB4: Config 1
         (GPIO_PUPDR_PU << 10) |      // PB5: Config 2
         (GPIO_PUPDR_PU << 12) |      // PB6: Config 3
-        (GPIO_PUPDR_PU << 14) ;      // PB7: Config 4;
+        (GPIO_PUPDR_PU << 14) ;      // PB7: Config 4
 
     GPIOB->MODER = (GPIOB->MODER & ~EXPAND_MASK(CONF_MASK)) |
         (GPIO_MODER_INPUT  <<  6) | // BP3: Config 0
