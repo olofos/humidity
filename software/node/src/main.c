@@ -185,14 +185,12 @@ void sleep(uint8_t mode)
         PWR->CR |= PWR_CR_ULP;
     } else if(mode == SLEEP_MODE_STANDBY) {
         SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
-        PWR->CR |= PWR_CR_ULP;
-        PWR->CR |= PWR_CR_PDDS;
+        PWR->CR |= PWR_CR_ULP | PWR_CR_PDDS;
     }
 
     sleep_do_sleep();
 
-    PWR->CR &= ~PWR_CR_PDDS;
-    PWR->CR &= ~PWR_CR_ULP;
+    PWR->CR &= ~(PWR_CR_PDDS | PWR_CR_ULP);
     SCB->SCR &= ~SCB_SCR_SLEEPDEEP_Msk;
 }
 
