@@ -18,9 +18,11 @@ TSTRESDIR := test/results
 
 BUILD_DIRS = $(OBJDIR) $(DEPDIR) $(BINDIR) $(TSTRESDIR) $(TSTOBJDIR) $(TSTBINDIR) $(TSTDEPDIR)
 
-SRC := $(C_SOURCES:%.c=$(SRCDIR)/%.c) $(ASM_SOURCES:%.s=$(SRCDIR)/%.s)
 OBJ := $(C_SOURCES:%.c=$(OBJDIR)/%.o) $(ASM_SOURCES:%.s=$(OBJDIR)/%.o)
 DEPS := $(C_SOURCES:%.c=$(DEPDIR)/%.d)
+SRC := C_SOURCES ASM_SOURCES
+
+VPATH := src/ ../common/src/
 
 SOURCES_TST = $(wildcard $(TSTDIR)/*.c)
 
@@ -42,7 +44,7 @@ LDFLAGS = $(CFLAGS) -T$(LDFILE) -Wl,-Map=$(BINDIR)/$(TARGET).map,--cref
 
 INCLUDES := $(INCLUDES)
 INCLUDES += -I$(CURDIR)/include
-INCLUDES += -I$(CURDIR)/src
+INCLUDES += -I$(CURDIR)/../common/include
 
 TST_CC = gcc
 TST_WRAP =
@@ -60,12 +62,12 @@ lss: $(BINDIR)/$(TARGET).lss
 -include $(DEPS)
 -include $(TST_DEPS)
 
-$(OBJDIR)/%.o : $(SRCDIR)/%.c
+$(OBJDIR)/%.o : %.c
 	@echo CC $@
 	$(V)$(CC) $(CFLAGS) -c $< -o $@
 	$(V)$(CC) -MM -MT $@ $(CFLAGS) $< > $(DEPDIR)/$*.d
 
-$(OBJDIR)/%.o : $(SRCDIR)/%.s
+$(OBJDIR)/%.o : %.s
 	@echo CC $@
 	$(V)$(CC) $(CFLAGS) -c $< -o $@
 

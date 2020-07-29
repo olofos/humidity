@@ -5,3 +5,4 @@
 *.bck
 _autosave*
 .deps/
+./software/common/include/aes-key.h

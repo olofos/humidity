@@ -19,6 +19,7 @@
 #include "rfm69.h"
 #include "db.h"
 #include "package.h"
+#include "aes-key.h"
 
 #define SHTC3_TEMPERATURE_SHIFT 8
 #define ADC_VOLTAGE_SHIFT 12
@@ -29,8 +30,6 @@ static int done = 0;
 
 #define GATEWAY_ADDRESS 1
 #define NODE_ADDRESS 2
-
-static const uint8_t aes_key[16] = { 0xc6, 0xe0, 0xca, 0x0a, 0xbd, 0x23, 0x3d, 0x84, 0x5d, 0x06, 0x8f, 0x0f, 0x8c, 0x5d, 0xa8, 0xf3 };
 
 uint8_t from_bcd(uint8_t n)
 {

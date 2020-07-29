@@ -18,6 +18,7 @@
 #include "package.h"
 #include "measurement.h"
 #include "pretty-print.h"
+#include "aes-key.h"
 
 #define GATEWAY_ADDRESS 0x01
 
@@ -193,8 +194,6 @@ void sleep(uint8_t mode)
     PWR->CR &= ~(PWR_CR_PDDS | PWR_CR_ULP);
     SCB->SCR &= ~SCB_SCR_SLEEPDEEP_Msk;
 }
-
-static const uint8_t aes_key[16] = { 0xc6, 0xe0, 0xca, 0x0a, 0xbd, 0x23, 0x3d, 0x84, 0x5d, 0x06, 0x8f, 0x0f, 0x8c, 0x5d, 0xa8, 0xf3 };
 
 void init_mcu(void)
 {

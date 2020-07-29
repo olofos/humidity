@@ -19,11 +19,11 @@ DEPS := $(C_SOURCES:%.c=$(DEPDIR)/%.d)
 
 .PHONY: all clean
 
-all: rfm69-test
+all: humidity-gateway
 
 -include $(DEPS)
 
-rfm69-test: $(OBJ)
+humidity-gateway: $(OBJ)
 	$(CC) $^ $(LDFLAGS) -o $@
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c
@@ -32,4 +32,4 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	$(V)$(CC) -MM -MT $@ $(CFLAGS) $< > $(DEPDIR)/$*.d
 
 clean:
-	rm rfm69-test $(OBJ)
+	rm humidity-gateway $(OBJ)
