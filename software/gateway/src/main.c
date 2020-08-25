@@ -10,6 +10,7 @@
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/file.h>
 
 #include <linux/types.h>
 #include <linux/spi/spidev.h>
@@ -23,6 +24,8 @@
 
 #define SHTC3_TEMPERATURE_SHIFT 8
 #define ADC_VOLTAGE_SHIFT 12
+
+#define LOCKNAME "/tmp/humidity-gateway.lock"
 
 void sighandler(int);
 
@@ -83,9 +86,28 @@ static const char *format_time(time_t *tp)
     return s;
 }
 
+static int take_lock(void)
+{
+    const char *lockname = LOCKNAME;
+    int fd = open(lockname, O_RDONLY | O_CREAT);
+    if(fd < 0) {
+        perror("Could not open lock file");
+        return -1;
+    }
+    if(flock(fd, LOCK_EX | LOCK_NB) < 0) {
+        perror("Could not acquire lock");
+        return -1;
+    }
+    return fd;
+}
+
 int main(void)
 {
     signal(SIGINT, sighandler);
+
+    if(take_lock() < 0) {
+        return 1;
+    }
 
     // Make sure we work in UTC
     setenv("TZ", "", 1);
@@ -118,6 +140,8 @@ int main(void)
         pkg_init(p);
 
         int len = pkg_read(p);
+
+        if(done) break;
 
         if(len > 0) {
             printf("\r\n");
