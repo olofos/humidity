@@ -84,7 +84,14 @@ int main(void)
     setenv("TZ", "", 1);
     tzset();
 
-    if(db_init("../db/humidity.db") != DB_OK) {
+    char *db_filename = "../db/humidity.db";
+
+    if(getenv("DB")) {
+        db_filename = getenv("DB");
+    }
+
+    printf("Opening database %s\n", db_filename);
+    if(db_init(db_filename) != DB_OK) {
         fprintf(stderr, "Failed initializing database\n");
         return 1;
     }
