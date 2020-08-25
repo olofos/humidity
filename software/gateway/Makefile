@@ -4,7 +4,6 @@ C_SOURCES := main.c rfm69.c rfm69-hal.c db.c sqlite3.c
 
 SRCDIR := src
 OBJDIR := obj
-BINDIR := bin
 DEPDIR := .deps
 
 
@@ -17,14 +16,20 @@ SRC := $(C_SOURCES:%.c=$(SRCDIR)/%.c) $(ASM_SOURCES:%.s=$(SRCDIR)/%.s)
 OBJ := $(C_SOURCES:%.c=$(OBJDIR)/%.o) $(ASM_SOURCES:%.s=$(OBJDIR)/%.o)
 DEPS := $(C_SOURCES:%.c=$(DEPDIR)/%.d)
 
-.PHONY: all clean
+BUILD_DIRS := $(OBJDIR) $(DEPDIR)
 
-all: humidity-gateway
+.PHONY: all clean build_dirs
+
+all: build_dirs humidity-gateway
 
 -include $(DEPS)
 
 humidity-gateway: $(OBJ)
-	$(CC) $^ $(LDFLAGS) -o $@
+	@echo LINKING $@
+	$(V)$(CC) $^ $(LDFLAGS) -o $@
+
+build_dirs:
+	$(V)mkdir -p $(BUILD_DIRS)
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	@echo CC $@
@@ -32,4 +37,5 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	$(V)$(CC) -MM -MT $@ $(CFLAGS) $< > $(DEPDIR)/$*.d
 
 clean:
-	rm humidity-gateway $(OBJ)
+	@echo CLEANING
+	$(V)rm humidity-gateway $(OBJ)
