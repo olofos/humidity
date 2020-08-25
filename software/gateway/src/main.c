@@ -159,7 +159,7 @@ int main(void)
                     double vmid = ((double) vmid_raw) / (1 << ADC_VOLTAGE_SHIFT);
 
                     int ret = db_add_measurement(node, timestamp, humidity, temperature, vcc, vmid);
-                    if(ret == DB_OK) {
+                    if(ret > 0) {
                         uint8_t flags = 0x00;
 
                         int uptodate = db_check_firmware_is_uptodate(node);
@@ -178,7 +178,7 @@ int main(void)
                         pkg_write_byte(p, flags);
                         pkg_write(node, p);
 
-                        printf("New measurement\n");
+                        printf("New measurement #%d\n", ret);
                         printf("Node id:     %d\n", node);
                         printf("Timestamp:   %s", ctime(&timestamp));
                         printf("Temperature: %.2fC\n", temperature);
@@ -223,7 +223,7 @@ int main(void)
                     printf("Message from %d at %s%s\n", node, ctime(&timestamp), msg);
 
                     int ret = db_add_debug_message(node, timestamp, msg, len);
-                    if(ret == DB_OK) {
+                    if(ret > 0) {
                         pkg_write_byte(p, PKG_ACK);
                         pkg_write_byte(p, 0x00);
                         pkg_write(node, p);

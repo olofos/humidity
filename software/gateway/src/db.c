@@ -138,6 +138,10 @@ int db_add_measurement(uint8_t node_id, time_t timestamp, double humidity, doubl
 
     sqlite3_reset(stmt);
 
+    if(result == DB_OK) {
+        result = sqlite3_last_insert_rowid(db);
+    }
+
     return result;
 }
 
@@ -157,6 +161,10 @@ int db_add_debug_message(uint8_t node_id, time_t timestamp, char *message, int m
     }
 
     sqlite3_reset(stmt);
+
+    if(result == DB_OK) {
+        result = sqlite3_last_insert_rowid(db);
+    }
 
     return result;
 }
