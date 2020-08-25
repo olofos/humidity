@@ -604,7 +604,9 @@ int main(void)
 
     for(;;) {
         uart_init_dma();
+        ledr_on();
         state = state_handlers[state]();
+        ledr_off();
 
         rtc_set_periodic_wakeup(state_sleep_period);
 
