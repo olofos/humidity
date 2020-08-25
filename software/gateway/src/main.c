@@ -175,7 +175,7 @@ int main(void)
                     double vmid = ((double) vmid_raw) / (1 << ADC_VOLTAGE_SHIFT);
 
                     int ret = db_add_measurement(node, timestamp, humidity, temperature, vcc, vmid);
-                    if(ret > 0) {
+                    if((ret > 0) || (ret == DB_ALREADY_ADDED)) {
                         uint8_t flags = 0x00;
 
                         int uptodate = db_check_firmware_is_uptodate(node);
@@ -194,22 +194,29 @@ int main(void)
                         pkg_write_byte(p, flags);
                         pkg_write(node, p);
 
-                        printf("New measurement #%d\n", ret);
-                        printf("Node id:     %d\n", node);
-                        printf("Timestamp:   %s\n", format_time(&timestamp));
-                        printf("Temperature: %.2fC\n", temperature);
-                        printf("Humidity:    %.2f%%\n", humidity);
-                        printf("VCC:         %.2fV\n", vcc);
-                        printf("Vmid:        %.2fV\n", vmid);
-                        printf("RSSI:        %.2fdB\n", rssi);
+                        if(ret == DB_ALREADY_ADDED) {
+                            printf("Measurement already added\n");
+                        } else {
+                            printf("New measurement #%d\n", ret);
+                            printf("Node id:     %d\n", node);
+                            printf("Timestamp:   %s\n", format_time(&timestamp));
+                            printf("Temperature: %.2fC\n", temperature);
+                            printf("Humidity:    %.2f%%\n", humidity);
+                            printf("VCC:         %.2fV\n", vcc);
+                            printf("Vmid:        %.2fV\n", vmid);
+                            printf("RSSI:        %.2fdB\n", rssi);
+                        }
                     } else {
-                        printf("Error when adding measurement\n");
+                        printf("Error when adding measurement");
 
                         uint8_t flags = 0x00;
 
                         if(ret == DB_NOT_REGISTERED) {
                             flags = PKG_FLAG_NOT_REGISTERED;
+                            printf(": Not registered");
                         }
+
+                        printf("\n");
 
                         pkg_write_byte(p, PKG_NACK);
                         pkg_write_byte(p, flags);
