@@ -14,4 +14,7 @@ int db_add_debug_message(uint8_t node_id, time_t timestamp, char *message, int m
 int db_check_firmware_is_uptodate(uint8_t node_id);
 uint64_t db_get_latest_firmware_hash(void);
 
+void db_begin_transaction(void);
+void db_end_transaction(void);
+
 #endif

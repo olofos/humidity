@@ -204,6 +204,16 @@ uint64_t db_get_latest_firmware_hash(void)
     return hash;
 }
 
+void db_begin_transaction(void)
+{
+    sqlite3_exec(db, "BEGIN", 0, 0, 0);
+}
+
+void db_end_transaction(void)
+{
+    sqlite3_exec(db, "COMMIT", 0, 0, 0);
+}
+
 #ifdef DB_TEST_MAIN
 int main(void)
 {
