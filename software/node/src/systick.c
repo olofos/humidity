@@ -4,7 +4,7 @@
 #include "systick.h"
 #include "vector.h"
 
-volatile uint32_t systick = 100000;
+volatile uint32_t systick = 0;
 
 void systick_init(void)
 {
