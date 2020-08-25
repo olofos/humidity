@@ -49,8 +49,10 @@ static void clocks_init(void)
 
     SCB->SCR = 0;
 
-    RCC->CSR |= RCC_CSR_RTCSEL_0 ;
-    RCC->CSR |= RCC_CSR_LSEON | RCC_CSR_RTCEN;
+    // Clock RTC from from 32768 Hz LSE clock
+    RCC->CSR |= RCC_CSR_RTCSEL_0 | RCC_CSR_LSEON | RCC_CSR_RTCEN;
+
+    // Clock LPUART from 32768 Hz LSE clock
     RCC->CCIPR = RCC_CCIPR_LPUART1SEL_0 | RCC_CCIPR_LPUART1SEL_1;
 
     RTC->ISR = 0;
