@@ -75,6 +75,13 @@ time_t convert_pkg_timestamp_to_time(struct pkg_timestamp timestamp)
     return mktime(&tm);
 }
 
+static const char *format_time(time_t *tp)
+{
+    struct tm *tmp = localtime(tp);
+    static char s[20];
+    strftime(s, sizeof(s), "%Y-%m-%d %H:%M:%S%z", tmp);
+    return s;
+}
 
 int main(void)
 {
@@ -107,16 +114,18 @@ int main(void)
     struct pkg_buffer pkg_buffer;
 
     while(!done) {
-        printf("\r\n");
-
         struct pkg_buffer *p = &pkg_buffer;
         pkg_init(p);
 
         int len = pkg_read(p);
 
         if(len > 0) {
+            printf("\r\n");
             uint8_t node = p->from;
             uint8_t request = pkg_read_byte(p);
+
+            time_t receive_time = time(0);
+            printf("Received package from %d at %s\n", node, format_time(&receive_time));
 
             switch(request) {
             case PKG_REGISTER: // Register
@@ -187,7 +196,7 @@ int main(void)
 
                         printf("New measurement #%d\n", ret);
                         printf("Node id:     %d\n", node);
-                        printf("Timestamp:   %s", ctime(&timestamp));
+                        printf("Timestamp:   %s\n", format_time(&timestamp));
                         printf("Temperature: %.2fC\n", temperature);
                         printf("Humidity:    %.2f%%\n", humidity);
                         printf("VCC:         %.2fV\n", vcc);
@@ -207,7 +216,7 @@ int main(void)
                         pkg_write(node, p);
                     }
                 } else {
-                    printf("Timestamp too old: %s\n", ctime(&timestamp));
+                    printf("Timestamp too old: %s\n", format_time(&timestamp));
 
                     pkg_write_byte(p, PKG_NACK);
                     pkg_write_byte(p, PKG_FLAG_NOT_REGISTERED);
@@ -227,7 +236,7 @@ int main(void)
                 int len = pkg_read_string(p, msg, sizeof(msg));
 
                 if(pkg_timestamp.year > 0) {
-                    printf("Message from %d at %s%s\n", node, ctime(&timestamp), msg);
+                    printf("Message from %d at %s: %s\n", node, format_time(&timestamp), msg);
 
                     int ret = db_add_debug_message(node, timestamp, msg, len);
                     if(ret > 0) {
@@ -240,7 +249,7 @@ int main(void)
                         pkg_write(node, p);
                     }
                 } else {
-                    printf("Timestamp too old: %s", ctime(&timestamp));
+                    printf("Timestamp too old: %s\n", format_time(&timestamp));
                     printf("Message from %d: \"%s\"\r\n", node, msg);
 
                     pkg_write_byte(p, PKG_NACK);
@@ -251,7 +260,8 @@ int main(void)
             break;
             }
         } else {
-            printf("Nothing\n");
+            printf(".");
+            fflush(stdout);
         }
     }
 
