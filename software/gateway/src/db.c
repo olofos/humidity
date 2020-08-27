@@ -130,11 +130,7 @@ int db_add_measurement(uint8_t node_id, time_t timestamp, double humidity, doubl
     if (ret != SQLITE_DONE ) {
         fprintf(stderr, "SQL error (%d): %s\n", ret, sqlite3_errmsg(db));
         if(ret == SQLITE_CONSTRAINT) {
-            if(sqlite3_extended_errcode(db) == SQLITE_CONSTRAINT_UNIQUE) {
-                result = DB_ALREADY_ADDED;
-            } else {
-                result = DB_NOT_REGISTERED;
-            }
+            result = DB_NOT_REGISTERED;
         } else {
             result = DB_ERROR;
         }

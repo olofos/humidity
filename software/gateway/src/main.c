@@ -198,8 +198,8 @@ int main(void)
                     double vcc = ((double) vcc_raw) / (1 << ADC_VOLTAGE_SHIFT);
                     double vmid = ((double) vmid_raw) / (1 << ADC_VOLTAGE_SHIFT);
 
-                    int ret = db_add_measurement(node, timestamp, humidity, temperature, vcc, vmid);
-                    if((ret > 0) || (ret == DB_ALREADY_ADDED)) {
+                    int row_id = db_add_measurement(node, timestamp, humidity, temperature, vcc, vmid);
+                    if(row_id >= 0) {
                         uint8_t flags = 0x00;
 
                         int uptodate = db_check_firmware_is_uptodate(node);
@@ -218,10 +218,10 @@ int main(void)
                         pkg_write_byte(p, flags);
                         pkg_write(node, p);
 
-                        if(ret == DB_ALREADY_ADDED) {
+                        if(row_id == 0) {
                             printf("Measurement already added\n");
                         } else {
-                            printf("New measurement #%d\n", ret);
+                            printf("New measurement #%d\n", row_id);
                             printf("Node id:     %d\n", node);
                             printf("Timestamp:   %s\n", format_time(&timestamp));
                             printf("Temperature: %.2fC\n", temperature);
@@ -231,11 +231,11 @@ int main(void)
                             printf("RSSI:        %.2fdB\n", rssi);
                         }
                     } else {
-                        printf("Error when adding measurement");
+                        printf("Error %d when adding measurement", row_id);
 
                         uint8_t flags = 0x00;
 
-                        if(ret == DB_NOT_REGISTERED) {
+                        if(row_id == DB_NOT_REGISTERED) {
                             flags = PKG_FLAG_NOT_REGISTERED;
                             printf(": Not registered");
                         }
@@ -269,8 +269,8 @@ int main(void)
                 if(pkg_timestamp.year > 0) {
                     printf("Message from %d at %s: %s\n", node, format_time(&timestamp), msg);
 
-                    int ret = db_add_debug_message(node, timestamp, msg, len);
-                    if(ret > 0) {
+                    int row_id = db_add_debug_message(node, timestamp, msg, len);
+                    if(row_id >= 0) {
                         pkg_write_byte(p, PKG_ACK);
                         pkg_write_byte(p, 0x00);
                         pkg_write(node, p);
