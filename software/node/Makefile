@@ -81,11 +81,15 @@ $(BINDIR)/$(TARGET).elf : $(OBJDIR)/$(TARGET).elf $(OBJDIR)/$(TARGET).sum
 
 %.hex : %.elf
 	@echo CREATING HEX IMAGE $@
-	$(V)$(OBJCOPY) -O ihex $< $(@)
+	$(V)$(OBJCOPY) --gap-fill 0xFF -O ihex $< $(@)
 
 $(OBJDIR)/$(TARGET).bin : $(OBJDIR)/$(TARGET).elf
-	@echo CREATING HEX IMAGE $@
-	$(V)$(OBJCOPY) -O binary $< $(@)
+	@echo CREATING IMAGE $@
+	$(V)$(OBJCOPY) --gap-fill 0xFF -O binary $< $(@)
+
+$(BINDIR)/$(TARGET).bin : $(BINDIR)/$(TARGET).elf
+	@echo CREATING IMAGE $@
+	$(V)$(OBJCOPY) --gap-fill 0xFF -O binary $< $(@)
 
 %.lss : %.elf
 	@echo DUMPING $@
