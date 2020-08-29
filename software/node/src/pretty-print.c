@@ -52,6 +52,6 @@ void print_measurement(const struct measurement *measurement)
     print_timestamp(&measurement->timestamp);
     print_temperature(measurement->humidity_temperature.temperature);
     print_humidity(measurement->humidity_temperature.humidity);
-    printf("Vcc:          %d.%dV\r\n", measurement->voltages.vcc >> ADC_VOLTAGE_SHIFT, (100 * (measurement->voltages.vcc & ((1<<ADC_VOLTAGE_SHIFT)-1))) >> ADC_VOLTAGE_SHIFT);
-    printf("Vmid:         %d.%dV\r\n", measurement->voltages.vmid >> ADC_VOLTAGE_SHIFT, (100 * (measurement->voltages.vmid & ((1<<ADC_VOLTAGE_SHIFT)-1))) >> ADC_VOLTAGE_SHIFT);
+    printf("Vcc:          %d.%02dV\r\n", measurement->voltages.vcc >> ADC_VOLTAGE_SHIFT, (100 * (measurement->voltages.vcc & ((1<<ADC_VOLTAGE_SHIFT)-1))) >> ADC_VOLTAGE_SHIFT);
+    printf("Vmid:         %d.%02dV\r\n", measurement->voltages.vmid >> ADC_VOLTAGE_SHIFT, (100 * (measurement->voltages.vmid & ((1<<ADC_VOLTAGE_SHIFT)-1))) >> ADC_VOLTAGE_SHIFT);
 }
