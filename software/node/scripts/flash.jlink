@@ -1,0 +1,7 @@
+device STM32L031K6
+si 1
+speed 400
+loadbin bin/node.bin 0
+r
+g
+exit
