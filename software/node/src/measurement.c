@@ -10,7 +10,7 @@
 #include "cbuf.h"
 #include "pretty-print.h"
 
-#define measurement_cbuf_LEN 16
+#define measurement_cbuf_LEN 128
 
 struct
 {
