@@ -503,7 +503,7 @@ enum state do_send_measurement(void)
                 return STATE_MEASURE;
             } else {
                 uint8_t flags = pkg_read_byte(p);
-                printf("Receive NACK (%02X)\r\n", flags);
+                printf("Received NACK (%02X)\r\n", flags);
 
                 if(flags & PKG_FLAG_NOT_REGISTERED) {
                     state_sleep_mode = SLEEP_MODE_NONE;
