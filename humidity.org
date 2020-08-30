@@ -1,3 +1,7 @@
+- Controlled impedence: JLC7628
+
+- Display: DEM 128160C TMH-PW-N
+
 - STM32L011K4T6
   LQFP32
 
@@ -41,22 +45,32 @@
 
     0x00 Node ID (1 byte)
     0x01 Command (1 byte)
-    0x02 Battry voltage (2 bytes)
-    0x04 Data (n bytes)
+    0x02 Timestamp (6 bytes)
+
+    0x08 Command header + data (max 32 bytes)
 
     Commands:
-    Connect
-    Temp/humidity data
-    Debug message
+     + Connect
+     + Measurement data
+     + Debug message
+     + Request update
 
 
     Connect:
     Current firmware version
     
-    Temp/humidity data:
-    0x04 Timestamp (6 bytes, BCD following stm32 format, in UTC)
-    0x0A Humidity data (2 bytes)
-    0x0D Temperature data (2 bytes)
+    Measurement data:
+    Humidity data (2 bytes, 0.16 bit fixed point)
+    Temperature data (2 bytes, 8.8 bit fixed point, shifted by 45C)
+    Battery 1 voltage (2 bytes, 4.12 bit fixed point)
+    Battery 2 voltage (2 bytes, 4.12 bit fixed point)
+
+    - request update
+      0x00 Node ID (1 byte)
+      0x01 Command (1 byte)
+      0x03 address (2 bytes)
+      0x05 version (8 bytes)
+
 
   - From server to node:
 
@@ -69,3 +83,179 @@
     Magic string to check encryption
     Address
     32 bytes of data
+
+Backup registers:
+0 checksum
+1 checksum
+2 spi flash circular package buffer start/end (contains 512 packets => 16 + 16 bits)
+3 state
+4
+
+Updates:
+need 256 bit (64 byte) bitmap to keep track of unchanged 128 byte pages
+use stop mode instead of standby between packages to keep ram content
+
+
+
+MOSI 26,437
+MISO 21,906
+SCK 24.738
+
+|------+------------+-------------+-------+--------+---------+-------+--------|
+| Pin  | Function   | Config      | MODER | OTYPER | OSPEEDR | PUPDR | AFRL/H |
+|------+------------+-------------+-------+--------+---------+-------+--------|
+| PA0  | Switch     | Input       |    00 |      0 |      00 |    00 |   0000 |
+| PA1  | LEDG       | Output      |    01 |      0 |      01 |    00 |   0000 |
+| PA2  | LPUART1_TX | AF6         |    10 |      0 |      01 |    00 |   0110 |
+| PA3  | LPUART1_RX | AF6         |    10 |      0 |      00 |    00 |   0110 |
+| PA4  | CS_RFM69   | Output      |    01 |      0 |      10 |    00 |   0000 |
+| PA5  | SPI1_SCK   | AF0         |    10 |      0 |      11 |    00 |   0000 |
+| PA6  | SPI1_MISO  | AF0         |    10 |      0 |      00 |    00 |   0000 |
+| PA7  | SPI1_MOSI  | AF0         |    10 |      0 |      11 |    00 |   0000 |
+|------+------------+-------------+-------+--------+---------+-------+--------|
+| PA8  | RFM69_INT  | Input (?)   |    00 |      0 |      00 |     ? |   0000 |
+| PA9  | I2C1_SCL   | AF1 / OD    |    10 |      1 |      01 |    00 |   0001 |
+| PA10 | I2C1_SDA   | AF1 / OD    |    10 |      1 |      01 |    00 |   0001 |
+| PA11 | RFM69_RST  | Output (OD) |    01 |      1 |      10 |    00 |   0000 |
+| PA12 | unused     | Analog      |    11 |      0 |      00 |    00 |   0000 |
+| PA13 | SWDIO      | AF0 / PU    |    10 |      0 |      11 |    01 |   0000 |
+| PA14 | SWCLK      | AF0 / PD    |    10 |      0 |      00 |    10 |   0000 |
+| PA15 | LEDR       | Output      |    01 |      0 |      01 |    00 |   0000 |
+|------+------------+-------------+-------+--------+---------+-------+--------|
+| PB0  | CS_FLASH   | Output      |    01 |      0 |      10 |    00 |   0000 |
+| PB1  | BAT_MID    | ADC         |    11 |      0 |      00 |    00 |   0000 |
+| BP2  | CONF0      | Input (PU)  |    00 |      0 |      00 |    01 |   0000 |
+| PB3  | CONF1      | Input (PU)  |    00 |      0 |      00 |    01 |   0000 |
+| PB4  | CONF2      | Input (PU)  |    00 |      0 |      00 |    01 |   0000 |
+| PB5  | CONF3      | Input (PU)  |    00 |      0 |      00 |    01 |   0000 |
+| PB6  | CONF4      | Input (PU)  |    00 |      0 |      00 |    01 |   0000 |
+| PB7  | CONF5      | Input (PU)  |    00 |      0 |      00 |    01 |   0000 |
+|------+------------+-------------+-------+--------+---------+-------+--------|
+
+
+
+- Addresses
+
+ set mem inaccessible-by-default off
+
+ |----------------+----------+------------|
+ | Symbol         | Field    |    Address |
+ |----------------+----------+------------|
+ | PERIPH_BASE    |          | 0x40000000 |
+ | APBPERIPH_BASE |          | 0x40000000 |
+ | AHBPERIPH_BASE |          | 0x40020000 |
+ | IOPPERIPH_BASE |          | 0x50000000 |
+ |----------------+----------+------------|
+ | GPIOA          |          | 0x50000000 |
+ |                | MODER    | 0x50000000 |
+ |                | OTYPER   | 0x50000004 |
+ |                | OSPEEDR  | 0x50000008 |
+ |                | PUPDR    | 0x5000000C |
+ |                | IDR      | 0x50000010 |
+ |                | ODR      | 0x50000014 |
+ |                | BSRR     | 0x50000018 |
+ |                | LCKR     | 0x5000001C |
+ |                | AFR0     | 0x50000020 |
+ |                | AFR1     | 0x50000024 |
+ |                | BRR      | 0x50000028 |
+ |----------------+----------+------------|
+ | GPIOB          |          | 0x50000400 |
+ |                | MODER    | 0x50000400 |
+ |                | OTYPER   | 0x50000404 |
+ |                | OSPEEDR  | 0x50000408 |
+ |                | PUPDR    | 0x5000040C |
+ |                | IDR      | 0x50000410 |
+ |                | ODR      | 0x50000414 |
+ |                | BSRR     | 0x50000418 |
+ |                | LCKR     | 0x5000041C |
+ |                | AFR0     | 0x50000420 |
+ |                | AFR1     | 0x50000424 |
+ |                | BRR      | 0x50000428 |
+ |----------------+----------+------------|
+ | RCC            |          | 0x40021000 |
+ |                | CSR      | 0x40021050 |
+ |----------------+----------+------------|
+ | LPUART1_BASE   |          | 0x40004800 |
+ |                | CR1      | 0x40004800 |
+ |                | CR2      | 0x40004804 |
+ |                | CR3      | 0x40004808 |
+ |                | BRR      | 0x4000480C |
+ |                |          |            |
+ |                |          |            |
+ |----------------+----------+------------|
+ | RTC_BASE       |          | 0x40002800 |
+ |                | TR       | 0x40002800 |
+ |                | DR       | 0x40002804 |
+ |                | CR       | 0x40002808 |
+ |                | ISR      | 0x4000280C |
+ |                | PRER     | 0x40002810 |
+ |                | WUTR     | 0x40002814 |
+ |                | ALRMAR   | 0x4000281C |
+ |                | ALRMBR   | 0x40002820 |
+ |                | WPR      | 0x40002824 |
+ |                | SSR      | 0x40002828 |
+ |                | SHIFTR   | 0x4000282C |
+ |                | TSTR     | 0x40002830 |
+ |                | TSDR     | 0x40002834 |
+ |                | TSSSR    | 0x40002838 |
+ |                | CALR     | 0x4000283C |
+ |                | TAMPCR   | 0x40002840 |
+ |                | ALRMASSR | 0x40002844 |
+ |                | ALRMBSSR | 0x40002848 |
+ |                | OR       | 0x4000284C |
+ |----------------+----------+------------|
+ | SPI1           |          | 0x40013000 |
+ |                | CR1      | 0x40013000 |
+ |                | CR2      | 0x40013004 |
+ |                | SR       | 0x40013008 |
+ |                | DR       | 0x4001300C |
+ |----------------+----------+------------|
+ | DMA1           |          | 0x40020000 |
+ |----------------+----------+------------|
+ | I2C1           |          | 0x40005400 |
+ |                | CR1      | 0x40005400 |
+ |                | CR2      | 0x40005404 |
+ |                | ISR      | 0x40005418 |
+ |----------------+----------+------------|
+ | ADC1           |          | 0x40012400 |
+ |                | ISR      | 0x40012400 |
+ |                | IER      | 0x40012404 |
+ |                | CR       | 0x40012408 |
+ |                | CFGR1    | 0x4001240C |
+ |                | CFGR2    | 0x40012410 |
+ |                | SMPR     | 0x40012414 |
+ |                | TR       | 0x40012420 |
+ |                | CHSELR   | 0x40012428 |
+ |                | DR       | 0x40012440 |
+ |                | CALFACT  | 0x400124B4 |
+ |                | CCR      | 0x40012708 |
+ |----------------+----------+------------|
+ | EXTI           |          | 0x40010400 |
+ |                | IMR      | 0x40010400 |
+ |                | EMR      | 0x40010404 |
+ |                | RTSR     | 0x40010408 |
+ |                | FTSR     | 0x4001040C |
+ |                | SWIER    | 0x40010410 |
+ |                | PR       | 0x40010414 |
+ |----------------+----------+------------|
+ | PWR            |          | 0x40007000 |
+ |                | CR       | 0x40007000 |
+ |                | CSR      | 0x40007004 |
+ |----------------+----------+------------|
+ | SCB            | CPUID    | 0xE000ED00 |
+ |                | ICSR     | 0xE000ED04 |
+ |                | VTOR     | 0xE000ED08 |
+ |                | AIRCR    | 0xE000ED0C |
+ |                | SCR      | 0xE000ED10 |
+ |                | CCR      | 0xE000ED14 |
+ |                | SHPR2    | 0xE000ED1C |
+ |                | SHPR3    | 0xE000ED20 |
+ |----------------+----------+------------|
+ | Systick        | CSR      | 0xE000E010 |
+ |                | RVR      | 0xE000E014 |
+ |                | CVR      | 0xE000E018 |
+ |                | CALIB    | 0xE000E01C |
+ |----------------+----------+------------|
+ | FLASH_R        |          | 0x40022000 |
+ |                |          |            |
+
