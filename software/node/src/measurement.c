@@ -21,6 +21,11 @@ struct
 
 int measurement_add(const struct measurement *m)
 {
+    if(cbuf_full(measurement_cbuf)) {
+        // Overwrite oldest data
+        (void) cbuf_pop(measurement_cbuf);
+    }
+
     cbuf_push(measurement_cbuf, *m);
     return 1;
 }
