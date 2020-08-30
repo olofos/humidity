@@ -31,6 +31,7 @@ CC = arm-none-eabi-gcc
 NM = arm-none-eabi-nm
 OBJCOPY = arm-none-eabi-objcopy
 OBJDUMP = arm-none-eabi-objdump
+JLINK = JLinkExe
 
 CFLAGS = -g -mthumb -mcpu=cortex-m0plus -march=armv6-m -mlittle-endian -nostartfiles --specs=nano.specs --specs=nosys.specs \
 	 -std=gnu99 -Os \
@@ -99,8 +100,9 @@ $(BINDIR)/$(TARGET).bin : $(BINDIR)/$(TARGET).elf
 	@echo CREATING CHECKSUM $@
 	$(V)b2sum -l 64 -b $< | cut -d' ' -f1 | xxd -r -p - > $@
 
-flash: $(BINDIR)/$(TARGET).hex
-	@echo Not implemented
+flash: $(BINDIR)/$(TARGET).bin
+	@echo Flashing
+	$(V)$(JLINK) -commanderscript scripts/flash.jlink
 
 erase:
 	@echo Not implemented
