@@ -35,6 +35,8 @@ c = cbuf_pop(my_cbuf);
 
 #define cbuf_empty(cbuf) ( cbuf_len(cbuf) == 0 )
 
+#define cbuf_skip(cbuf) do { cbuf.tail++; } while(0)
+
 #define cbuf_head(cbuf) (&(cbuf.buf[ cbuf.head & ((cbuf##_LEN) -1 ) ]))
 #define cbuf_tail(cbuf) (&(cbuf.buf[ cbuf.tail & ((cbuf##_LEN) -1 ) ]))
 
