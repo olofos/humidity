@@ -31,11 +31,7 @@ uint32_t __attribute__((section(".checksum"))) firmware_checksum[2];
 // Check:
 // How does the Clock Security System of the LSE work if the interrupt is disabled?
 
-
 // https://lowpowerlab.com/forum/rf-range-antennas-rfm69-library/definition-of-rxbw-with-rfm69/
-
-__attribute__((section(".bootloader"), long_call)) void flash_test(void);
-void bootloader_init(void);
 
 static void clocks_init(void)
 {
