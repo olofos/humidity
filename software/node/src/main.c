@@ -135,7 +135,7 @@ static void gpio_init(void)
 #define CONF_MASK 0xF8UL
 #define CONF_SHIFT 3
 
-uint8_t read_config(void)
+static uint8_t read_config(void)
 {
     GPIOB->PUPDR = (GPIOB->PUPDR & ~EXPAND_MASK(CONF_MASK)) |
         (GPIO_PUPDR_PU <<  6) |      // PB3: Config 0
@@ -179,7 +179,7 @@ static void sleep_do_sleep(void)
     systick_resume();
 }
 
-void sleep(uint8_t mode)
+static void sleep(uint8_t mode)
 {
     if(mode == SLEEP_MODE_NONE) {
         return;
@@ -197,7 +197,7 @@ void sleep(uint8_t mode)
     SCB->SCR &= ~SCB_SCR_SLEEPDEEP_Msk;
 }
 
-void init_mcu(void)
+static void init_mcu(void)
 {
     clocks_init();
     gpio_init();
@@ -207,17 +207,17 @@ void init_mcu(void)
     spi_init();
 }
 
-void ledr_on(void)
+static void ledr_on(void)
 {
     GPIOA->BSRR = GPIO_BSRR_BS_15;
 }
 
-void ledr_off(void)
+static void ledr_off(void)
 {
     GPIOA->BSRR = GPIO_BSRR_BR_15;
 }
 
-uint32_t button_pushed(void)
+static uint32_t button_pushed(void)
 {
     return GPIOA->IDR & GPIO_IDR_ID0;
 }
@@ -243,7 +243,7 @@ static void error_loop(int n)
     }
 }
 
-void init_external_peripherals(void)
+static void init_external_peripherals(void)
 {
     i2c_init();
     shtc3_wakeup();
@@ -287,7 +287,7 @@ void init_external_peripherals(void)
     rtc_set_time(timestamp);
 }
 
-void rtc_set_timestamp(const struct pkg_timestamp *pkg_timestamp)
+static void rtc_set_timestamp(const struct pkg_timestamp *pkg_timestamp)
 {
     struct rtc_timestamp rtc_timestamp = {
         .time = ((uint32_t) pkg_timestamp->hour << 16) | ((uint32_t) pkg_timestamp->minute << 8) | pkg_timestamp->second,
@@ -297,7 +297,7 @@ void rtc_set_timestamp(const struct pkg_timestamp *pkg_timestamp)
     rtc_set_time(rtc_timestamp);
 }
 
-void rtc_get_timestamp(struct pkg_timestamp *pkg_timestamp)
+static void rtc_get_timestamp(struct pkg_timestamp *pkg_timestamp)
 {
     const struct rtc_timestamp rtc_timestamp = rtc_get_time();
 
@@ -321,10 +321,10 @@ enum state {
 
 typedef enum state state_handler_t(void);
 
-enum state do_register(void);
-enum state do_measure(void);
-enum state do_send_measurement(void);
-enum state do_update(void);
+static enum state do_register(void);
+static enum state do_measure(void);
+static enum state do_send_measurement(void);
+static enum state do_update(void);
 
 state_handler_t *state_handlers[STATE_NUM] = {
     [STATE_REGISTER] = do_register,
@@ -350,7 +350,7 @@ static struct pkg_buffer pkg_buffer;
 
 #define MEASUREMENT_PERIOD (10*60)
 
-enum state do_register(void)
+static enum state do_register(void)
 {
     printf("Registering\r\n");
 
@@ -402,7 +402,7 @@ enum state do_register(void)
     return STATE_REGISTER;
 }
 
-enum state do_measure(void)
+static enum state do_measure(void)
 {
     int measurement_failed = 0;
 
@@ -451,7 +451,7 @@ enum state do_measure(void)
     return STATE_SEND_MEASUREMENT;
 }
 
-enum state do_send_measurement(void)
+static enum state do_send_measurement(void)
 {
     struct pkg_buffer *p = &pkg_buffer;
 
@@ -531,7 +531,7 @@ enum state do_send_measurement(void)
     return STATE_SEND_MEASUREMENT;
 }
 
-enum state do_update(void)
+static enum state do_update(void)
 {
     state_sleep_mode = SLEEP_MODE_STANDBY;
     state_sleep_period = SLEEP_PERIOD_DUMMY_UPDATE;
@@ -542,7 +542,7 @@ enum state do_update(void)
 
 #define WAIT_PERIOD 200
 
-void wait_for_button(void)
+static void wait_for_button(void)
 {
     do {
         ledr_on();
