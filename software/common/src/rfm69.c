@@ -134,8 +134,8 @@ void rfm69_set_aes_key(const uint8_t* key)
 
 int rfm69_write(uint8_t address, const uint8_t *buf, uint8_t len)
 {
-    if(len > 62) {
-        len = 62;
+    if(len > 47) {
+        len = 47;
     }
 
     uint8_t header[] = {
