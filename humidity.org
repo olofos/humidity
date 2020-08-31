@@ -39,21 +39,45 @@
 
 - Data packets:
   - Encrypted using AES
-    Max 48 bytes per packet
+    Max 48 bytes per packet (not including length and destination address)
 
   - From node to server:
 
-    0x00 Node ID (1 byte)
-    0x01 Command (1 byte)
-    0x02 Timestamp (6 bytes)
-
-    0x08 Command header + data (max 32 bytes)
+    0x00 Node ID of sender (1 byte)
+    0x01 Command + Flags (1 byte)
+    0x02 Command header + data (Max 46 bytes)
 
     Commands:
-     + Connect
+     + Register
      + Measurement data
      + Debug message
      + Request update
+
+    - PKG_REGISTER
+      0x01 PKG_REGISTER (1 byte)
+      0x02 Node type (1 byte)
+      0x03 Firmware checksum (8 bytes)
+
+    - PKG_MEASUREMENT
+      0x01 PKG_MEASUREMENT (1 byte)
+      0x02 Timestamp (6 bytes)
+      0x08 Humidity (2 bytes)
+      0x0A Temperature (2 bytes)
+      0x0C Voltage VCC (2 bytes)
+      0x0E Voltage Vmid (2 bytes)
+
+
+    - PKG_ACK
+      0x01 PKG_ACK (1 byte)
+      0x02 Flags (1 byte)
+
+    - PKG_NACK
+      0x01 PKG_NACK (1 byte)
+      0x02 Flags (1 byte)
+
+    - PKG_SET_TIME
+      0x01 PKG_SET_TIME (1 byte)
+      0x02 New timestamp (6 bytes)
 
 
     Connect:
