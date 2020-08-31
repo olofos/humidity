@@ -139,7 +139,7 @@ int main(void)
         struct pkg_buffer *p = &pkg_buffer;
         pkg_init(p);
 
-        int len = pkg_read(p);
+        int len = pkg_receive(p);
 
         if(done) break;
 
@@ -165,7 +165,7 @@ int main(void)
 
                     pkg_write_byte(p, PKG_SET_TIME);
                     pkg_write_timestamp(p, &pkg_timestamp);
-                    pkg_write(node, p);
+                    pkg_send(node, p);
 
                     printf("New node\n");
                     printf("Node id:    %d\n", node);
@@ -174,7 +174,7 @@ int main(void)
                 } else {
                     pkg_write_byte(p, PKG_NACK);
                     pkg_write_byte(p, 0x00);
-                    pkg_write(node, p);
+                    pkg_send(node, p);
 
                     printf("Error when registering node\n");
                 }
@@ -216,7 +216,7 @@ int main(void)
 
                         pkg_write_byte(p, PKG_ACK);
                         pkg_write_byte(p, flags);
-                        pkg_write(node, p);
+                        pkg_send(node, p);
 
                         if(row_id == 0) {
                             printf("Measurement already added\n");
@@ -244,14 +244,14 @@ int main(void)
 
                         pkg_write_byte(p, PKG_NACK);
                         pkg_write_byte(p, flags);
-                        pkg_write(node, p);
+                        pkg_send(node, p);
                     }
                 } else {
                     printf("Timestamp too old: %s\n", format_time(&timestamp));
 
                     pkg_write_byte(p, PKG_NACK);
                     pkg_write_byte(p, PKG_FLAG_NOT_REGISTERED);
-                    pkg_write(node, p);
+                    pkg_send(node, p);
                 }
             }
             break;
@@ -273,11 +273,11 @@ int main(void)
                     if(row_id >= 0) {
                         pkg_write_byte(p, PKG_ACK);
                         pkg_write_byte(p, 0x00);
-                        pkg_write(node, p);
+                        pkg_send(node, p);
                     } else {
                         pkg_write_byte(p, PKG_NACK);
                         pkg_write_byte(p, 0x00);
-                        pkg_write(node, p);
+                        pkg_send(node, p);
                     }
                 } else {
                     printf("Timestamp too old: %s\n", format_time(&timestamp));
@@ -285,7 +285,7 @@ int main(void)
 
                     pkg_write_byte(p, PKG_NACK);
                     pkg_write_byte(p, PKG_FLAG_NOT_REGISTERED);
-                    pkg_write(node, p);
+                    pkg_send(node, p);
                 }
             }
             break;

@@ -38,12 +38,12 @@ static inline void pkg_write_timestamp(struct pkg_buffer *buf, const struct pkg_
     buf->buf[buf->write_counter++] = t->hour;
 }
 
-static inline int pkg_write(uint8_t node, const struct pkg_buffer *buf)
+static inline int pkg_send(uint8_t node, const struct pkg_buffer *buf)
 {
     return rfm69_write(node, buf->buf, buf->write_counter);
 }
 
-static inline int pkg_read(struct pkg_buffer *buf)
+static inline int pkg_receive(struct pkg_buffer *buf)
 {
     buf->len = rfm69_read(buf->buf, sizeof(buf->buf));
 

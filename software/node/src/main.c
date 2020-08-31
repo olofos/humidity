@@ -365,8 +365,8 @@ static enum state do_register(void)
 
     rfm69_set_mode(RFM69_MODE_STANDBY);
 
-    if(pkg_write(GATEWAY_ADDRESS, p) > 0) {
-        int ret = pkg_read(p);
+    if(pkg_send(GATEWAY_ADDRESS, p) > 0) {
+        int ret = pkg_receive(p);
         rfm69_set_mode(RFM69_MODE_SLEEP);
 
         if(ret > 0) {
@@ -471,8 +471,8 @@ static enum state do_send_measurement(void)
 
     rfm69_set_mode(RFM69_MODE_STANDBY);
 
-    if(pkg_write(GATEWAY_ADDRESS, p) > 0) {
-        int ret = pkg_read(p);
+    if(pkg_send(GATEWAY_ADDRESS, p) > 0) {
+        int ret = pkg_receive(p);
         rfm69_set_mode(RFM69_MODE_SLEEP);
 
         if(ret > 0) {
