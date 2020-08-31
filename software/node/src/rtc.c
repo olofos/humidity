@@ -3,15 +3,22 @@
 #include "vector.h"
 #include "systick.h"
 
+#define RTC_UNLOCK_MAGIC1 0xCA
+#define RTC_UNLOCK_MAGIC2 0x53
+
+#define RTC_LOCK_MAGIC    0xFF
+
+#define RTC_EXTI (1 << 20)
+
 static void rtc_write_protect_unlock(void)
 {
-    RTC->WPR = 0xCA;
-    RTC->WPR = 0x53;
+    RTC->WPR = RTC_UNLOCK_MAGIC1;
+    RTC->WPR = RTC_UNLOCK_MAGIC2;
 }
 
 static void rtc_write_protect_lock(void)
 {
-    RTC->WPR = 0xFF;
+    RTC->WPR = RTC_LOCK_MAGIC;
 }
 
 int rtc_is_rtc_clock_initialized(void)
@@ -75,8 +82,8 @@ void rtc_set_periodic_wakeup(uint16_t seconds)
 
     rtc_write_protect_lock();
 
-    EXTI->IMR |= 1 << 20;
-    EXTI->RTSR |= 1 << 20;
+    EXTI->IMR |= RTC_EXTI;
+    EXTI->RTSR |= RTC_EXTI;
 
     NVIC_EnableIRQ(RTC_IRQn);
 
@@ -85,5 +92,5 @@ void rtc_set_periodic_wakeup(uint16_t seconds)
 
 void RTC_IRQHandler(void)
 {
-    EXTI->PR = 1 << 20;
+    EXTI->PR = RTC_EXTI;
 }
