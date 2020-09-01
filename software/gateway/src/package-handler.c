@@ -212,6 +212,4 @@ void handle_package(struct pkg_buffer *p, int len)
         handle_package_debug(p, len, node);
         break;
     }
-
-    pkg_send(node, p);
 }

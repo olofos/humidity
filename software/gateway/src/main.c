@@ -90,6 +90,7 @@ int main(void)
 
         if(len > 0) {
             handle_package(p, len);
+            pkg_send(p->from, p);
         } else {
             printf(".");
             fflush(stdout);
