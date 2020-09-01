@@ -40,7 +40,11 @@ static inline void pkg_write_timestamp(struct pkg_buffer *buf, const struct pkg_
 
 static inline int pkg_send(uint8_t node, const struct pkg_buffer *buf)
 {
-    return rfm69_write(node, buf->buf, buf->write_counter);
+    if(buf->write_counter > 0) {
+        return rfm69_write(node, buf->buf, buf->write_counter);
+    } else {
+        return 0;
+    }
 }
 
 static inline int pkg_receive(struct pkg_buffer *buf)
