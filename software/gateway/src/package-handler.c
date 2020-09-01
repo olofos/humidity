@@ -75,7 +75,6 @@ static void handle_package_register(struct pkg_buffer *p, int len, uint8_t node)
 
         pkg_write_byte(p, PKG_SET_TIME);
         pkg_write_timestamp(p, &pkg_timestamp);
-        pkg_send(node, p);
 
         printf("New node\n");
         printf("Node id:    %d\n", node);
@@ -84,7 +83,6 @@ static void handle_package_register(struct pkg_buffer *p, int len, uint8_t node)
     } else {
         pkg_write_byte(p, PKG_NACK);
         pkg_write_byte(p, 0x00);
-        pkg_send(node, p);
 
         printf("Error when registering node\n");
     }
@@ -125,7 +123,6 @@ static void handle_package_measurement(struct pkg_buffer *p, int len, uint8_t no
 
             pkg_write_byte(p, PKG_ACK);
             pkg_write_byte(p, flags);
-            pkg_send(node, p);
 
             if(row_id == 0) {
                 printf("Measurement already added\n");
@@ -153,14 +150,12 @@ static void handle_package_measurement(struct pkg_buffer *p, int len, uint8_t no
 
             pkg_write_byte(p, PKG_NACK);
             pkg_write_byte(p, flags);
-            pkg_send(node, p);
         }
     } else {
         printf("Timestamp too old: %s\n", format_time(&timestamp));
 
         pkg_write_byte(p, PKG_NACK);
         pkg_write_byte(p, PKG_FLAG_NOT_REGISTERED);
-        pkg_send(node, p);
     }
 }
 
@@ -182,11 +177,9 @@ static void handle_package_debug(struct pkg_buffer *p, int len, uint8_t node)
         if(row_id >= 0) {
             pkg_write_byte(p, PKG_ACK);
             pkg_write_byte(p, 0x00);
-            pkg_send(node, p);
         } else {
             pkg_write_byte(p, PKG_NACK);
             pkg_write_byte(p, 0x00);
-            pkg_send(node, p);
         }
     } else {
         printf("Timestamp too old: %s\n", format_time(&timestamp));
@@ -194,7 +187,6 @@ static void handle_package_debug(struct pkg_buffer *p, int len, uint8_t node)
 
         pkg_write_byte(p, PKG_NACK);
         pkg_write_byte(p, PKG_FLAG_NOT_REGISTERED);
-        pkg_send(node, p);
     }
 }
 
@@ -220,4 +212,5 @@ void handle_package(struct pkg_buffer *p, int len)
         break;
     }
 
+    pkg_send(node, p);
 }
