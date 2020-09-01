@@ -1,4 +1,4 @@
-#include <stdint.h>
+#include <inttypes.h>
 #include <stdio.h>
 #include <time.h>
 
@@ -80,7 +80,7 @@ static void handle_package_register(struct pkg_buffer *p, int len, uint8_t node)
         printf("New node\n");
         printf("Node id:    %d\n", node);
         printf("Type:       %d\n", node_type);
-        printf("Hash:       %016llX\n", hash);
+        printf("Hash:       %" PRIx64 "\n", hash);
     } else {
         pkg_write_byte(p, PKG_NACK);
         pkg_write_byte(p, 0x00);
