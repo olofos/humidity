@@ -41,6 +41,13 @@
   - Encrypted using AES
     Max 48 bytes per packet (not including length and destination address)
 
+  - Data formats:
+    + Firmware checksum: two little endian uin32_t
+    + Timestamp: day, month, year, second, minute, hour as BCD
+    + Temperature: little endian uint16_t 8.8 fixed point
+    + Humidity: little endian uint16_t 0.16 fixed point
+    + Voltages: little endian uint16_t 4.12 fixed point
+
   - From node to server:
 
     0x00 Node ID of sender (1 byte)
