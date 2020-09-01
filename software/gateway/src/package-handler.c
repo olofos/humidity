@@ -8,6 +8,7 @@
 #include "package-handler.h"
 
 #define SHTC3_TEMPERATURE_SHIFT 8
+#define SHTC3_HUMIDITY_SHIFT 16
 #define ADC_VOLTAGE_SHIFT 12
 
 static uint8_t from_bcd(uint8_t n)
@@ -100,7 +101,7 @@ static void handle_package_measurement(struct pkg_buffer *p, int len, uint8_t no
         uint16_t vcc_raw = pkg_read_word(p);
         uint16_t vmid_raw = pkg_read_word(p);
 
-        double humidity = (100.0 * humidity_raw) / (1 << 16);
+        double humidity = (100.0 * humidity_raw) / (1 << SHTC3_HUMIDITY_SHIFT);
         double temperature = ((double) temperature_raw) / (1 << SHTC3_TEMPERATURE_SHIFT);
         double vcc = ((double) vcc_raw) / (1 << ADC_VOLTAGE_SHIFT);
         double vmid = ((double) vmid_raw) / (1 << ADC_VOLTAGE_SHIFT);
