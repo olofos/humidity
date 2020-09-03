@@ -1,5 +1,6 @@
 V=@
 
+SHELL=/bin/bash
 C_SOURCES := main.c vector.c spi.c spi-flash.c spi-flash-cbuf.c uart.c i2c.c systick.c shtc3.c shtc3-crc.c adc.c rfm69.c rfm69-hal.c rtc.c pretty-print.c measurement.c
 ASM_SOURCES :=
 # ASM_SOURCES :=
@@ -98,7 +99,7 @@ $(BINDIR)/$(TARGET).bin : $(BINDIR)/$(TARGET).elf
 
 %.sum : %.bin
 	@echo CREATING CHECKSUM $@
-	$(V)b2sum -l 64 -b $< | cut -d' ' -f1 | xxd -r -p - > $@
+	$(V)printf '%X' $$(( 0x$$(b2sum -l 64 -b $< | cut -d' ' -f1) & ~(1 << 63)))  | xxd -r -p - > $@
 
 flash: $(BINDIR)/$(TARGET).bin
 	@echo Flashing
