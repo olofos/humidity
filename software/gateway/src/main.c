@@ -2,20 +2,11 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <fcntl.h>
 #include <string.h>
 #include <signal.h>
 #include <time.h>
 
-#include <sys/ioctl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <sys/file.h>
-
-#include <linux/types.h>
-#include <linux/spi/spidev.h>
-
-#include <gpiod.h>
 
 #include "rfm69.h"
 #include "db.h"
