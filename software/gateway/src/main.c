@@ -39,7 +39,11 @@ static int take_lock(void)
 
 int main(void)
 {
-    signal(SIGINT, sighandler);
+    struct sigaction sa = {
+        .sa_handler = sighandler,
+    };
+
+    sigaction(SIGINT, &sa, 0);
 
     if(take_lock() < 0) {
         return 1;
