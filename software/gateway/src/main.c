@@ -25,7 +25,7 @@ static int done = 0;
 static int take_lock(void)
 {
     const char *lockname = LOCKNAME;
-    int fd = open(lockname, O_RDONLY | O_CREAT);
+    int fd = open(lockname, O_RDONLY | O_CREAT, 0444);
     if(fd < 0) {
         perror("Could not open lock file");
         return -1;
