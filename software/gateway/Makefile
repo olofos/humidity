@@ -54,11 +54,13 @@ test: test_build_dirs $(TST_RESULTS)
 	@echo "SKIPPED:" `grep -o '\[  SKIPPED \]' $(TSTRESDIR)/*.txt|wc -l`
 	@echo "-----------------------"
 	@grep -s '\[  SKIPPED \]' $(TSTRESDIR)/*.txt || true
-	@echo "\n-----------------------"
+	@echo
+	@echo "-----------------------"
 	@echo "FAILED:" `grep -o '\[  FAILED  \]' $(TSTRESDIR)/*.txt|wc -l`
 	@echo "-----------------------"
 	@grep -s 'FAILED\|LINE\|ERROR' $(TSTRESDIR)/*.txt || true
-	@echo "\n-----------------------"
+	@echo
+	@echo "-----------------------"
 	@echo "PASSED:" `grep -o '\[       OK \]' $(TSTRESDIR)/*.txt|wc -l`
 	@echo "-----------------------"
 	@echo
