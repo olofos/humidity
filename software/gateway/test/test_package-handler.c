@@ -439,6 +439,20 @@ static void test__handle_package__responds_with_ack_update_if_add_measurement_re
     assert_package_equal(p, resp);
 }
 
+static void test__handle_package__responds_with_nack_if_unkown_node_when_adding_measurement(void **states)
+{
+    uint8_t pkg[] = { PKG_MEASUREMENT_REPEAT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    will_return_maybe(node_get, 0);
+
+    handle_package(&p, sizeof(pkg));
+
+    // 0x01BADDEC 0xAFC0FFEE
+    uint8_t resp[] = { PKG_NACK, 0x02, };
+    assert_package_equal(p, resp);
+}
+
 
 static void test__handle_package__responds_with_ack_if_add_debug_message_succeeds(void **states)
 {
@@ -496,6 +510,7 @@ const struct CMUnitTest tests_for_handle_package[] = {
     cmocka_unit_test(test__handle_package__responds_with_ack_if_add_measurement_repeat_succeeds_v1),
     cmocka_unit_test(test__handle_package__responds_with_ack_if_add_measurement_repeat_succeeds_and_is_too_old_v1),
     cmocka_unit_test(test__handle_package__responds_with_ack_update_if_add_measurement_repeat_succeeds_and_firmware_is_outdated_v1),
+    cmocka_unit_test(test__handle_package__responds_with_nack_if_unkown_node_when_adding_measurement),
     cmocka_unit_test(test__handle_package__responds_with_ack_if_add_debug_message_succeeds),
     cmocka_unit_test(test__handle_package__responds_with_nack_if_add_debug_message_fails),
 };

@@ -157,6 +157,15 @@ static void handle_package_register(struct pkg_buffer *p, uint8_t request, int l
 
 static void handle_package_measurement(struct pkg_buffer *p, uint8_t request, int len, uint8_t node_id)
 {
+    struct node *node = node_get(node_id);
+
+    if(!node) {
+        printf("Unknown node %d\n", node_id);
+        pkg_write_byte(p, PKG_NACK);
+        pkg_write_byte(p, PKG_FLAG_NOT_REGISTERED);
+        return;
+    }
+
     struct pkg_timestamp pkg_timestamp;
     pkg_read_timestamp(p, &pkg_timestamp);
     time_t timestamp = convert_pkg_timestamp_to_time(pkg_timestamp);
@@ -175,7 +184,6 @@ static void handle_package_measurement(struct pkg_buffer *p, uint8_t request, in
         int row_id = db_add_measurement(node_id, timestamp, humidity, temperature, vcc, vmid);
         if(row_id >= 0) {
             float rssi = -rfm69_get_rssi() / 2.0;
-            struct node *node = node_get(node_id);
 
             if(node && (node->protocol_version > 0)) {
                 if(request == PKG_MEASUREMENT_REPEAT) {
