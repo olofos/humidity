@@ -61,6 +61,10 @@ int db_add_measurement(uint8_t node_id, time_t timestamp, double humidity, doubl
 
 int db_add_debug_message(uint8_t node_id, time_t timestamp, char *message, int message_len)
 {
+    check_expected(node_id);
+    check_expected(timestamp);
+    check_expected(message_len);
+
     return mock();
 }
 
@@ -71,7 +75,8 @@ int db_check_firmware_is_uptodate(uint64_t hash)
 
 uint64_t db_get_latest_firmware_hash(void)
 {
-    return 0xBADC0FFEE;
+    // 0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF
+    return 0x01BADDECAFC0FFEE;
 }
 
 struct node *node_register(uint8_t node_id, uint64_t firmware_hash, uint8_t protocol_version)
@@ -88,14 +93,7 @@ struct node *node_register(uint8_t node_id, uint64_t firmware_hash, uint8_t prot
 
 struct node *node_get(uint8_t node_id)
 {
-    static struct node node;
-
-    node.node_id = node_id;
-    node.firmware_hash = 0x1212121212121212;
-    node.protocol_version = 0;
-    node.next = 0;
-
-    return &node;
+    return (struct node*)mock();
 }
 
 
@@ -144,7 +142,7 @@ static void test__handle_package__responds_with_nack_if_registration_fails(void 
     assert_package_equal(p, resp);
 }
 
-static void test__handle_package__responds_with_set_time_if_registration_succeeds(void **states)
+static void test__handle_package__responds_with_set_time_if_registration_succeeds_v0(void **states)
 {
     uint8_t pkg[] = { PKG_REGISTER, PKG_NODE_TYPE_HUMIDITY, 0x67, 0x45, 0x23, 0x01, 0xEF, 0xCD, 0xAB, 0x89 };
     struct pkg_buffer p = construct_pkg(pkg);
@@ -158,6 +156,45 @@ static void test__handle_package__responds_with_set_time_if_registration_succeed
 
     // 2020-01-02 03:04:05
     uint8_t resp[] = { PKG_SET_TIME, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03 };
+    assert_package_equal(p, resp);
+}
+
+static void test__handle_package__responds_with_ack_set_time_if_registration_succeeds_v1(void **states)
+{
+    uint8_t pkg[] = { PKG_REGISTER, PKG_NODE_TYPE_HUMIDITY, 0x67, 0x45, 0x23, 0x01, 0xEF, 0xCD, 0xAB, 0x89, 0x01 };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    expect_value(db_register_node, node_id, NODE_ID);
+    expect_value(db_register_node, node_type_id, PKG_NODE_TYPE_HUMIDITY);
+    expect_value(db_register_node, firmware_hash, 0x0123456789ABCDEF);
+    will_return(db_register_node, DB_OK);
+
+    will_return(db_check_firmware_is_uptodate, 1);
+
+    handle_package(&p, sizeof(pkg));
+
+    // 2020-01-02 03:04:05
+    uint8_t resp[] = { PKG_ACK, 0x04, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03 };
+    assert_package_equal(p, resp);
+}
+
+static void test__handle_package__responds_with_ack_update_set_time_if_registration_succeeds_v1(void **states)
+{
+    uint8_t pkg[] = { PKG_REGISTER, PKG_NODE_TYPE_HUMIDITY, 0x67, 0x45, 0x23, 0x01, 0xEF, 0xCD, 0xAB, 0x89, 0x01 };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    expect_value(db_register_node, node_id, NODE_ID);
+    expect_value(db_register_node, node_type_id, PKG_NODE_TYPE_HUMIDITY);
+    expect_value(db_register_node, firmware_hash, 0x0123456789ABCDEF);
+    will_return(db_register_node, DB_OK);
+
+    will_return(db_check_firmware_is_uptodate, 0);
+
+    handle_package(&p, sizeof(pkg));
+
+    // 0x01BADDEC 0xAFC0FFEE
+    // 2020-01-02 03:04:05
+    uint8_t resp[] = { PKG_ACK, 0x05, 0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03 };
     assert_package_equal(p, resp);
 }
 
@@ -195,7 +232,7 @@ static void test__handle_package__responds_with_nack_if_add_measurement_fails(vo
     assert_package_equal(p, resp);
 }
 
-static void test__handle_package__responds_with_ack_if_add_measurement_succeeds(void **states)
+static void test__handle_package__responds_with_ack_if_add_measurement_succeeds_v0(void **states)
 {
     uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
     struct pkg_buffer p = construct_pkg(pkg);
@@ -205,19 +242,242 @@ static void test__handle_package__responds_with_ack_if_add_measurement_succeeds(
 
     will_return(db_add_measurement, DB_OK);
 
+    struct node node = { .node_id = 0x02, .protocol_version = 0, };
+    will_return(node_get, &node);
+
     handle_package(&p, sizeof(pkg));
 
     uint8_t resp[] = { PKG_ACK, 0x00, };
     assert_package_equal(p, resp);
 }
 
+static void test__handle_package__responds_with_ack_if_add_measurement_succeeds_v1(void **states)
+{
+    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    expect_any(db_add_measurement, node_id);
+    expect_any(db_add_measurement, timestamp);
+
+    will_return(db_add_measurement, DB_OK);
+
+    struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
+    will_return(node_get, &node);
+
+    will_return(db_check_firmware_is_uptodate, 1);
+
+    handle_package(&p, sizeof(pkg));
+
+    uint8_t resp[] = { PKG_ACK, 0x00, };
+    assert_package_equal(p, resp);
+}
+
+static void test__handle_package__responds_with_ack_set_time_if_add_measurement_succeeds_and_is_too_old_v1(void **states)
+{
+    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x03, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    expect_any(db_add_measurement, node_id);
+    expect_any(db_add_measurement, timestamp);
+
+    will_return(db_add_measurement, DB_OK);
+
+    struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
+    will_return(node_get, &node);
+
+    will_return(db_check_firmware_is_uptodate, 1);
+
+    handle_package(&p, sizeof(pkg));
+
+    // 2020-01-02 03:04:05
+    uint8_t resp[] = { PKG_ACK, 0x04, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, };
+    assert_package_equal(p, resp);
+}
+
+static void test__handle_package__responds_with_ack_set_time_if_add_measurement_succeeds_and_is_too_new_v1(void **states)
+{
+    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x0B, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    expect_any(db_add_measurement, node_id);
+    expect_any(db_add_measurement, timestamp);
+
+    will_return(db_add_measurement, DB_OK);
+
+    struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
+    will_return(node_get, &node);
+
+    will_return(db_check_firmware_is_uptodate, 1);
+
+    handle_package(&p, sizeof(pkg));
+
+    // 2020-01-02 03:04:05
+    uint8_t resp[] = { PKG_ACK, 0x04, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, };
+    assert_package_equal(p, resp);
+}
+
+static void test__handle_package__responds_with_ack_update_if_add_measurement_succeeds_and_firmware_is_outdated_v1(void **states)
+{
+    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    expect_any(db_add_measurement, node_id);
+    expect_any(db_add_measurement, timestamp);
+
+    will_return(db_add_measurement, DB_OK);
+
+    struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
+    will_return(node_get, &node);
+
+    will_return(db_check_firmware_is_uptodate, 0);
+
+    handle_package(&p, sizeof(pkg));
+
+    // 0x01BADDEC 0xAFC0FFEE
+    uint8_t resp[] = { PKG_ACK, 0x01, 0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF };
+    assert_package_equal(p, resp);
+}
+
+static void test__handle_package__responds_with_ack_set_time_update_if_add_measurement_succeeds_and_is_too_old_and_firmware_is_outdated_v1(void **states)
+{
+    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x03, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    expect_any(db_add_measurement, node_id);
+    expect_any(db_add_measurement, timestamp);
+
+    will_return(db_add_measurement, DB_OK);
+
+    struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
+    will_return(node_get, &node);
+
+    will_return(db_check_firmware_is_uptodate, 0);
+
+    handle_package(&p, sizeof(pkg));
+
+    // 0x01BADDEC 0xAFC0FFEE
+    // 2020-01-02 03:04:05
+    uint8_t resp[] = { PKG_ACK, 0x05, 0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, };
+    assert_package_equal(p, resp);
+}
+
+static void test__handle_package__responds_with_ack_if_add_measurement_repeat_succeeds_v1(void **states)
+{
+    uint8_t pkg[] = { PKG_MEASUREMENT_REPEAT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    expect_any(db_add_measurement, node_id);
+    expect_any(db_add_measurement, timestamp);
+
+    will_return(db_add_measurement, DB_OK);
+
+    struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
+    will_return(node_get, &node);
+
+    will_return(db_check_firmware_is_uptodate, 1);
+
+    handle_package(&p, sizeof(pkg));
+
+    uint8_t resp[] = { PKG_ACK, 0x00, };
+    assert_package_equal(p, resp);
+}
+
+static void test__handle_package__responds_with_ack_if_add_measurement_repeat_succeeds_and_is_too_old_v1(void **states)
+{
+    uint8_t pkg[] = { PKG_MEASUREMENT_REPEAT, 0x02, 0x01, 0x20, 0x05, 0x03, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    expect_any(db_add_measurement, node_id);
+    expect_any(db_add_measurement, timestamp);
+
+    will_return(db_add_measurement, DB_OK);
+
+    struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
+    will_return(node_get, &node);
+
+    will_return(db_check_firmware_is_uptodate, 1);
+
+    handle_package(&p, sizeof(pkg));
+
+    uint8_t resp[] = { PKG_ACK, 0x00, };
+    assert_package_equal(p, resp);
+}
+
+static void test__handle_package__responds_with_ack_update_if_add_measurement_repeat_succeeds_and_firmware_is_outdated_v1(void **states)
+{
+    uint8_t pkg[] = { PKG_MEASUREMENT_REPEAT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    expect_any(db_add_measurement, node_id);
+    expect_any(db_add_measurement, timestamp);
+
+    will_return(db_add_measurement, DB_OK);
+
+    struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
+    will_return(node_get, &node);
+
+    will_return(db_check_firmware_is_uptodate, 0);
+
+    handle_package(&p, sizeof(pkg));
+
+    // 0x01BADDEC 0xAFC0FFEE
+    uint8_t resp[] = { PKG_ACK, 0x01, 0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF };
+    assert_package_equal(p, resp);
+}
+
+
+static void test__handle_package__responds_with_ack_if_add_debug_message_succeeds(void **states)
+{
+    uint8_t pkg[] = { PKG_DEBUG, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 'H', 'i', '!' };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    expect_value(db_add_debug_message, node_id, NODE_ID);
+    expect_value(db_add_debug_message, timestamp, 1577934245);
+    expect_value(db_add_debug_message, message_len, 3);
+    will_return(db_add_debug_message, DB_OK);
+
+    handle_package(&p, sizeof(pkg));
+
+    uint8_t resp[] = { PKG_ACK, 0x00 };
+    assert_package_equal(p, resp);
+}
+
+static void test__handle_package__responds_with_nack_if_add_debug_message_fails(void **states)
+{
+    uint8_t pkg[] = { PKG_DEBUG, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 'H', 'i', '!' };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    expect_value(db_add_debug_message, node_id, NODE_ID);
+    expect_value(db_add_debug_message, timestamp, 1577934245);
+    expect_value(db_add_debug_message, message_len, 3);
+    will_return(db_add_debug_message, DB_ERROR);
+
+    handle_package(&p, sizeof(pkg));
+
+    uint8_t resp[] = { PKG_NACK, 0x00 };
+    assert_package_equal(p, resp);
+}
+
+
 
 const struct CMUnitTest tests_for_handle_package[] = {
     cmocka_unit_test(test__handle_package__responds_with_nack_if_registration_fails),
-    cmocka_unit_test(test__handle_package__responds_with_set_time_if_registration_succeeds),
+    cmocka_unit_test(test__handle_package__responds_with_set_time_if_registration_succeeds_v0),
+    cmocka_unit_test(test__handle_package__responds_with_ack_set_time_if_registration_succeeds_v1),
+    cmocka_unit_test(test__handle_package__responds_with_ack_update_set_time_if_registration_succeeds_v1),
     cmocka_unit_test(test__handle_package__calls__db_add_measurement__with_correct_parameters),
     cmocka_unit_test(test__handle_package__responds_with_nack_if_add_measurement_fails),
-    cmocka_unit_test(test__handle_package__responds_with_ack_if_add_measurement_succeeds),
+    cmocka_unit_test(test__handle_package__responds_with_ack_if_add_measurement_succeeds_v0),
+    cmocka_unit_test(test__handle_package__responds_with_ack_if_add_measurement_succeeds_v1),
+    cmocka_unit_test(test__handle_package__responds_with_ack_set_time_if_add_measurement_succeeds_and_is_too_old_v1),
+    cmocka_unit_test(test__handle_package__responds_with_ack_set_time_if_add_measurement_succeeds_and_is_too_new_v1),
+    cmocka_unit_test(test__handle_package__responds_with_ack_update_if_add_measurement_succeeds_and_firmware_is_outdated_v1),
+    cmocka_unit_test(test__handle_package__responds_with_ack_set_time_update_if_add_measurement_succeeds_and_is_too_old_and_firmware_is_outdated_v1),
+    cmocka_unit_test(test__handle_package__responds_with_ack_if_add_measurement_repeat_succeeds_v1),
+    cmocka_unit_test(test__handle_package__responds_with_ack_if_add_measurement_repeat_succeeds_and_is_too_old_v1),
+    cmocka_unit_test(test__handle_package__responds_with_ack_update_if_add_measurement_repeat_succeeds_and_firmware_is_outdated_v1),
+    cmocka_unit_test(test__handle_package__responds_with_ack_if_add_debug_message_succeeds),
+    cmocka_unit_test(test__handle_package__responds_with_nack_if_add_debug_message_fails),
 };
 
 //////// Main //////////////////////////////////////////////////////////////////
