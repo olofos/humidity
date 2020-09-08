@@ -96,7 +96,7 @@
       0x02 Node type (1 byte)
       0x03 Firmware checksum (8 bytes)
 
-    - PKG_MEASUREMENT
+    - PKG_MEASUREMENT | PKG_MEASUREMENT_REPEAT
       0x01 PKG_MEASUREMENT (1 byte)
       0x02 Timestamp (6 bytes)
       0x08 Humidity (2 bytes)
@@ -107,15 +107,12 @@
     - PKG_ACK
       0x01 PKG_ACK (1 byte)
       0x02 Flags (1 byte)
+      [ New firmware hash (8 bytes) if flags & PKG_FLAG_UPDATE_AVAILABLE ]
+      [ New timestamp (6 bytes) if flags & PKG_FLAG_SET_TIME ]
 
     - PKG_NACK
       0x01 PKG_NACK (1 byte)
       0x02 Flags (1 byte)
-
-    - PKG_SET_TIME
-      0x01 PKG_SET_TIME (1 byte)
-      0x02 New timestamp (6 bytes)
-
 
     Connect:
     Current firmware version
