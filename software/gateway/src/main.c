@@ -13,6 +13,7 @@
 #include "package.h"
 #include "aes-key.h"
 #include "package-handler.h"
+#include "firmware.h"
 
 #define LOCKNAME "/tmp/humidity-gateway.lock"
 
@@ -55,7 +56,9 @@ int main(void)
 
     char *db_filename = "../db/humidity.db";
 
-    if(getenv("DB")) {
+    if(getenv("HUMIDITY_DB")) {
+        db_filename = getenv("HUMIDITY_DB");
+    } else if(getenv("DB")) {
         db_filename = getenv("DB");
     }
 
@@ -63,6 +66,17 @@ int main(void)
     if(db_init(db_filename) != DB_OK) {
         fprintf(stderr, "Failed initializing database\n");
         return 1;
+    }
+
+    if(getenv("HUMIDITY_FIRMWARE")) {
+        if(firmware_set_dir(getenv("HUMIDITY_FIRMWARE")) < 0) {
+            fprintf(stderr, "Could not set firmware dir\n");
+            goto err;
+        }
+
+    } else if(firmware_set_dir_from_file(db_filename) < 0) {
+        fprintf(stderr, "Could not set firmware dir\n");
+        goto err;
     }
 
     rfm69_init();
@@ -95,10 +109,17 @@ int main(void)
     printf("Quitting\n");
 
     rfm69_deinit();
+    firmware_deinit();
     db_deinit();
 
-
     return 0;
+
+err:
+    rfm69_deinit();
+    firmware_deinit();
+    db_deinit();
+
+    return 1;
 }
 
 
