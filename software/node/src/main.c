@@ -389,6 +389,7 @@ static enum state do_register(void)
             printf("No reply\r\n");
         }
     } else {
+        rfm69_set_mode(RFM69_MODE_SLEEP);
         printf("Write failed\r\n");
     }
 
@@ -511,6 +512,7 @@ static enum state do_send_measurement(void)
             printf("No reply\r\n");
         }
     } else {
+        rfm69_set_mode(RFM69_MODE_SLEEP);
         printf("Write failed\r\n");
     }
 
