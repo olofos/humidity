@@ -1,6 +1,6 @@
 V=@
 
-C_SOURCES := main.c rfm69.c rfm69-hal.c db.c sqlite3.c package-handler.c node.c firmware.c
+C_SOURCES := main.c rfm69.c rfm69-hal.c db.c sqlite3.c package-handler.c node.c firmware.c crc32.c
 
 TESTSERVER_SOURCES := $(C_SOURCES:rfm69-hal.c=rfm69-mock.c)
 
@@ -48,17 +48,17 @@ TST_PROGS = $(patsubst $(TSTDIR)/test_%.c,$(TSTBINDIR)/test_%,$(SOURCES_TST))
 
 TST_TMPFILES = /tmp/test_firmware.temp
 
-$(TSTBINDIR)/test_firmware: $(TSTOBJDIR)/crc32.o
-
-
 .PHONY: all clean build_dirs test_build_dirs
 
 .PRECIOUS: $(TST_PROGS)
 
 all: build_dirs humidity-gateway
 
+
 -include $(DEPS)
 -include $(TST_DEPS)
+
+$(TSTBINDIR)/test_firmware: $(TSTOBJDIR)/crc32.o
 
 humidity-gateway: $(OBJ)
 	@echo LINKING $@
