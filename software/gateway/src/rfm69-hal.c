@@ -56,10 +56,12 @@ void rfm69_hal_init(void)
 
 void rfm69_hal_deinit(void)
 {
-    rfm69_set_mode(RFM69_MODE_SLEEP);
-    close(spi);
-    gpiod_line_release(int_line);
-    gpiod_chip_close(chip);
+    if(spi > 0) {
+        rfm69_set_mode(RFM69_MODE_SLEEP);
+        close(spi);
+    }
+    if(int_line) gpiod_line_release(int_line);
+    if(chip) gpiod_chip_close(chip);
 }
 
 void rfm69_hal_write_byte(uint8_t reg, uint8_t val)
