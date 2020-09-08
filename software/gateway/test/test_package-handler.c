@@ -135,6 +135,8 @@ static void test__handle_package__responds_with_nack_if_registration_fails(void 
     expect_value(db_register_node, firmware_hash, 0x0123456789ABCDEF);
     will_return(db_register_node, DB_ERROR);
 
+    will_return_maybe(node_get, 0);
+
     handle_package(&p, sizeof(pkg));
 
     uint8_t resp[] = { PKG_NACK, 0x00 };
@@ -152,6 +154,8 @@ static void test__handle_package__responds_with_set_time_if_registration_succeed
     expect_value(db_register_node, firmware_hash, 0x0123456789ABCDEF);
     will_return(db_register_node, DB_OK);
 
+    will_return_maybe(node_get, 0);
+
     handle_package(&p, sizeof(pkg));
 
     // 2020-01-02 03:04:05
@@ -168,6 +172,8 @@ static void test__handle_package__responds_with_ack_set_time_if_registration_suc
     expect_value(db_register_node, node_type_id, PKG_NODE_TYPE_HUMIDITY);
     expect_value(db_register_node, firmware_hash, 0x0123456789ABCDEF);
     will_return(db_register_node, DB_OK);
+
+    will_return_maybe(node_get, 0);
 
     will_return(db_check_firmware_is_uptodate, 1);
 
@@ -187,6 +193,8 @@ static void test__handle_package__responds_with_ack_update_set_time_if_registrat
     expect_value(db_register_node, node_type_id, PKG_NODE_TYPE_HUMIDITY);
     expect_value(db_register_node, firmware_hash, 0x0123456789ABCDEF);
     will_return(db_register_node, DB_OK);
+
+    will_return_maybe(node_get, 0);
 
     will_return(db_check_firmware_is_uptodate, 0);
 
@@ -208,6 +216,9 @@ static void test__handle_package__calls__db_add_measurement__with_correct_parame
 
     will_return(db_add_measurement, DB_ERROR);
 
+    struct node node = { .node_id = NODE_ID, .protocol_version = 0, };
+    will_return_maybe(node_get, &node);
+
     handle_package(&p, sizeof(pkg));
 
     assert_float_equal(db_add_measurement__humidity, 50.09765625, 0.001);
@@ -226,6 +237,9 @@ static void test__handle_package__responds_with_nack_if_add_measurement_fails(vo
 
     will_return(db_add_measurement, DB_ERROR);
 
+    struct node node = { .node_id = NODE_ID, .protocol_version = 0, };
+    will_return_maybe(node_get, &node);
+
     handle_package(&p, sizeof(pkg));
 
     uint8_t resp[] = { PKG_NACK, 0x00, };
@@ -243,7 +257,7 @@ static void test__handle_package__responds_with_ack_if_add_measurement_succeeds_
     will_return(db_add_measurement, DB_OK);
 
     struct node node = { .node_id = 0x02, .protocol_version = 0, };
-    will_return(node_get, &node);
+    will_return_maybe(node_get, &node);
 
     handle_package(&p, sizeof(pkg));
 
@@ -262,7 +276,7 @@ static void test__handle_package__responds_with_ack_if_add_measurement_succeeds_
     will_return(db_add_measurement, DB_OK);
 
     struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
-    will_return(node_get, &node);
+    will_return_maybe(node_get, &node);
 
     will_return(db_check_firmware_is_uptodate, 1);
 
@@ -283,7 +297,7 @@ static void test__handle_package__responds_with_ack_set_time_if_add_measurement_
     will_return(db_add_measurement, DB_OK);
 
     struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
-    will_return(node_get, &node);
+    will_return_maybe(node_get, &node);
 
     will_return(db_check_firmware_is_uptodate, 1);
 
@@ -305,7 +319,7 @@ static void test__handle_package__responds_with_ack_set_time_if_add_measurement_
     will_return(db_add_measurement, DB_OK);
 
     struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
-    will_return(node_get, &node);
+    will_return_maybe(node_get, &node);
 
     will_return(db_check_firmware_is_uptodate, 1);
 
@@ -327,7 +341,7 @@ static void test__handle_package__responds_with_ack_update_if_add_measurement_su
     will_return(db_add_measurement, DB_OK);
 
     struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
-    will_return(node_get, &node);
+    will_return_maybe(node_get, &node);
 
     will_return(db_check_firmware_is_uptodate, 0);
 
@@ -349,7 +363,7 @@ static void test__handle_package__responds_with_ack_set_time_update_if_add_measu
     will_return(db_add_measurement, DB_OK);
 
     struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
-    will_return(node_get, &node);
+    will_return_maybe(node_get, &node);
 
     will_return(db_check_firmware_is_uptodate, 0);
 
@@ -372,7 +386,7 @@ static void test__handle_package__responds_with_ack_if_add_measurement_repeat_su
     will_return(db_add_measurement, DB_OK);
 
     struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
-    will_return(node_get, &node);
+    will_return_maybe(node_get, &node);
 
     will_return(db_check_firmware_is_uptodate, 1);
 
@@ -393,7 +407,7 @@ static void test__handle_package__responds_with_ack_if_add_measurement_repeat_su
     will_return(db_add_measurement, DB_OK);
 
     struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
-    will_return(node_get, &node);
+    will_return_maybe(node_get, &node);
 
     will_return(db_check_firmware_is_uptodate, 1);
 
@@ -414,7 +428,7 @@ static void test__handle_package__responds_with_ack_update_if_add_measurement_re
     will_return(db_add_measurement, DB_OK);
 
     struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
-    will_return(node_get, &node);
+    will_return_maybe(node_get, &node);
 
     will_return(db_check_firmware_is_uptodate, 0);
 
@@ -436,6 +450,9 @@ static void test__handle_package__responds_with_ack_if_add_debug_message_succeed
     expect_value(db_add_debug_message, message_len, 3);
     will_return(db_add_debug_message, DB_OK);
 
+    struct node node = { .node_id = NODE_ID, .protocol_version = 0, };
+    will_return_maybe(node_get, &node);
+
     handle_package(&p, sizeof(pkg));
 
     uint8_t resp[] = { PKG_ACK, 0x00 };
@@ -451,6 +468,9 @@ static void test__handle_package__responds_with_nack_if_add_debug_message_fails(
     expect_value(db_add_debug_message, timestamp, 1577934245);
     expect_value(db_add_debug_message, message_len, 3);
     will_return(db_add_debug_message, DB_ERROR);
+
+    struct node node = { .node_id = NODE_ID, .protocol_version = 0, };
+    will_return_maybe(node_get, &node);
 
     handle_package(&p, sizeof(pkg));
 
