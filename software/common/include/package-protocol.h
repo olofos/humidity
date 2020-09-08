@@ -21,10 +21,11 @@ struct pkg_measurement
 
 enum pkg_package_type {
     // Requests
-    PKG_REGISTER       = 0x80,
-    PKG_MEASUREMENT    = 0x81,
-    PKG_DEBUG          = 0x82,
-    PKG_UPDATE_REQUEST = 0x83,
+    PKG_REGISTER           = 0x80,
+    PKG_MEASUREMENT        = 0x81,
+    PKG_DEBUG              = 0x82,
+    PKG_UPDATE_REQUEST     = 0x83,
+    PKG_MEASUREMENT_REPEAT = 0x85,
 
     // Responses
     PKG_NACK           = 0x00,
@@ -38,8 +39,11 @@ enum pkg_node_type {
 };
 
 enum pkg_flags {
+    // ACK
     PKG_FLAG_UPDATE_AVAILABLE = 0x01,
+    PKG_FLAG_SET_TIME = 0x04,
 
+    // NACK
     PKG_FLAG_NOT_REGISTERED = 0x02,
 };
 
@@ -50,5 +54,7 @@ struct pkg_buffer {
     uint8_t from;
     uint8_t buf[49];
 };
+
+#define PROTOCOL_VERSION_MAX 1
 
 #endif
