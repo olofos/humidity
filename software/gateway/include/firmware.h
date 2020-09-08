@@ -25,7 +25,7 @@ struct firmware_halfpage {
 int firmware_set_dir(char *dirname);
 int firmware_set_dir_from_file(char *filename);
 void firmware_deinit(void);
-
+int firmware_file_exists(uint64_t hash);
 int firmware_get_halfpage(uint64_t old_hash, uint64_t new_hash, struct firmware_halfpage *halfpage);
 
 #endif

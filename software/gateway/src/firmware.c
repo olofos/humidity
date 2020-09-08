@@ -293,6 +293,15 @@ static int16_t count_empty_pages(int fd_new, uint16_t address)
     return count;
 }
 
+int firmware_file_exists(uint64_t hash)
+{
+    int fd = firmware_open(hash);
+    if(fd < 0) {
+        return 0;
+    }
+    close(fd);
+    return fd;
+}
 
 int firmware_get_halfpage(uint64_t old_hash, uint64_t new_hash, struct firmware_halfpage *halfpage)
 {

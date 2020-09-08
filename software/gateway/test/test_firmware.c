@@ -563,6 +563,61 @@ static void test__firmware_get_halfpage__can_reproduce_firmware(void **states)
     firmware_deinit();
 }
 
+static void test__firmware_file_exists__returns_true_if_file_exists(void **states)
+{
+    char *dirname = create_temp_dir();
+    assert_non_null(dirname);
+
+    uint64_t hash = 0x123456789ABCDEF0;
+
+    assert_false(create_firmware_image(dirname, hash, EMPTY_PAGES) < 0);
+    assert_false(firmware_set_dir(dirname) < 0);
+    assert_true(firmware_file_exists(hash));
+
+    firmware_deinit();
+}
+
+static void test__firmware_file_exists__returns_false_if_file_does_not_exist(void **states)
+{
+    char *dirname = create_temp_dir();
+    assert_non_null(dirname);
+
+    uint64_t hash = 0x123456789ABCDEF0;
+
+    assert_false(firmware_set_dir(dirname) < 0);
+    assert_false(firmware_file_exists(hash));
+
+    firmware_deinit();
+}
+
+static void test__firmware_file_exists__returns_false_if_file_has_wrong_hash(void **states)
+{
+    char *dirname = create_temp_dir();
+    assert_non_null(dirname);
+
+    uint64_t hash = 0x123456789ABCDEF0;
+
+    assert_false(create_firmware_image_with_wrong_hash(dirname, hash, 0x0FEDCBA987654321) < 0);
+    assert_false(firmware_set_dir(dirname) < 0);
+    assert_false(firmware_file_exists(hash));
+
+    firmware_deinit();
+}
+
+static void test__firmware_file_exists__returns_false_if_file_has_wrong_size(void **states)
+{
+    char *dirname = create_temp_dir();
+    assert_non_null(dirname);
+
+    uint64_t hash = 0x123456789ABCDEF0;
+
+    assert_false(create_firmware_image_with_size(dirname, hash, FW_SIZE + sizeof(fw_mock_const_buf)) < 0);
+    assert_false(firmware_set_dir(dirname) < 0);
+    assert_false(firmware_file_exists(hash));
+
+    firmware_deinit();
+}
+
 
 const struct CMUnitTest tests_for_firmware_set_dir[] = {
     cmocka_unit_test(test__firmware_set_dir__returns_non_negative_if_dir_exists),
@@ -587,6 +642,13 @@ const struct CMUnitTest tests_for_firmware_get_halfpage[] = {
     cmocka_unit_test(test__firmware_get_halfpage__can_reproduce_firmware),
 };
 
+const struct CMUnitTest tests_for_firmware_file_exists[] = {
+    cmocka_unit_test(test__firmware_file_exists__returns_true_if_file_exists),
+    cmocka_unit_test(test__firmware_file_exists__returns_false_if_file_does_not_exist),
+    cmocka_unit_test(test__firmware_file_exists__returns_false_if_file_has_wrong_hash),
+    cmocka_unit_test(test__firmware_file_exists__returns_false_if_file_has_wrong_size),
+};
+
 //////// Main //////////////////////////////////////////////////////////////////
 
 int main(void)
@@ -601,6 +663,7 @@ int main(void)
     int fails = 0;
     fails += cmocka_run_group_tests(tests_for_firmware_set_dir, NULL, NULL);
     fails += cmocka_run_group_tests(tests_for_firmware_get_halfpage, NULL, NULL);
+    fails += cmocka_run_group_tests(tests_for_firmware_file_exists, NULL, NULL);
 
     printf("To clean up, remove the directory %s\n", TEMP_PARENT_DIR_TEMPLATE);
 
