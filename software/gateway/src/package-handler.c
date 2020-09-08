@@ -154,7 +154,8 @@ static void handle_package_register(struct pkg_buffer *p, uint8_t request, int l
             printf("New node\n");
             printf("Node id:    %d\n", node_id);
             printf("Type:       %d\n", node_type);
-            printf("Hash:       %" PRIx64 "\n", hash);
+            printf("Hash:       %016" PRIX64 "\n", hash);
+            printf("Protocol:   %d\n", protocol_version);
 
             return;
         }

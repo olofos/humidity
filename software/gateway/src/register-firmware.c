@@ -127,7 +127,7 @@ uint64_t read_hash(int in)
         hash &= ~(1ULL << 63);
     }
 
-    printf("Firmware hash: %" PRIX64 "\n", hash);
+    printf("Firmware hash: %016" PRIX64 "\n", hash);
 
     return hash;
 }
@@ -138,7 +138,7 @@ int open_output(char *db_filename, uint64_t hash)
     char hash_str[2 * HASH_SIZE + 1];
     int out = -1;
 
-    sprintf(hash_str, "%" PRIX64, hash);
+    sprintf(hash_str, "%016" PRIX64, hash);
 
     out_filename = malloc(strlen(db_filename) + strlen(FW_DIR_NAME) + strlen(FW_SUFFIX) + strlen(hash_str) + 2);
     if(!out_filename) {
