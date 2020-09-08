@@ -4,6 +4,8 @@ C_SOURCES := main.c rfm69.c rfm69-hal.c db.c sqlite3.c package-handler.c node.c 
 
 TESTSERVER_SOURCES := $(C_SOURCES:rfm69-hal.c=rfm69-mock.c)
 
+REGISTER_FIRMWARE_SOURCES := register-firmware.c sqlite3.c
+
 SRCDIR := src
 OBJDIR := obj
 DEPDIR := .deps
@@ -17,14 +19,17 @@ CFLAGS = -g -O2 -Wall -Iinclude/ -I../common/include
 LDFLAGS = $(CFLAGS) -lgpiod -lpthread -ldl
 
 TESTSERVER_LDFLAGS = $(CFLAGS) -lpthread -ldl
+REGISTER_FIRMWARE_LDFLAGS = $(CFLAGS) -lpthread -ldl
 
 CC = gcc
 
 SRC := $(C_SOURCES:%.c=$(SRCDIR)/%.c) $(ASM_SOURCES:%.s=$(SRCDIR)/%.s)
 OBJ := $(C_SOURCES:%.c=$(OBJDIR)/%.o) $(ASM_SOURCES:%.s=$(OBJDIR)/%.o)
-DEPS := $(C_SOURCES:%.c=$(DEPDIR)/%.d) $(TESTSERVER_SOURCES:%.c=$(DEPDIR)/%.d)
+DEPS := $(C_SOURCES:%.c=$(DEPDIR)/%.d) $(TESTSERVER_SOURCES:%.c=$(DEPDIR)/%.d) $(REGISTER_FIRMWARE_SOURCES:%.c=$(DEPDIR)/%.d)
 
 TESTSERVER_OBJ := $(TESTSERVER_SOURCES:%.c=$(OBJDIR)/%.o)
+
+REGISTER_FIRMWARE_OBJ := $(REGISTER_FIRMWARE_SOURCES:%.c=$(OBJDIR)/%.o)
 
 VPATH := src/ ../common/src/
 
@@ -58,6 +63,10 @@ all: build_dirs humidity-gateway
 humidity-gateway: $(OBJ)
 	@echo LINKING $@
 	$(V)$(CC) $^ $(LDFLAGS) -o $@
+
+register-firmware: $(REGISTER_FIRMWARE_OBJ)
+	@echo LINKING $@
+	$(V)$(CC) $^ $(REGISTER_FIRMWARE_LDFLAGS) -o $@
 
 test-server: $(TESTSERVER_OBJ)
 	@echo LINKING $@
