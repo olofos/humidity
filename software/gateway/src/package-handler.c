@@ -7,6 +7,7 @@
 #include "package.h"
 #include "package-handler.h"
 #include "node.h"
+#include "firmware.h"
 
 #define SHTC3_TEMPERATURE_SHIFT 8
 #define SHTC3_HUMIDITY_SHIFT 16
@@ -70,11 +71,21 @@ static const char *format_time(time_t *tp)
 static void send_ack(struct pkg_buffer *p, struct node *node, time_t timestamp)
 {
     uint8_t flags = 0;
+    uint64_t latest_fw_hash;
 
     if(node) {
         if(!db_check_firmware_is_uptodate(node->firmware_hash)) {
-            flags |= PKG_FLAG_UPDATE_AVAILABLE;
-            printf("Update available\n");
+            if(!firmware_file_exists(node->firmware_hash)) {
+                printf("Missing firmware for %016" PRIX64 "\n", node->firmware_hash);
+            } else {
+                latest_fw_hash = db_get_latest_firmware_hash();
+                if(!firmware_file_exists(latest_fw_hash)) {
+                    printf("Missing firmware for %016" PRIX64 "\n", latest_fw_hash);
+                } else {
+                    flags |= PKG_FLAG_UPDATE_AVAILABLE;
+                    printf("Update available\n");
+                }
+            }
         } else {
             printf("Up to date\n");
         }
@@ -94,9 +105,9 @@ static void send_ack(struct pkg_buffer *p, struct node *node, time_t timestamp)
     pkg_write_byte(p, flags);
 
     if(flags & PKG_FLAG_UPDATE_AVAILABLE) {
-        uint64_t latest = db_get_latest_firmware_hash();
-        pkg_write_dword(p, (latest >> 32) & 0xFFFFFFFF);
-        pkg_write_dword(p, latest & 0xFFFFFFFF);
+
+        pkg_write_dword(p, (latest_fw_hash >> 32) & 0xFFFFFFFF);
+        pkg_write_dword(p, latest_fw_hash & 0xFFFFFFFF);
     }
 
     if(flags & PKG_FLAG_SET_TIME) {

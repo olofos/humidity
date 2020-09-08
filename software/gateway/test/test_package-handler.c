@@ -96,6 +96,11 @@ struct node *node_get(uint8_t node_id)
     return (struct node*)mock();
 }
 
+int firmware_file_exists(uint64_t hash)
+{
+    return mock();
+}
+
 
 //////// Helper functions //////////////////////////////////////////////////////
 
@@ -197,6 +202,7 @@ static void test__handle_package__responds_with_ack_update_set_time_if_registrat
     will_return_maybe(node_get, 0);
 
     will_return(db_check_firmware_is_uptodate, 0);
+    will_return_count(firmware_file_exists, 1, 2);
 
     handle_package(&p, sizeof(pkg));
 
@@ -344,11 +350,59 @@ static void test__handle_package__responds_with_ack_update_if_add_measurement_su
     will_return_maybe(node_get, &node);
 
     will_return(db_check_firmware_is_uptodate, 0);
+    will_return_count(firmware_file_exists, 1, 2);
 
     handle_package(&p, sizeof(pkg));
 
     // 0x01BADDEC 0xAFC0FFEE
     uint8_t resp[] = { PKG_ACK, 0x01, 0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF };
+    assert_package_equal(p, resp);
+}
+
+static void test__handle_package__responds_with_ack_no_update_if_add_measurement_succeeds_and_firmware_is_outdated_but_new_firmware_is_missing_v1(void **states)
+{
+    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    expect_any(db_add_measurement, node_id);
+    expect_any(db_add_measurement, timestamp);
+
+    will_return(db_add_measurement, DB_OK);
+
+    struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
+    will_return_maybe(node_get, &node);
+
+    will_return(db_check_firmware_is_uptodate, 0);
+    will_return(firmware_file_exists, 0);
+
+    handle_package(&p, sizeof(pkg));
+
+    // 0x01BADDEC 0xAFC0FFEE
+    uint8_t resp[] = { PKG_ACK, 0x00, };
+    assert_package_equal(p, resp);
+}
+
+static void test__handle_package__responds_with_ack_no_update_if_add_measurement_succeeds_and_firmware_is_outdated_but_old_firmware_is_missing_v1(void **states)
+{
+    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    expect_any(db_add_measurement, node_id);
+    expect_any(db_add_measurement, timestamp);
+
+    will_return(db_add_measurement, DB_OK);
+
+    struct node node = { .node_id = NODE_ID, .protocol_version = 1, };
+    will_return_maybe(node_get, &node);
+
+    will_return(db_check_firmware_is_uptodate, 0);
+    will_return(firmware_file_exists, 1);
+    will_return(firmware_file_exists, 0);
+
+    handle_package(&p, sizeof(pkg));
+
+    // 0x01BADDEC 0xAFC0FFEE
+    uint8_t resp[] = { PKG_ACK, 0x00, };
     assert_package_equal(p, resp);
 }
 
@@ -366,6 +420,7 @@ static void test__handle_package__responds_with_ack_set_time_update_if_add_measu
     will_return_maybe(node_get, &node);
 
     will_return(db_check_firmware_is_uptodate, 0);
+    will_return_count(firmware_file_exists, 1, 2);
 
     handle_package(&p, sizeof(pkg));
 
@@ -431,6 +486,7 @@ static void test__handle_package__responds_with_ack_update_if_add_measurement_re
     will_return_maybe(node_get, &node);
 
     will_return(db_check_firmware_is_uptodate, 0);
+    will_return_count(firmware_file_exists, 1, 2);
 
     handle_package(&p, sizeof(pkg));
 
@@ -506,6 +562,8 @@ const struct CMUnitTest tests_for_handle_package[] = {
     cmocka_unit_test(test__handle_package__responds_with_ack_set_time_if_add_measurement_succeeds_and_is_too_old_v1),
     cmocka_unit_test(test__handle_package__responds_with_ack_set_time_if_add_measurement_succeeds_and_is_too_new_v1),
     cmocka_unit_test(test__handle_package__responds_with_ack_update_if_add_measurement_succeeds_and_firmware_is_outdated_v1),
+    cmocka_unit_test(test__handle_package__responds_with_ack_no_update_if_add_measurement_succeeds_and_firmware_is_outdated_but_new_firmware_is_missing_v1),
+    cmocka_unit_test(test__handle_package__responds_with_ack_no_update_if_add_measurement_succeeds_and_firmware_is_outdated_but_old_firmware_is_missing_v1),
     cmocka_unit_test(test__handle_package__responds_with_ack_set_time_update_if_add_measurement_succeeds_and_is_too_old_and_firmware_is_outdated_v1),
     cmocka_unit_test(test__handle_package__responds_with_ack_if_add_measurement_repeat_succeeds_v1),
     cmocka_unit_test(test__handle_package__responds_with_ack_if_add_measurement_repeat_succeeds_and_is_too_old_v1),
