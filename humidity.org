@@ -39,10 +39,10 @@
 
 - Data packets:
   - Encrypted using AES
-    Max 48 bytes per packet (not including length and destination address)
+    Max 48 bytes per packet (not including length and destination address, but including sender address)
 
   - Data formats:
-    + Firmware checksum: two little endian uin32_t
+    + Firmware checksum: two little endian uint32_t, with the most significant dword first
     + Timestamp: day, month, year, second, minute, hour as BCD
     + Temperature: little endian uint16_t 8.8 fixed point
     + Humidity: little endian uint16_t 0.16 fixed point
@@ -60,6 +60,8 @@
      + Debug message
      + Request update
 
+  - Version 0
+
     - PKG_REGISTER
       0x01 PKG_REGISTER (1 byte)
       0x02 Node type (1 byte)
@@ -73,6 +75,34 @@
       0x0C Voltage VCC (2 bytes)
       0x0E Voltage Vmid (2 bytes)
 
+    - PKG_ACK
+      0x01 PKG_ACK (1 byte)
+      0x02 Flags (1 byte)
+
+    - PKG_NACK
+      0x01 PKG_NACK (1 byte)
+      0x02 Flags (1 byte)
+
+    - PKG_SET_TIME
+      0x01 PKG_SET_TIME (1 byte)
+      0x02 New timestamp (6 bytes)
+
+
+
+  - Version 1
+
+    - PKG_REGISTER
+      0x01 PKG_REGISTER (1 byte)
+      0x02 Node type (1 byte)
+      0x03 Firmware checksum (8 bytes)
+
+    - PKG_MEASUREMENT
+      0x01 PKG_MEASUREMENT (1 byte)
+      0x02 Timestamp (6 bytes)
+      0x08 Humidity (2 bytes)
+      0x0A Temperature (2 bytes)
+      0x0C Voltage VCC (2 bytes)
+      0x0E Voltage Vmid (2 bytes)
 
     - PKG_ACK
       0x01 PKG_ACK (1 byte)
