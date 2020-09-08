@@ -10,11 +10,13 @@
 #include "rfm69.h"
 #include "package.h"
 #include "package-handler.h"
+#include "node.h"
 
 #define NODE_ID 49
 
 //////// Global variables //////////////////////////////////////////////////////
 
+extern struct node *first_node;
 
 // Used to work around missing CMocka functionality for testing floating point valued function parameters
 
@@ -62,7 +64,7 @@ int db_add_debug_message(uint8_t node_id, time_t timestamp, char *message, int m
     return mock();
 }
 
-int db_check_firmware_is_uptodate(uint8_t node_id)
+int db_check_firmware_is_uptodate(uint64_t hash)
 {
     return mock();
 }
@@ -71,6 +73,31 @@ uint64_t db_get_latest_firmware_hash(void)
 {
     return 0xBADC0FFEE;
 }
+
+struct node *node_register(uint8_t node_id, uint64_t firmware_hash, uint8_t protocol_version)
+{
+    static struct node node;
+
+    node.node_id = node_id;
+    node.firmware_hash = firmware_hash;
+    node.protocol_version = protocol_version;
+    node.next = 0;
+
+    return &node;
+}
+
+struct node *node_get(uint8_t node_id)
+{
+    static struct node node;
+
+    node.node_id = node_id;
+    node.firmware_hash = 0x1212121212121212;
+    node.protocol_version = 0;
+    node.next = 0;
+
+    return &node;
+}
+
 
 //////// Helper functions //////////////////////////////////////////////////////
 
@@ -168,7 +195,7 @@ static void test__handle_package__responds_with_nack_if_add_measurement_fails(vo
     assert_package_equal(p, resp);
 }
 
-static void test__handle_package__responds_with_ack_if_add_measurement_succeeds_and_firmware_current(void **states)
+static void test__handle_package__responds_with_ack_if_add_measurement_succeeds(void **states)
 {
     uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
     struct pkg_buffer p = construct_pkg(pkg);
@@ -177,30 +204,10 @@ static void test__handle_package__responds_with_ack_if_add_measurement_succeeds_
     expect_any(db_add_measurement, timestamp);
 
     will_return(db_add_measurement, DB_OK);
-
-    will_return(db_check_firmware_is_uptodate, 1);
 
     handle_package(&p, sizeof(pkg));
 
     uint8_t resp[] = { PKG_ACK, 0x00, };
-    assert_package_equal(p, resp);
-}
-
-static void test__handle_package__responds_with_ack_if_add_measurement_succeeds_and_firmware_needs_update(void **states)
-{
-    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
-    struct pkg_buffer p = construct_pkg(pkg);
-
-    expect_any(db_add_measurement, node_id);
-    expect_any(db_add_measurement, timestamp);
-
-    will_return(db_add_measurement, DB_OK);
-
-    will_return(db_check_firmware_is_uptodate, 0);
-
-    handle_package(&p, sizeof(pkg));
-
-    uint8_t resp[] = { PKG_ACK, PKG_FLAG_UPDATE_AVAILABLE, };
     assert_package_equal(p, resp);
 }
 
@@ -210,8 +217,7 @@ const struct CMUnitTest tests_for_handle_package[] = {
     cmocka_unit_test(test__handle_package__responds_with_set_time_if_registration_succeeds),
     cmocka_unit_test(test__handle_package__calls__db_add_measurement__with_correct_parameters),
     cmocka_unit_test(test__handle_package__responds_with_nack_if_add_measurement_fails),
-    cmocka_unit_test(test__handle_package__responds_with_ack_if_add_measurement_succeeds_and_firmware_current),
-    cmocka_unit_test(test__handle_package__responds_with_ack_if_add_measurement_succeeds_and_firmware_needs_update),
+    cmocka_unit_test(test__handle_package__responds_with_ack_if_add_measurement_succeeds),
 };
 
 //////// Main //////////////////////////////////////////////////////////////////

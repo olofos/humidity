@@ -6,10 +6,14 @@
 #include "db.h"
 #include "package.h"
 #include "package-handler.h"
+#include "node.h"
 
 #define SHTC3_TEMPERATURE_SHIFT 8
 #define SHTC3_HUMIDITY_SHIFT 16
 #define ADC_VOLTAGE_SHIFT 12
+
+// Maximum allowed time difference in seconds
+#define MAX_TIME_DIFF 5
 
 static uint8_t from_bcd(uint8_t n)
 {
@@ -63,7 +67,45 @@ static const char *format_time(time_t *tp)
     return s;
 }
 
-static void handle_package_register(struct pkg_buffer *p, int len, uint8_t node_id)
+static void send_ack(struct pkg_buffer *p, struct node *node, time_t timestamp)
+{
+    uint8_t flags = 0;
+
+    if(node) {
+        if(!db_check_firmware_is_uptodate(node->firmware_hash)) {
+            flags |= PKG_FLAG_UPDATE_AVAILABLE;
+            printf("Update available\n");
+        } else {
+            printf("Up to date\n");
+        }
+    } else {
+        printf("Node not found!\n");
+    }
+
+    time_t now = time(0);
+    if(timestamp != -1) {
+        time_t diff = now - timestamp;
+        if((diff > MAX_TIME_DIFF) || (diff < -MAX_TIME_DIFF)) {
+            flags |= PKG_FLAG_SET_TIME;
+        }
+    }
+
+    pkg_write_byte(p, PKG_ACK);
+    pkg_write_byte(p, flags);
+
+    if(flags & PKG_FLAG_UPDATE_AVAILABLE) {
+        uint64_t latest = db_get_latest_firmware_hash();
+        pkg_write_dword(p, (latest >> 32) & 0xFFFFFFFF);
+        pkg_write_dword(p, latest & 0xFFFFFFFF);
+    }
+
+    if(flags & PKG_FLAG_SET_TIME) {
+        struct pkg_timestamp pkg_timestamp = convert_time_to_pkg_timestamp(now);
+        pkg_write_timestamp(p, &pkg_timestamp);
+    }
+}
+
+static void handle_package_register(struct pkg_buffer *p, uint8_t request, int len, uint8_t node_id)
 {
     uint8_t node_type = pkg_read_byte(p);
 
@@ -71,18 +113,40 @@ static void handle_package_register(struct pkg_buffer *p, int len, uint8_t node_
     uint32_t hash2 = pkg_read_dword(p);
     uint64_t hash = (hash1 << 32) | hash2;
 
+    if(hash & (1ULL << 63)) {
+        printf("Expected a 63 bit hash. Truncating.\n");
+        hash &= ~(1ULL << 63);
+    }
+
+    uint8_t protocol_version = 0;
+    if(len > 10) {
+        protocol_version = pkg_read_byte(p);
+
+        if(protocol_version > PROTOCOL_VERSION_MAX) {
+            printf("Unkown protocol version. Defaulting to 0\n");
+            protocol_version = 0;
+        }
+    }
+
     if(db_register_node(node_id, node_type, hash) == DB_OK) {
-        struct pkg_timestamp pkg_timestamp = convert_time_to_pkg_timestamp(time(0));
+        struct node *node = node_register(node_id, hash, protocol_version);
+        if(node) {
+            if(protocol_version > 0) {
+                send_ack(p, node, 0);
+            } else {
+                struct pkg_timestamp pkg_timestamp = convert_time_to_pkg_timestamp(time(0));
 
-        pkg_write_byte(p, PKG_SET_TIME);
-        pkg_write_timestamp(p, &pkg_timestamp);
+                pkg_write_byte(p, PKG_SET_TIME);
+                pkg_write_timestamp(p, &pkg_timestamp);
+            }
 
-        printf("New node\n");
-        printf("Node id:    %d\n", node_id);
-        printf("Type:       %d\n", node_type);
-        printf("Hash:       %" PRIx64 "\n", hash);
+            printf("New node\n");
+            printf("Node id:    %d\n", node_id);
+            printf("Type:       %d\n", node_type);
+            printf("Hash:       %" PRIx64 "\n", hash);
 
-        return;
+            return;
+        }
     }
 
     pkg_write_byte(p, PKG_NACK);
@@ -91,7 +155,7 @@ static void handle_package_register(struct pkg_buffer *p, int len, uint8_t node_
     printf("Error when registering node\n");
 }
 
-static void handle_package_measurement(struct pkg_buffer *p, int len, uint8_t node_id)
+static void handle_package_measurement(struct pkg_buffer *p, uint8_t request, int len, uint8_t node_id)
 {
     struct pkg_timestamp pkg_timestamp;
     pkg_read_timestamp(p, &pkg_timestamp);
@@ -110,22 +174,19 @@ static void handle_package_measurement(struct pkg_buffer *p, int len, uint8_t no
 
         int row_id = db_add_measurement(node_id, timestamp, humidity, temperature, vcc, vmid);
         if(row_id >= 0) {
-            uint8_t flags = 0x00;
-
-            int uptodate = db_check_firmware_is_uptodate(node_id);
-
-            if(!uptodate) {
-                uint64_t latest_hash = db_get_latest_firmware_hash();
-
-                if(latest_hash) {
-                    flags |= PKG_FLAG_UPDATE_AVAILABLE;
-                }
-            }
-
             float rssi = -rfm69_get_rssi() / 2.0;
+            struct node *node = node_get(node_id);
 
-            pkg_write_byte(p, PKG_ACK);
-            pkg_write_byte(p, flags);
+            if(node && (node->protocol_version > 0)) {
+                if(request == PKG_MEASUREMENT_REPEAT) {
+                    send_ack(p, node, (time_t)(-1));
+                } else {
+                    send_ack(p, node, timestamp);
+                }
+            } else {
+                pkg_write_byte(p, PKG_ACK);
+                pkg_write_byte(p, 0);
+            }
 
             if(row_id == 0) {
                 printf("Measurement already added\n");
@@ -163,7 +224,7 @@ static void handle_package_measurement(struct pkg_buffer *p, int len, uint8_t no
 }
 
 
-static void handle_package_debug(struct pkg_buffer *p, int len, uint8_t node_id)
+static void handle_package_debug(struct pkg_buffer *p, uint8_t request, int len, uint8_t node_id)
 {
     struct pkg_timestamp pkg_timestamp;
     pkg_read_timestamp(p, &pkg_timestamp);
@@ -203,15 +264,20 @@ void handle_package(struct pkg_buffer *p, int len)
 
     switch(request) {
     case PKG_REGISTER: // Register
-        handle_package_register(p, len, node_id);
+        handle_package_register(p, request, len, node_id);
         break;
 
+    case PKG_MEASUREMENT_REPEAT:
     case PKG_MEASUREMENT: // Measurement
-        handle_package_measurement(p, len, node_id);
+        handle_package_measurement(p, request, len, node_id);
         break;
 
     case PKG_DEBUG:
-        handle_package_debug(p, len, node_id);
+        handle_package_debug(p, request, len, node_id);
+        break;
+
+    default:
+        printf("Unknown package type %02X\n", request);
         break;
     }
 }

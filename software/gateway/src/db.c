@@ -31,7 +31,7 @@ static int db_prepare_statements(void)
         "VALUES ("
         "@node_id, "
         "@type_id, "
-        "(SELECT id FROM firmware_versions WHERE hash=@firmware_hash), "
+        "NULL, "
         "(SELECT name FROM nodes WHERE id=@node_id)"
         ")";
 
@@ -39,7 +39,11 @@ static int db_prepare_statements(void)
         "SELECT hash FROM firmware_versions ORDER BY timestamp DESC LIMIT 1";
 
     const char *sql_select_firmware_is_latest =
-        "SELECT (SELECT firmware_id FROM nodes WHERE id = @node_id) = (SELECT id FROM firmware_versions ORDER BY timestamp DESC LIMIT 1)";
+        "SELECT NOT EXISTS(SELECT id FROM firmware_versions WHERE hash = @hash) "
+        "OR (SELECT "
+        "(SELECT id FROM firmware_versions ORDER BY timestamp DESC LIMIT 1) "
+        "="
+        "(SELECT id FROM firmware_versions WHERE hash = @hash))";
 
     if(sqlite3_prepare_v2(db, sql_insert_measurement, -1, &stmt_insert_measurement, 0) != SQLITE_OK) goto err;
     if(sqlite3_prepare_v2(db, sql_insert_debug_message, -1, &stmt_insert_debug_message, 0) != SQLITE_OK) goto err;
@@ -173,19 +177,19 @@ int db_add_debug_message(uint8_t node_id, time_t timestamp, char *message, int m
     return result;
 }
 
-int db_check_firmware_is_uptodate(uint8_t node_id)
+int db_check_firmware_is_uptodate(uint64_t hash)
 {
     int result = 0;
 
     sqlite3_stmt *stmt = stmt_select_firmware_is_latest;
 
-    sqlite3_bind_int(stmt, sqlite3_bind_parameter_index(stmt, "@node_id"), node_id);
+    sqlite3_bind_int64(stmt, sqlite3_bind_parameter_index(stmt, "@hash"), hash);
 
     if(sqlite3_step(stmt) == SQLITE_ROW) {
         if(sqlite3_column_type(stmt,0) == SQLITE_INTEGER) {
-            if(sqlite3_column_int(stmt,0) > 0) {
-                result = 1;
-            }
+            result = sqlite3_column_int(stmt,0);
+        } else {
+            fprintf(stderr, "db_check_firmware_is_uptodate: expected an integer\n");
         }
     } else {
         fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));

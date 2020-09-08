@@ -1,6 +1,6 @@
 V=@
 
-C_SOURCES := main.c rfm69.c rfm69-hal.c db.c sqlite3.c package-handler.c
+C_SOURCES := main.c rfm69.c rfm69-hal.c db.c sqlite3.c package-handler.c node.c
 
 SRCDIR := src
 OBJDIR := obj
