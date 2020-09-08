@@ -57,7 +57,7 @@ TST_DEPS = $(TSTDEPDIR)/*.d
 
 .PHONY: all bin flash clean erase test build_dirs lss
 
-all: build_dirs $(BINDIR)/$(TARGET).elf
+all: build_dirs $(BINDIR)/$(TARGET).elf $(BINDIR)/$(TARGET).bin
 
 lss: $(BINDIR)/$(TARGET).lss
 
