@@ -25,13 +25,14 @@ enum pkg_package_type {
     PKG_MEASUREMENT        = 0x81,
     PKG_DEBUG              = 0x82,
     PKG_UPDATE_REQUEST     = 0x83,
-    PKG_MEASUREMENT_REPEAT = 0x85,
+    PKG_MEASUREMENT_REPEAT = 0x85, // Only v1
 
     // Responses
     PKG_NACK           = 0x00,
     PKG_ACK            = 0x01,
-    PKG_SET_TIME       = 0x02,
     PKG_UPDATE_DATA    = 0x03,
+
+    PKG_SET_TIME       = 0x02, // Only v0
 };
 
 enum pkg_node_type {
@@ -45,6 +46,7 @@ enum pkg_flags {
 
     // NACK
     PKG_FLAG_NOT_REGISTERED = 0x02,
+    PKG_FLAG_NO_RETRY = 0x08,
 };
 
 struct pkg_buffer {

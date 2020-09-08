@@ -109,10 +109,16 @@
       0x02 Flags (1 byte)
       [ New firmware hash (8 bytes) if flags & PKG_FLAG_UPDATE_AVAILABLE ]
       [ New timestamp (6 bytes) if flags & PKG_FLAG_SET_TIME ]
+      Flags:
+      PKG_FLAG_UPDATE_AVAILABLE = 0x01
+      PKG_FLAG_SET_TIME = 0x04
 
     - PKG_NACK
       0x01 PKG_NACK (1 byte)
       0x02 Flags (1 byte)
+      Flags:
+      PKG_FLAG_NOT_REGISTERED = 0x02
+      PKG_FLAG_NO_RETRY = 0x08
 
     Connect:
     Current firmware version
