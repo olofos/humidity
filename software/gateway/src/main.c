@@ -68,8 +68,8 @@ int main(void)
         return 1;
     }
 
-    if(getenv("HUMIDITY_FIRMWARE")) {
-        if(firmware_set_dir(getenv("HUMIDITY_FIRMWARE")) < 0) {
+    if(getenv("HUMIDITY_FW")) {
+        if(firmware_set_dir(getenv("HUMIDITY_FW")) < 0) {
             fprintf(stderr, "Could not set firmware dir\n");
             goto err;
         }
