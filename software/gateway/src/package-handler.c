@@ -71,7 +71,7 @@ static const char *format_time(time_t *tp)
 static void send_ack(struct pkg_buffer *p, struct node *node, time_t timestamp)
 {
     uint8_t flags = 0;
-    uint64_t latest_fw_hash;
+    uint64_t latest_fw_hash = 0;
 
     if(node) {
         if(!db_check_firmware_is_uptodate(node->firmware_hash)) {
