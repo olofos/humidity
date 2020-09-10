@@ -136,28 +136,31 @@ struct pkg_buffer construct_pkg_helper(uint8_t *buf, size_t len)
 
 static void test__handle_package__responds_with_nack_if_registration_fails(void **states)
 {
-    uint8_t pkg[] = { PKG_REGISTER, PKG_NODE_TYPE_HUMIDITY, 0x67, 0x45, 0x23, 0x01, 0xEF, 0xCD, 0xAB, 0x89 };
+    // { PKG_REGISTER, PKG_NODE_TYPE_HUMIDITY, hash[8] }
+    uint8_t pkg[] = { 0x80, 0x01, 0x67, 0x45, 0x23, 0x01, 0xEF, 0xCD, 0xAB, 0x89 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_value(db_register_node, node_id, NODE_ID);
-    expect_value(db_register_node, node_type_id, PKG_NODE_TYPE_HUMIDITY);
+    expect_value(db_register_node, node_type_id, 0x01);
     expect_value(db_register_node, firmware_hash, 0x0123456789ABCDEF);
     will_return(db_register_node, DB_ERROR);
 
     handle_package(&p, sizeof(pkg));
 
-    uint8_t resp[] = { PKG_NACK, 0x00 };
+    // { PKG_NACK, flags }
+    uint8_t resp[] = { 0x00, 0x00 };
 
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__responds_with_set_time_if_registration_succeeds_v0(void **states)
 {
-    uint8_t pkg[] = { PKG_REGISTER, PKG_NODE_TYPE_HUMIDITY, 0x67, 0x45, 0x23, 0x01, 0xEF, 0xCD, 0xAB, 0x89 };
+    // { PKG_REGISTER, PKG_NODE_TYPE_HUMIDITY, hash[8] }
+    uint8_t pkg[] = { 0x80, 0x01, 0x67, 0x45, 0x23, 0x01, 0xEF, 0xCD, 0xAB, 0x89 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_value(db_register_node, node_id, NODE_ID);
-    expect_value(db_register_node, node_type_id, PKG_NODE_TYPE_HUMIDITY);
+    expect_value(db_register_node, node_type_id, 0x01);
     expect_value(db_register_node, firmware_hash, 0x0123456789ABCDEF);
     will_return(db_register_node, DB_OK);
 
@@ -168,17 +171,19 @@ static void test__handle_package__responds_with_set_time_if_registration_succeed
     handle_package(&p, sizeof(pkg));
 
     // 2020-01-02 03:04:05
-    uint8_t resp[] = { PKG_SET_TIME, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03 };
+    // { PKG_SET_TIME, D, M, Y, S, M, H }
+    uint8_t resp[] = { 0x02, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03 };
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__responds_with_ack_set_time_if_registration_succeeds_v1(void **states)
 {
-    uint8_t pkg[] = { PKG_REGISTER, PKG_NODE_TYPE_HUMIDITY, 0x67, 0x45, 0x23, 0x01, 0xEF, 0xCD, 0xAB, 0x89, 0x01 };
+    // { PKG_REGISTER, PKG_NODE_TYPE_HUMIDITY, hash[8], protocol_version: 1 }
+    uint8_t pkg[] = { 0x80, 0x01, 0x67, 0x45, 0x23, 0x01, 0xEF, 0xCD, 0xAB, 0x89, 0x01 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_value(db_register_node, node_id, NODE_ID);
-    expect_value(db_register_node, node_type_id, PKG_NODE_TYPE_HUMIDITY);
+    expect_value(db_register_node, node_type_id, 0x01);
     expect_value(db_register_node, firmware_hash, 0x0123456789ABCDEF);
     will_return(db_register_node, DB_OK);
 
@@ -191,17 +196,19 @@ static void test__handle_package__responds_with_ack_set_time_if_registration_suc
     handle_package(&p, sizeof(pkg));
 
     // 2020-01-02 03:04:05
-    uint8_t resp[] = { PKG_ACK, 0x04, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03 };
+    // { PKG_ACK, PKG_FLAG_SET_TIME, D, M, Y, s, m, h }
+    uint8_t resp[] = { 0x01, 0x04, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03 };
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__responds_with_ack_update_set_time_if_registration_succeeds_v1(void **states)
 {
-    uint8_t pkg[] = { PKG_REGISTER, PKG_NODE_TYPE_HUMIDITY, 0x67, 0x45, 0x23, 0x01, 0xEF, 0xCD, 0xAB, 0x89, 0x01 };
+    // { PKG_REGISTER, PKG_NODE_TYPE_HUMIDITY, hash[8], protocol_version: 1 }
+    uint8_t pkg[] = { 0x80, 0x01, 0x67, 0x45, 0x23, 0x01, 0xEF, 0xCD, 0xAB, 0x89, 0x01 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_value(db_register_node, node_id, NODE_ID);
-    expect_value(db_register_node, node_type_id, PKG_NODE_TYPE_HUMIDITY);
+    expect_value(db_register_node, node_type_id, 0x01);
     expect_value(db_register_node, firmware_hash, 0x0123456789ABCDEF);
     will_return(db_register_node, DB_OK);
 
@@ -216,13 +223,15 @@ static void test__handle_package__responds_with_ack_update_set_time_if_registrat
 
     // 0x01BADDEC 0xAFC0FFEE
     // 2020-01-02 03:04:05
-    uint8_t resp[] = { PKG_ACK, 0x05, 0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03 };
+    // { PKG_ACK, PKG_FLAG_UPDATE_AVAILABLE | PKG_FLAG_SET_TIME, hash[8], D, M, Y, s, m, h }
+    uint8_t resp[] = { 0x01, 0x05, 0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03 };
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__calls__db_add_measurement__with_correct_parameters(void **states)
 {
-    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    // { PKG_MEASUREMENT, D, M, Y, s, m, h, humidity[2], temperature[2], vcc[2], vmid[2] }
+    uint8_t pkg[] = { 0x81, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_value(db_add_measurement, node_id, NODE_ID);
@@ -243,7 +252,7 @@ static void test__handle_package__calls__db_add_measurement__with_correct_parame
 
 static void test__handle_package__responds_with_nack_if_add_measurement_fails(void **states)
 {
-    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    uint8_t pkg[] = { 0x81, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_any(db_add_measurement, node_id);
@@ -256,13 +265,13 @@ static void test__handle_package__responds_with_nack_if_add_measurement_fails(vo
 
     handle_package(&p, sizeof(pkg));
 
-    uint8_t resp[] = { PKG_NACK, 0x00, };
+    uint8_t resp[] = { 0x00, 0x00, };
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__responds_with_ack_if_add_measurement_succeeds_v0(void **states)
 {
-    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    uint8_t pkg[] = { 0x81, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_any(db_add_measurement, node_id);
@@ -275,13 +284,13 @@ static void test__handle_package__responds_with_ack_if_add_measurement_succeeds_
 
     handle_package(&p, sizeof(pkg));
 
-    uint8_t resp[] = { PKG_ACK, 0x00, };
+    uint8_t resp[] = { 0x01, 0x00, };
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__responds_with_ack_if_add_measurement_succeeds_v1(void **states)
 {
-    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    uint8_t pkg[] = { 0x81, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_any(db_add_measurement, node_id);
@@ -296,13 +305,13 @@ static void test__handle_package__responds_with_ack_if_add_measurement_succeeds_
 
     handle_package(&p, sizeof(pkg));
 
-    uint8_t resp[] = { PKG_ACK, 0x00, };
+    uint8_t resp[] = { 0x01, 0x00, };
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__responds_with_ack_set_time_if_add_measurement_succeeds_and_is_too_old_v1(void **states)
 {
-    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x03, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    uint8_t pkg[] = { 0x81, 0x02, 0x01, 0x20, 0x05, 0x03, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_any(db_add_measurement, node_id);
@@ -318,13 +327,13 @@ static void test__handle_package__responds_with_ack_set_time_if_add_measurement_
     handle_package(&p, sizeof(pkg));
 
     // 2020-01-02 03:04:05
-    uint8_t resp[] = { PKG_ACK, 0x04, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, };
+    uint8_t resp[] = { 0x01, 0x04, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, };
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__responds_with_ack_set_time_if_add_measurement_succeeds_and_is_too_new_v1(void **states)
 {
-    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x0B, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    uint8_t pkg[] = { 0x81, 0x02, 0x01, 0x20, 0x0B, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_any(db_add_measurement, node_id);
@@ -340,13 +349,13 @@ static void test__handle_package__responds_with_ack_set_time_if_add_measurement_
     handle_package(&p, sizeof(pkg));
 
     // 2020-01-02 03:04:05
-    uint8_t resp[] = { PKG_ACK, 0x04, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, };
+    uint8_t resp[] = { 0x01, 0x04, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, };
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__responds_with_ack_update_if_add_measurement_succeeds_and_firmware_is_outdated_v1(void **states)
 {
-    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    uint8_t pkg[] = { 0x81, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_any(db_add_measurement, node_id);
@@ -363,13 +372,13 @@ static void test__handle_package__responds_with_ack_update_if_add_measurement_su
     handle_package(&p, sizeof(pkg));
 
     // 0x01BADDEC 0xAFC0FFEE
-    uint8_t resp[] = { PKG_ACK, 0x01, 0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF };
+    uint8_t resp[] = { 0x01, 0x01, 0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF };
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__responds_with_ack_no_update_if_add_measurement_succeeds_and_firmware_is_outdated_but_new_firmware_is_missing_v1(void **states)
 {
-    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    uint8_t pkg[] = { 0x81, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_any(db_add_measurement, node_id);
@@ -386,13 +395,13 @@ static void test__handle_package__responds_with_ack_no_update_if_add_measurement
     handle_package(&p, sizeof(pkg));
 
     // 0x01BADDEC 0xAFC0FFEE
-    uint8_t resp[] = { PKG_ACK, 0x00, };
+    uint8_t resp[] = { 0x01, 0x00, };
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__responds_with_ack_no_update_if_add_measurement_succeeds_and_firmware_is_outdated_but_old_firmware_is_missing_v1(void **states)
 {
-    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    uint8_t pkg[] = { 0x81, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_any(db_add_measurement, node_id);
@@ -410,13 +419,13 @@ static void test__handle_package__responds_with_ack_no_update_if_add_measurement
     handle_package(&p, sizeof(pkg));
 
     // 0x01BADDEC 0xAFC0FFEE
-    uint8_t resp[] = { PKG_ACK, 0x00, };
+    uint8_t resp[] = { 0x01, 0x00, };
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__responds_with_ack_set_time_update_if_add_measurement_succeeds_and_is_too_old_and_firmware_is_outdated_v1(void **states)
 {
-    uint8_t pkg[] = { PKG_MEASUREMENT, 0x02, 0x01, 0x20, 0x05, 0x03, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    uint8_t pkg[] = { 0x81, 0x02, 0x01, 0x20, 0x05, 0x03, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_any(db_add_measurement, node_id);
@@ -434,13 +443,14 @@ static void test__handle_package__responds_with_ack_set_time_update_if_add_measu
 
     // 0x01BADDEC 0xAFC0FFEE
     // 2020-01-02 03:04:05
-    uint8_t resp[] = { PKG_ACK, 0x05, 0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, };
+    uint8_t resp[] = { 0x01, 0x05, 0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, };
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__responds_with_ack_if_add_measurement_repeat_succeeds_v1(void **states)
 {
-    uint8_t pkg[] = { PKG_MEASUREMENT_REPEAT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    // { PKG_MEASUREMENT_REPEAT, D, M, Y, s, m, h, humidity[2], temperature[2], vcc[2], vmid[2] }
+    uint8_t pkg[] = { 0x85, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_any(db_add_measurement, node_id);
@@ -455,13 +465,13 @@ static void test__handle_package__responds_with_ack_if_add_measurement_repeat_su
 
     handle_package(&p, sizeof(pkg));
 
-    uint8_t resp[] = { PKG_ACK, 0x00, };
+    uint8_t resp[] = { 0x01, 0x00, };
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__responds_with_ack_if_add_measurement_repeat_succeeds_and_is_too_old_v1(void **states)
 {
-    uint8_t pkg[] = { PKG_MEASUREMENT_REPEAT, 0x02, 0x01, 0x20, 0x05, 0x03, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    uint8_t pkg[] = { 0x85, 0x02, 0x01, 0x20, 0x05, 0x03, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_any(db_add_measurement, node_id);
@@ -476,13 +486,13 @@ static void test__handle_package__responds_with_ack_if_add_measurement_repeat_su
 
     handle_package(&p, sizeof(pkg));
 
-    uint8_t resp[] = { PKG_ACK, 0x00, };
+    uint8_t resp[] = { 0x01, 0x00, };
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__responds_with_ack_update_if_add_measurement_repeat_succeeds_and_firmware_is_outdated_v1(void **states)
 {
-    uint8_t pkg[] = { PKG_MEASUREMENT_REPEAT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    uint8_t pkg[] = { 0x85, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_any(db_add_measurement, node_id);
@@ -499,13 +509,13 @@ static void test__handle_package__responds_with_ack_update_if_add_measurement_re
     handle_package(&p, sizeof(pkg));
 
     // 0x01BADDEC 0xAFC0FFEE
-    uint8_t resp[] = { PKG_ACK, 0x01, 0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF };
+    uint8_t resp[] = { 0x01, 0x01, 0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF };
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__responds_with_nack_if_unkown_node_when_adding_measurement(void **states)
 {
-    uint8_t pkg[] = { PKG_MEASUREMENT_REPEAT, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
+    uint8_t pkg[] = { 0x85, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 0x40, 0x80, 0x20, 0x19, 0x00, 0x18, 0x44, 0x14 };
     struct pkg_buffer p = construct_pkg(pkg);
 
     will_return_maybe(node_get, 0);
@@ -513,14 +523,15 @@ static void test__handle_package__responds_with_nack_if_unkown_node_when_adding_
     handle_package(&p, sizeof(pkg));
 
     // 0x01BADDEC 0xAFC0FFEE
-    uint8_t resp[] = { PKG_NACK, 0x02, };
+    uint8_t resp[] = { 0x00, 0x02, };
     assert_package_equal(p, resp);
 }
 
 
 static void test__handle_package__responds_with_ack_if_add_debug_message_succeeds(void **states)
 {
-    uint8_t pkg[] = { PKG_DEBUG, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 'H', 'i', '!' };
+    // { PKG_DEBUG, D, M, Y, s, m, h, msg[] }
+    uint8_t pkg[] = { 0x82, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 'H', 'i', '!' };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_value(db_add_debug_message, node_id, NODE_ID);
@@ -533,13 +544,13 @@ static void test__handle_package__responds_with_ack_if_add_debug_message_succeed
 
     handle_package(&p, sizeof(pkg));
 
-    uint8_t resp[] = { PKG_ACK, 0x00 };
+    uint8_t resp[] = { 0x01, 0x00 };
     assert_package_equal(p, resp);
 }
 
 static void test__handle_package__responds_with_nack_if_add_debug_message_fails(void **states)
 {
-    uint8_t pkg[] = { PKG_DEBUG, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 'H', 'i', '!' };
+    uint8_t pkg[] = { 0x82, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 'H', 'i', '!' };
     struct pkg_buffer p = construct_pkg(pkg);
 
     expect_value(db_add_debug_message, node_id, NODE_ID);
@@ -552,7 +563,7 @@ static void test__handle_package__responds_with_nack_if_add_debug_message_fails(
 
     handle_package(&p, sizeof(pkg));
 
-    uint8_t resp[] = { PKG_NACK, 0x00 };
+    uint8_t resp[] = { 0x00, 0x00 };
     assert_package_equal(p, resp);
 }
 
