@@ -127,9 +127,9 @@ static void handle_package_register(struct pkg_buffer *p, uint8_t request, int l
 {
     uint8_t node_type = pkg_read_byte(p);
 
-    uint64_t hash1 = pkg_read_dword(p);
-    uint32_t hash2 = pkg_read_dword(p);
-    uint64_t hash = (hash1 << 32) | hash2;
+    uint64_t hash_hi = pkg_read_dword(p);
+    uint32_t hash_lo = pkg_read_dword(p);
+    uint64_t hash = (hash_hi << 32) | hash_lo;
 
     if(hash & (1ULL << 63)) {
         printf("Expected a 63 bit hash. Truncating.\n");

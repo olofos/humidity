@@ -117,10 +117,10 @@ uint64_t read_hash(int in)
         exit(1);
     }
 
-    uint64_t hash1 = ((uint64_t)hash_buf[0]) | ((uint64_t)hash_buf[1] << 8) | ((uint64_t)hash_buf[2] << 16) | ((uint64_t)hash_buf[3] << 24);
-    uint64_t hash2 = ((uint64_t)hash_buf[4]) | ((uint64_t)hash_buf[5] << 8) | ((uint64_t)hash_buf[6] << 16) | ((uint64_t)hash_buf[7] << 24);
+    uint64_t hash_hi = ((uint64_t)hash_buf[0]) | ((uint64_t)hash_buf[1] << 8) | ((uint64_t)hash_buf[2] << 16) | ((uint64_t)hash_buf[3] << 24);
+    uint64_t hash_lo = ((uint64_t)hash_buf[4]) | ((uint64_t)hash_buf[5] << 8) | ((uint64_t)hash_buf[6] << 16) | ((uint64_t)hash_buf[7] << 24);
 
-    uint64_t hash = (hash1 << 32) | hash2;
+    uint64_t hash = (hash_hi << 32) | hash_lo;
 
     if(hash & (1ULL << 63)) {
         fprintf(stderr, "63 bit hash expected. Truncating.");
