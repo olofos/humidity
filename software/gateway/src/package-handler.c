@@ -97,6 +97,7 @@ static void send_ack(struct pkg_buffer *p, struct node *node, time_t timestamp)
     if(timestamp != -1) {
         time_t diff = now - timestamp;
         if((diff > MAX_TIME_DIFF) || (diff < -MAX_TIME_DIFF)) {
+            printf("Node clock off by %d seconds.\n", (int)diff);
             flags |= PKG_FLAG_SET_TIME;
         }
     }
