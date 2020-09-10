@@ -53,7 +53,7 @@ static inline int pkg_receive(struct pkg_buffer *buf)
 
     if(buf->len >= 2) {
         buf->from = buf->buf[1];
-        return buf->len - 2;
+        return buf->len - 2; // Subtract 'to' and 'from' addresses
     }
 
     return buf->len;
