@@ -88,6 +88,10 @@ struct node *node_register(uint8_t node_id, uint64_t firmware_hash, uint8_t prot
     node.protocol_version = protocol_version;
     node.next = 0;
 
+    check_expected(node_id);
+    check_expected(firmware_hash);
+    check_expected(protocol_version);
+
     return &node;
 }
 
@@ -140,8 +144,6 @@ static void test__handle_package__responds_with_nack_if_registration_fails(void 
     expect_value(db_register_node, firmware_hash, 0x0123456789ABCDEF);
     will_return(db_register_node, DB_ERROR);
 
-    will_return_maybe(node_get, 0);
-
     handle_package(&p, sizeof(pkg));
 
     uint8_t resp[] = { PKG_NACK, 0x00 };
@@ -159,7 +161,9 @@ static void test__handle_package__responds_with_set_time_if_registration_succeed
     expect_value(db_register_node, firmware_hash, 0x0123456789ABCDEF);
     will_return(db_register_node, DB_OK);
 
-    will_return_maybe(node_get, 0);
+    expect_value(node_register, node_id, NODE_ID);
+    expect_value(node_register, firmware_hash, 0x0123456789ABCDEF);
+    expect_value(node_register, protocol_version, 0);
 
     handle_package(&p, sizeof(pkg));
 
@@ -178,7 +182,9 @@ static void test__handle_package__responds_with_ack_set_time_if_registration_suc
     expect_value(db_register_node, firmware_hash, 0x0123456789ABCDEF);
     will_return(db_register_node, DB_OK);
 
-    will_return_maybe(node_get, 0);
+    expect_value(node_register, node_id, NODE_ID);
+    expect_value(node_register, firmware_hash, 0x0123456789ABCDEF);
+    expect_value(node_register, protocol_version, 1);
 
     will_return(db_check_firmware_is_uptodate, 1);
 
@@ -199,7 +205,9 @@ static void test__handle_package__responds_with_ack_update_set_time_if_registrat
     expect_value(db_register_node, firmware_hash, 0x0123456789ABCDEF);
     will_return(db_register_node, DB_OK);
 
-    will_return_maybe(node_get, 0);
+    expect_value(node_register, node_id, NODE_ID);
+    expect_value(node_register, firmware_hash, 0x0123456789ABCDEF);
+    expect_value(node_register, protocol_version, 1);
 
     will_return(db_check_firmware_is_uptodate, 0);
     will_return_count(firmware_file_exists, 1, 2);
