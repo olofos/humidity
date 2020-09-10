@@ -117,6 +117,12 @@ static void send_ack(struct pkg_buffer *p, struct node *node, time_t timestamp)
     }
 }
 
+static void send_nack(struct pkg_buffer *p, uint8_t flags)
+{
+    pkg_write_byte(p, PKG_NACK);
+    pkg_write_byte(p, flags);
+}
+
 static void handle_package_register(struct pkg_buffer *p, uint8_t request, int len, uint8_t node_id)
 {
     uint8_t node_type = pkg_read_byte(p);
@@ -162,8 +168,7 @@ static void handle_package_register(struct pkg_buffer *p, uint8_t request, int l
         }
     }
 
-    pkg_write_byte(p, PKG_NACK);
-    pkg_write_byte(p, 0x00);
+    send_nack(p, 0x00);
 
     printf("Error when registering node\n");
 }
@@ -174,8 +179,7 @@ static void handle_package_measurement(struct pkg_buffer *p, uint8_t request, in
 
     if(!node) {
         printf("Unknown node %d\n", node_id);
-        pkg_write_byte(p, PKG_NACK);
-        pkg_write_byte(p, PKG_FLAG_NOT_REGISTERED);
+        send_nack(p, PKG_FLAG_NOT_REGISTERED);
         return;
     }
 
@@ -233,14 +237,12 @@ static void handle_package_measurement(struct pkg_buffer *p, uint8_t request, in
 
             printf("\n");
 
-            pkg_write_byte(p, PKG_NACK);
-            pkg_write_byte(p, flags);
+            send_nack(p, flags);
         }
     } else {
         printf("Timestamp too old: %s\n", format_time(&timestamp));
 
-        pkg_write_byte(p, PKG_NACK);
-        pkg_write_byte(p, PKG_FLAG_NOT_REGISTERED);
+        send_nack(p, PKG_FLAG_NOT_REGISTERED);
     }
 }
 
