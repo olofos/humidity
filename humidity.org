@@ -107,9 +107,10 @@
 
     - PKG_UPDATE_REQUEST
       0x01 PKG_UPDATE_REQUEST (1 byte)
-      0x02 Old hash (8 bytes)
-      0x0B New hash (8 bytes)
-      0x13 Address (2 bytes)
+      0x02 Address (2 bytes)
+      0x04 Old hash (8 bytes)
+      0x0C New hash (8 bytes)
+      
 
     - PKG_ACK
       0x01 PKG_ACK (1 byte)

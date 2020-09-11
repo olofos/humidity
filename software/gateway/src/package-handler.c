@@ -265,15 +265,62 @@ static void handle_package_debug(struct pkg_buffer *p, uint8_t request, int len,
             pkg_write_byte(p, PKG_ACK);
             pkg_write_byte(p, 0x00);
         } else {
-            pkg_write_byte(p, PKG_NACK);
-            pkg_write_byte(p, 0x00);
+            send_nack(p, 0x00);
         }
     } else {
         printf("Timestamp too old: %s\n", format_time(&timestamp));
         printf("Message from %d: \"%s\"\r\n", node_id, msg);
 
-        pkg_write_byte(p, PKG_NACK);
-        pkg_write_byte(p, PKG_FLAG_NOT_REGISTERED);
+        send_nack(p, PKG_FLAG_NOT_REGISTERED);
+    }
+}
+
+static void handle_package_update(struct pkg_buffer *p, uint8_t request, int len, uint8_t node_id)
+{
+    uint16_t address = pkg_read_word(p);
+
+    uint64_t hash_old_hi = pkg_read_dword(p);
+    uint64_t hash_old_lo = pkg_read_dword(p);
+    uint64_t hash_old = (hash_old_hi << 32) | hash_old_lo;
+
+    uint64_t hash_new_hi = pkg_read_dword(p);
+    uint64_t hash_new_lo = pkg_read_dword(p);
+    uint64_t hash_new = (hash_new_hi << 32) | hash_new_lo;
+
+
+    struct firmware_halfpage halfpage = {
+        .address = address,
+    };
+
+    switch(firmware_get_halfpage(hash_old, hash_new, &halfpage)) {
+    case FW_DATA:
+        pkg_write_byte(p, PKG_UPDATE_DATA);
+        pkg_write_word(p, address);
+        pkg_write_dword(p, hash_old_lo);
+        pkg_write_dword(p, hash_new_lo);
+        pkg_write_dword(p, halfpage.crc);
+        for(int i = 0; i < FW_HALFPAGE_SIZE; i++) {
+            pkg_write_byte(p, halfpage.buf[i]);
+        }
+        break;
+    case FW_NO_CHANGE:
+        pkg_write_byte(p, PKG_UPDATE_NO_CHANGE);
+        pkg_write_word(p, address);
+        pkg_write_dword(p, hash_old_lo);
+        pkg_write_dword(p, hash_new_lo);
+        pkg_write_word(p, halfpage.count);
+        break;
+    case FW_EMPTY:
+        pkg_write_byte(p, PKG_UPDATE_EMPTY);
+        pkg_write_word(p, address);
+        pkg_write_dword(p, hash_old_lo);
+        pkg_write_dword(p, hash_new_lo);
+        pkg_write_word(p, halfpage.count);
+        break;
+
+    default:
+        send_nack(p, 0);
+        break;
     }
 }
 
@@ -297,6 +344,10 @@ void handle_package(struct pkg_buffer *p, int len)
 
     case PKG_DEBUG:
         handle_package_debug(p, request, len, node_id);
+        break;
+
+    case PKG_UPDATE_REQUEST:
+        handle_package_update(p, request, len, node_id);
         break;
 
     default:

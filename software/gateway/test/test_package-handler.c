@@ -4,11 +4,13 @@
 #include <cmocka.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 #include <time.h>
 
 #include "db.h"
 #include "rfm69.h"
 #include "package.h"
+#include "firmware.h"
 #include "package-handler.h"
 #include "node.h"
 
@@ -103,6 +105,25 @@ struct node *node_get(uint8_t node_id)
 int firmware_file_exists(uint64_t hash)
 {
     return mock();
+}
+
+static struct firmware_halfpage firmware_get_halfpage_mock_result;
+
+int firmware_get_halfpage(uint64_t old_hash, uint64_t new_hash, struct firmware_halfpage *halfpage)
+{
+    check_expected(old_hash);
+    check_expected(new_hash);
+
+    firmware_get_halfpage_mock_result.address = halfpage->address;
+    halfpage->result = firmware_get_halfpage_mock_result.result;
+    if(halfpage->result == FW_DATA) {
+        memcpy(halfpage->buf, firmware_get_halfpage_mock_result.buf, FW_HALFPAGE_SIZE);
+        halfpage->crc = firmware_get_halfpage_mock_result.crc;
+    } else if((halfpage->result == FW_EMPTY) || (halfpage->result == FW_NO_CHANGE)) {
+        halfpage->count = firmware_get_halfpage_mock_result.count;
+    }
+
+    return halfpage->result;
 }
 
 
@@ -522,7 +543,6 @@ static void test__handle_package__responds_with_nack_if_unkown_node_when_adding_
 
     handle_package(&p, sizeof(pkg));
 
-    // 0x01BADDEC 0xAFC0FFEE
     uint8_t resp[] = { 0x00, 0x02, };
     assert_package_equal(p, resp);
 }
@@ -568,6 +588,117 @@ static void test__handle_package__responds_with_nack_if_add_debug_message_fails(
 }
 
 
+static void test__handle_package__responds_with_update_data(void **states)
+{
+    // { PKG_UPDATE_REQUEST, address[2], old_hash[8], new_hash[8], }
+    // address = 0x3020
+    // old_hash = 0xFEDCBA98 76543210
+    // new_hash = 0x01BADDEC AFC0FFEE
+    uint8_t pkg[] = {
+        0x83,
+        0x20, 0x30,
+        0x98, 0xBA, 0xDC, 0xFE, 0x10, 0x32, 0x54, 0x76,
+        0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF,
+    };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    firmware_get_halfpage_mock_result.result = FW_DATA;
+    uint8_t data_buf[32] = {
+        0xB2, 0x3C, 0x99, 0xF7, 0x23, 0xAB, 0x14, 0xF8,
+        0x3F, 0xD6, 0xC9, 0x01, 0x20, 0x64, 0x96, 0x89,
+        0x50, 0xAA, 0xBE, 0x53, 0x88, 0xBB, 0x44, 0x02,
+        0xA6, 0xFF, 0xAE, 0x9F, 0x75, 0x5C, 0xCE, 0x5A,
+    };
+    memcpy(firmware_get_halfpage_mock_result.buf, data_buf, sizeof(data_buf));
+    firmware_get_halfpage_mock_result.crc = 0xDEADBEEF;
+
+    expect_value(firmware_get_halfpage, old_hash, 0xFEDCBA9876543210);
+    expect_value(firmware_get_halfpage, new_hash, 0x01BADDECAFC0FFEE);
+
+    handle_package(&p, sizeof(pkg));
+
+    // { PKG_UPDATE_DATA, address[2], old_hash_lo[4], new_hash_lo[4], crc32[4], data[32] }
+    uint8_t resp[] = {
+        0x03,
+        0x20, 0x30,
+        0x10, 0x32, 0x54, 0x76,
+        0xEE, 0xFF, 0xC0, 0xAF,
+        0xEF, 0xBE, 0xAD, 0xDE,
+        0xB2, 0x3C, 0x99, 0xF7, 0x23, 0xAB, 0x14, 0xF8,
+        0x3F, 0xD6, 0xC9, 0x01, 0x20, 0x64, 0x96, 0x89,
+        0x50, 0xAA, 0xBE, 0x53, 0x88, 0xBB, 0x44, 0x02,
+        0xA6, 0xFF, 0xAE, 0x9F, 0x75, 0x5C, 0xCE, 0x5A,
+    };
+    assert_package_equal(p, resp);
+}
+
+static void test__handle_package__responds_with_update_no_change(void **states)
+{
+    // { PKG_UPDATE_REQUEST, address[2], old_hash[8], new_hash[8], }
+    // address = 0x3020
+    // old_hash = 0xFEDCBA98 76543210
+    // new_hash = 0x01BADDEC AFC0FFEE
+    uint8_t pkg[] = {
+        0x83,
+        0x20, 0x30,
+        0x98, 0xBA, 0xDC, 0xFE, 0x10, 0x32, 0x54, 0x76,
+        0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF,
+    };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    firmware_get_halfpage_mock_result.result = FW_NO_CHANGE;
+    firmware_get_halfpage_mock_result.count = 0x100;
+
+    expect_value(firmware_get_halfpage, old_hash, 0xFEDCBA9876543210);
+    expect_value(firmware_get_halfpage, new_hash, 0x01BADDECAFC0FFEE);
+
+    handle_package(&p, sizeof(pkg));
+
+    // { PKG_UPDATE_NO_CHANGE, address[2], old_hash_lo[4], new_hash_lo[4], crc32[4], data[32] }
+    uint8_t resp[] = {
+        0x04,
+        0x20, 0x30,
+        0x10, 0x32, 0x54, 0x76,
+        0xEE, 0xFF, 0xC0, 0xAF,
+        0x00, 0x01,
+    };
+    assert_package_equal(p, resp);
+}
+
+static void test__handle_package__responds_with_update_empty(void **states)
+{
+    // { PKG_UPDATE_REQUEST, address[2], old_hash[8], new_hash[8], }
+    // address = 0x3020
+    // old_hash = 0xFEDCBA98 76543210
+    // new_hash = 0x01BADDEC AFC0FFEE
+    uint8_t pkg[] = {
+        0x83,
+        0x20, 0x30,
+        0x98, 0xBA, 0xDC, 0xFE, 0x10, 0x32, 0x54, 0x76,
+        0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF,
+    };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    firmware_get_halfpage_mock_result.result = FW_EMPTY;
+    firmware_get_halfpage_mock_result.count = 0x100;
+
+    expect_value(firmware_get_halfpage, old_hash, 0xFEDCBA9876543210);
+    expect_value(firmware_get_halfpage, new_hash, 0x01BADDECAFC0FFEE);
+
+    handle_package(&p, sizeof(pkg));
+
+    // { PKG_UPDATE_EMPTY, address[2], old_hash_lo[4], new_hash_lo[4], crc32[4], data[32] }
+    uint8_t resp[] = {
+        0x05,
+        0x20, 0x30,
+        0x10, 0x32, 0x54, 0x76,
+        0xEE, 0xFF, 0xC0, 0xAF,
+        0x00, 0x01,
+    };
+    assert_package_equal(p, resp);
+}
+
+
 
 const struct CMUnitTest tests_for_handle_package[] = {
     cmocka_unit_test(test__handle_package__responds_with_nack_if_registration_fails),
@@ -590,6 +721,9 @@ const struct CMUnitTest tests_for_handle_package[] = {
     cmocka_unit_test(test__handle_package__responds_with_nack_if_unkown_node_when_adding_measurement),
     cmocka_unit_test(test__handle_package__responds_with_ack_if_add_debug_message_succeeds),
     cmocka_unit_test(test__handle_package__responds_with_nack_if_add_debug_message_fails),
+    cmocka_unit_test(test__handle_package__responds_with_update_data),
+    cmocka_unit_test(test__handle_package__responds_with_update_no_change),
+    cmocka_unit_test(test__handle_package__responds_with_update_empty),
 };
 
 //////// Main //////////////////////////////////////////////////////////////////

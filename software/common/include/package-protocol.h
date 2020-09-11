@@ -28,9 +28,11 @@ enum pkg_package_type {
     PKG_MEASUREMENT_REPEAT = 0x85, // Only v1
 
     // Responses
-    PKG_NACK           = 0x00,
-    PKG_ACK            = 0x01,
-    PKG_UPDATE_DATA    = 0x03,
+    PKG_NACK             = 0x00,
+    PKG_ACK              = 0x01,
+    PKG_UPDATE_DATA      = 0x03,
+    PKG_UPDATE_NO_CHANGE = 0x04,
+    PKG_UPDATE_EMPTY     = 0x05,
 
     PKG_SET_TIME       = 0x02, // Only v0
 };
