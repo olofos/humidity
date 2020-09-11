@@ -334,7 +334,7 @@ int firmware_get_halfpage(uint64_t old_hash, uint64_t new_hash, struct firmware_
         if(equal_count < 0) goto cleanup;
 
         if(equal_count > 0) {
-            halfpage->result = FW_UNCHANGED;
+            halfpage->result = FW_NO_CHANGE;
             halfpage->count = equal_count;
             printf("%d unchanged pages\n", equal_count);
             goto cleanup;

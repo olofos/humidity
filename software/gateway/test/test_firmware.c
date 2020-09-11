@@ -285,7 +285,7 @@ static void test__firmware_get_halfpage__returns_unchanged_for_an_unchanged_even
     };
 
     assert_false(firmware_get_halfpage(hash_old, hash_new, &halfpage) < 0);
-    assert_int_equal(halfpage.result, FW_UNCHANGED);
+    assert_int_equal(halfpage.result, FW_NO_CHANGE);
     assert_int_equal(halfpage.count, FW_SIZE / FW_PAGE_SIZE / 2);
 
     firmware_deinit();
@@ -308,7 +308,7 @@ static void test__firmware_get_halfpage__returns_unchanged_for_an_unchanged_empt
     };
 
     assert_false(firmware_get_halfpage(hash_old, hash_new, &halfpage) < 0);
-    assert_int_equal(halfpage.result, FW_UNCHANGED);
+    assert_int_equal(halfpage.result, FW_NO_CHANGE);
     assert_int_equal(halfpage.count, FW_SIZE / FW_PAGE_SIZE / 4);
 
     firmware_deinit();
@@ -535,7 +535,7 @@ static void test__firmware_get_halfpage__can_reproduce_firmware(void **states)
         if(halfpage.result == FW_DATA) {
             memcpy(&buf_fw[halfpage.address], halfpage.buf, FW_HALFPAGE_SIZE);
             halfpage.address += FW_HALFPAGE_SIZE;
-        } else if(halfpage.result == FW_UNCHANGED) {
+        } else if(halfpage.result == FW_NO_CHANGE) {
             for(int i = 0; i < halfpage.count; i++) {
                 assert_false(lseek(fd_old, halfpage.address, SEEK_SET) < 0);
                 assert_false(read(fd_old, &buf_fw[halfpage.address], FW_PAGE_SIZE) < FW_PAGE_SIZE);

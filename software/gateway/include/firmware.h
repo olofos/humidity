@@ -9,7 +9,7 @@ enum {
     FW_ERROR = -1,
     FW_DATA = 1,
     FW_EMPTY = 2,
-    FW_UNCHANGED = 3,
+    FW_NO_CHANGE = 3,
 };
 
 struct firmware_halfpage {
