@@ -287,6 +287,10 @@ static void handle_package_update(struct pkg_buffer *p, uint8_t request, int len
     uint64_t hash_new_lo = pkg_read_dword(p);
     uint64_t hash_new = (hash_new_hi << 32) | hash_new_lo;
 
+    if((address & (FW_HALFPAGE_SIZE - 1)) != 0) {
+        send_nack(p, PKG_FLAG_NO_RETRY);
+        return;
+    }
 
     struct firmware_halfpage halfpage = {
         .address = address,

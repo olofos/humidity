@@ -699,6 +699,28 @@ static void test__handle_package__responds_with_update_empty(void **states)
 }
 
 
+static void test__handle_package__responds_with_nack_if_update_address_not_halfpage(void **states)
+{
+    // { PKG_UPDATE_REQUEST, address[2], old_hash[8], new_hash[8], }
+    // address = 0x3023
+    // old_hash = 0xFEDCBA98 76543210
+    // new_hash = 0x01BADDEC AFC0FFEE
+    uint8_t pkg[] = {
+        0x83,
+        0x23, 0x30,
+        0x98, 0xBA, 0xDC, 0xFE, 0x10, 0x32, 0x54, 0x76,
+        0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF,
+    };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    handle_package(&p, sizeof(pkg));
+
+    // { PKG_NACK, PKG_FLAG_NO_RETRY }
+    uint8_t resp[] = { 0x00, 0x08 };
+    assert_package_equal(p, resp);
+}
+
+
 
 const struct CMUnitTest tests_for_handle_package[] = {
     cmocka_unit_test(test__handle_package__responds_with_nack_if_registration_fails),
@@ -724,6 +746,7 @@ const struct CMUnitTest tests_for_handle_package[] = {
     cmocka_unit_test(test__handle_package__responds_with_update_data),
     cmocka_unit_test(test__handle_package__responds_with_update_no_change),
     cmocka_unit_test(test__handle_package__responds_with_update_empty),
+    cmocka_unit_test(test__handle_package__responds_with_nack_if_update_address_not_halfpage),
 };
 
 //////// Main //////////////////////////////////////////////////////////////////
