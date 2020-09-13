@@ -11,6 +11,16 @@
 #include "pretty-print.h"
 #include "state.h"
 
+#define PKG_VERSION 1
+
+void construct_registration_package(struct pkg_buffer *p, uint8_t node_type, uint64_t hash)
+{
+    pkg_write_byte(p, PKG_REGISTER);
+    pkg_write_byte(p, node_type);
+    pkg_write_dword(p, (hash >> 32) & 0xFFFFFFFF);
+    pkg_write_dword(p, hash & 0xFFFFFFFF);
+    pkg_write_byte(p, PKG_VERSION);
+}
 
 void construct_measurement_package(struct pkg_buffer *p, struct measurement *measurement)
 {

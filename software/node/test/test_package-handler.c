@@ -24,6 +24,15 @@
 
 //////// Tests /////////////////////////////////////////////////////////////////
 
+static void test__construct_registration_package_constructs_package(void **state)
+{
+    struct pkg_buffer pkg_buffer;
+    construct_registration_package(&pkg_buffer, 0x01, 0x31BADDECAFC0FFEE);
+
+    uint8_t buf[] = { 0x80, 0x01, 0xEC, 0xDD, 0xBA, 0x31, 0xEE, 0xFF, 0xC0, 0xAF, 0x01 };
+    assert_package_equal(pkg_buffer, buf);
+}
+
 static void test__construct_measurement_package_constructs_package_when_retries_is_zero(void **state)
 {
     struct measurement measurement = {
@@ -84,6 +93,10 @@ static void test__construct_measurement_package_constructs_package_when_retries_
     assert_package_equal(pkg_buffer, buf);
 }
 
+const struct CMUnitTest tests_for_construct_registration_package[] = {
+    cmocka_unit_test(test__construct_registration_package_constructs_package),
+};
+
 const struct CMUnitTest tests_for_construct_measurement_package[] = {
     cmocka_unit_test(test__construct_measurement_package_constructs_package_when_retries_is_zero),
     cmocka_unit_test(test__construct_measurement_package_constructs_package_when_retries_is_not_zero),
@@ -96,6 +109,7 @@ int main(void)
 {
     int fails = 0;
     fails += cmocka_run_group_tests(tests_for_construct_measurement_package, NULL, NULL);
+    fails += cmocka_run_group_tests(tests_for_construct_registration_package, NULL, NULL);
 
     return fails;
 }
