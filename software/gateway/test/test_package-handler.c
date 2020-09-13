@@ -721,6 +721,31 @@ static void test__handle_package__responds_with_nack_if_update_address_not_halfp
 }
 
 
+static void test__handle_package__responds_with_nack_if_firmware_get_halfpage_returns_error(void **states)
+{
+    // { PKG_UPDATE_REQUEST, address[2], old_hash[8], new_hash[8], }
+    // address = 0x3020
+    // old_hash = 0xFEDCBA98 76543210
+    // new_hash = 0x01BADDEC AFC0FFEE
+    uint8_t pkg[] = {
+        0x83,
+        0x20, 0x30,
+        0x98, 0xBA, 0xDC, 0xFE, 0x10, 0x32, 0x54, 0x76,
+        0xEC, 0xDD, 0xBA, 0x01, 0xEE, 0xFF, 0xC0, 0xAF,
+    };
+    struct pkg_buffer p = construct_pkg(pkg);
+
+    firmware_get_halfpage_mock_result.result = FW_ERROR;
+    expect_value(firmware_get_halfpage, old_hash, 0xFEDCBA9876543210);
+    expect_value(firmware_get_halfpage, new_hash, 0x01BADDECAFC0FFEE);
+
+    handle_package(&p, sizeof(pkg));
+
+    // { PKG_NACK, 0x00 }
+    uint8_t resp[] = { 0x00, 0x00 };
+    assert_package_equal(p, resp);
+}
+
 
 const struct CMUnitTest tests_for_handle_package[] = {
     cmocka_unit_test(test__handle_package__responds_with_nack_if_registration_fails),
@@ -747,6 +772,7 @@ const struct CMUnitTest tests_for_handle_package[] = {
     cmocka_unit_test(test__handle_package__responds_with_update_no_change),
     cmocka_unit_test(test__handle_package__responds_with_update_empty),
     cmocka_unit_test(test__handle_package__responds_with_nack_if_update_address_not_halfpage),
+    cmocka_unit_test(test__handle_package__responds_with_nack_if_firmware_get_halfpage_returns_error),
 };
 
 //////// Main //////////////////////////////////////////////////////////////////
