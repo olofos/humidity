@@ -59,6 +59,12 @@ static void test__cbuf_empty__returns_false_when_not_empty(void **state)
     assert_false(cbuf_empty(cbuf));
 }
 
+static void test__cbuf_empty__returns_true_after_init(void **state)
+{
+    cbuf_init(cbuf);
+    assert_true(cbuf_empty(cbuf));
+}
+
 static void test__cbuf_empty__returns_true_when_empty(void **state)
 {
     cbuf_init(cbuf);
@@ -146,6 +152,7 @@ const struct CMUnitTest tests_for_cbuf[] = {
     cmocka_unit_test(test__cbuf_len__returns_the_length_when_length_is_one),
     cmocka_unit_test(test__cbuf_len__returns_the_length_when_length_is_two),
     cmocka_unit_test(test__cbuf_empty__returns_false_when_not_empty),
+    cmocka_unit_test(test__cbuf_empty__returns_true_after_init),
     cmocka_unit_test(test__cbuf_empty__returns_true_when_empty),
     cmocka_unit_test(test__cbuf_push__and__cbuf_pop__works),
     cmocka_unit_test(test__cbuf_full__returns_true_when_full),
