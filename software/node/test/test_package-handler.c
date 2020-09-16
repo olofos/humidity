@@ -135,8 +135,9 @@ static void test__construct_debug_package_constructs_package(void **state)
     };
 
     struct pkg_buffer pkg_buffer;
+    char *str = "Hi there, this is a test";
 
-    construct_debug_package(&pkg_buffer, &timestamp, "Hi there, this is a test");
+    construct_debug_package(&pkg_buffer, &timestamp, str, strlen(str));
 
     uint8_t buf[] = { 0x82, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 'H', 'i', ' ', 't', 'h', 'e', 'r', 'e', ',', ' ', 't', 'h', 'i', 's', ' ', 'i', 's', ' ', 'a', ' ', 't', 'e', 's', 't', };
     assert_package_equal(pkg_buffer, buf);
@@ -154,8 +155,9 @@ static void test__construct_debug_package_truncates_long_messages(void **state)
     };
 
     struct pkg_buffer pkg_buffer;
+    char *str = "012345678901234567890123456789012345678901234567890123456789";
 
-    construct_debug_package(&pkg_buffer, &timestamp, "012345678901234567890123456789012345678901234567890123456789");
+    construct_debug_package(&pkg_buffer, &timestamp, str, strlen(str));
 
     uint8_t buf[] = {
         0x82, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03,
