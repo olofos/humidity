@@ -64,6 +64,8 @@ lss: $(BINDIR)/$(TARGET).lss
 -include $(DEPS)
 -include $(TST_DEPS)
 
+$(TSTBINDIR)/test_package-handler: $(TSTOBJDIR)/pretty-print.o
+
 $(OBJDIR)/%.o : %.c
 	@echo CC $@
 	$(V)$(CC) $(CFLAGS) -c $< -o $@

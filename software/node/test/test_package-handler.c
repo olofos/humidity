@@ -10,15 +10,45 @@
 #include "state.h"
 #include "adc.h"
 #include "shtc3.h"
+#include "rtc.h"
 #include "package-protocol.h"
 #include "measurement.h"
 #include "package-handler.h"
 
 //////// Global variables //////////////////////////////////////////////////////
 
+#define NODE_ID 65
+
 //////// Mocked functions //////////////////////////////////////////////////////
 
+void rtc_set_time(struct rtc_timestamp *timestamp)
+{
+    check_expected(timestamp);
+}
+
 //////// Helper functions //////////////////////////////////////////////////////
+
+#define construct_pkg(pkg) construct_pkg_helper(pkg, sizeof(pkg))
+
+struct pkg_buffer construct_pkg_helper(uint8_t *buf, size_t len)
+{
+    struct pkg_buffer p;
+
+    p.write_counter = 0;
+    p.read_counter = 2;
+    p.len = p.buf[0] = len + 2;
+    p.from = p.buf[1] = NODE_ID;
+
+    for(int i = 2; i < sizeof(p.buf); i++) {
+        if(i - 2 < len) {
+            p.buf[i] = buf[i - 2];
+        } else {
+            p.buf[i] = 0xAA;
+        }
+    }
+
+    return p;
+}
 
 #define assert_package_equal(p,resp) do { assert_memory_equal(p.buf, resp, sizeof(resp)); assert_int_equal(p.write_counter, sizeof(resp)); } while(0)
 
@@ -152,6 +182,45 @@ static void test__construct_update_request_package_constructs_package(void **sta
     assert_package_equal(pkg_buffer, buf);
 }
 
+static void test__handle_ack_or_nack_returns_ok_for_ack(void **test_state)
+{
+    uint8_t pkg[] = { 0x01, 0x00 };
+    struct pkg_buffer pkg_buffer = construct_pkg(pkg);
+
+    struct state state = { .flags = 0, .update = { .hash = 0, .address = 0 }};
+
+    int ret = handle_ack_or_nack(&pkg_buffer, &state);
+
+    assert_int_equal(ret, PKG_OK);
+    assert_int_equal(state.flags, 0);
+}
+
+static void test__handle_ack_or_nack_returns_error_for_nack(void **test_state)
+{
+    uint8_t pkg[] = { 0x00, 0x00 };
+    struct pkg_buffer pkg_buffer = construct_pkg(pkg);
+
+    struct state state = { .flags = 0, .update = { .hash = 0, .address = 0 }};
+
+    int ret = handle_ack_or_nack(&pkg_buffer, &state);
+
+    assert_int_equal(ret, PKG_ERROR);
+    assert_int_equal(state.flags, 0);
+}
+
+static void test__handle_ack_or_nack_returns_error_for_nack_no_retry(void **test_state)
+{
+    uint8_t pkg[] = { 0x00, 0x08 };
+    struct pkg_buffer pkg_buffer = construct_pkg(pkg);
+
+    struct state state = { .flags = 0, .update = { .hash = 0, .address = 0 }};
+
+    int ret = handle_ack_or_nack(&pkg_buffer, &state);
+
+    assert_int_equal(ret, PKG_ERROR_NO_RETRY);
+    assert_int_equal(state.flags, 0);
+}
+
 
 static const struct CMUnitTest tests_for_construct_registration_package[] = {
     cmocka_unit_test(test__construct_registration_package_constructs_package),
@@ -171,6 +240,12 @@ static const struct CMUnitTest tests_for_construct_update_request_package[] = {
     cmocka_unit_test(test__construct_update_request_package_constructs_package),
 };
 
+static const struct CMUnitTest tests_for_handle_ack_or_nack[] = {
+    cmocka_unit_test(test__handle_ack_or_nack_returns_ok_for_ack),
+    cmocka_unit_test(test__handle_ack_or_nack_returns_error_for_nack),
+    cmocka_unit_test(test__handle_ack_or_nack_returns_error_for_nack_no_retry),
+};
+
 //////// Main //////////////////////////////////////////////////////////////////
 
 
@@ -181,6 +256,7 @@ int main(void)
     fails += cmocka_run_group_tests(tests_for_construct_registration_package, NULL, NULL);
     fails += cmocka_run_group_tests(tests_for_construct_debug_package, NULL, NULL);
     fails += cmocka_run_group_tests(tests_for_construct_update_request_package, NULL, NULL);
+    fails += cmocka_run_group_tests(tests_for_handle_ack_or_nack, NULL, NULL);
 
     return fails;
 }
