@@ -70,6 +70,7 @@ int handle_ack_or_nack(struct pkg_buffer *p, struct state *state)
 
     if(response == PKG_ACK) {
         uint8_t flags = pkg_read_byte(p);
+
         if(flags & PKG_FLAG_UPDATE_AVAILABLE) {
             uint64_t hash_hi = pkg_read_dword(p);
             uint32_t hash_lo = pkg_read_dword(p);
@@ -85,7 +86,7 @@ int handle_ack_or_nack(struct pkg_buffer *p, struct state *state)
             }
         }
 
-        if(flags & PKG_SET_TIME) {
+        if(flags & PKG_FLAG_SET_TIME) {
             struct pkg_timestamp pkg_timestamp;
             pkg_read_timestamp(p, &pkg_timestamp);
             set_timestamp(&pkg_timestamp);
