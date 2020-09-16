@@ -31,3 +31,25 @@ void construct_measurement_package(struct pkg_buffer *p, struct measurement *mea
     pkg_write_word(p, measurement->voltages.vcc);
     pkg_write_word(p, measurement->voltages.vmid);
 }
+
+void construct_debug_package(struct pkg_buffer *p, const struct pkg_timestamp *timestamp, const char *msg)
+{
+    pkg_write_byte(p, PKG_DEBUG);
+    pkg_write_timestamp(p, timestamp);
+
+    const int max_len = sizeof(p->buf) - 2 - sizeof(*timestamp) - 1;
+
+    for(int n = 0; msg[n] && (n < max_len); n++) {
+        pkg_write_byte(p, msg[n]);
+    }
+}
+
+void construct_update_request_package(struct pkg_buffer *p, uint64_t old_hash, uint64_t new_hash, uint16_t address)
+{
+    pkg_write_byte(p, PKG_UPDATE_REQUEST);
+    pkg_write_word(p, address);
+    pkg_write_dword(p, (old_hash >> 32) & 0xFFFFFFFF);
+    pkg_write_dword(p, old_hash & 0xFFFFFFFF);
+    pkg_write_dword(p, (new_hash >> 32) & 0xFFFFFFFF);
+    pkg_write_dword(p, new_hash & 0xFFFFFFFF);
+}

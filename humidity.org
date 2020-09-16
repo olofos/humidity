@@ -98,12 +98,17 @@
       0x0B Protocol version = 1 (1 byte)
 
     - PKG_MEASUREMENT | PKG_MEASUREMENT_REPEAT
-      0x01 PKG_MEASUREMENT (1 byte)
+      0x01 PKG_MEASUREMENT | PKG_MEASUREMENT_REPEAT (1 byte)
       0x02 Timestamp (6 bytes)
       0x08 Humidity (2 bytes)
       0x0A Temperature (2 bytes)
       0x0C Voltage VCC (2 bytes)
       0x0E Voltage Vmid (2 bytes)
+
+    - PKG_DEBUG
+      0x01 PKG_DEBUG (1 byte)
+      0x02 Timestamp (6 bytes)
+      0x08 Message (max 40 bytes)
 
     - PKG_UPDATE_REQUEST
       0x01 PKG_UPDATE_REQUEST (1 byte)
