@@ -37,7 +37,7 @@ void rtc_wait_for_lse(void)
     }
 }
 
-void rtc_set_time(struct rtc_timestamp timestamp)
+void rtc_set_time(struct rtc_timestamp *timestamp)
 {
     rtc_write_protect_unlock();
 
@@ -54,16 +54,13 @@ void rtc_set_time(struct rtc_timestamp timestamp)
     rtc_write_protect_lock();
 }
 
-struct rtc_timestamp rtc_get_time(void)
+void_timestamp rtc_get_time(struct rtc_timestamp *timestamp)
 {
     while(!(RTC->ISR & RTC_ISR_RSF)) {
     }
 
-    struct rtc_timestamp timestamp;
-    timestamp.time = RTC->TR & 0x003F7F7F;
-    timestamp.date = RTC->DR & 0x00FF1F3F;
-
-    return timestamp;
+    timestamp->time = RTC->TR & 0x003F7F7F;
+    timestamp->date = RTC->DR & 0x00FF1F3F;
 }
 
 void rtc_set_periodic_wakeup(uint16_t seconds)
