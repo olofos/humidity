@@ -21,7 +21,7 @@
 
 //////// Mocked functions //////////////////////////////////////////////////////
 
-void rtc_set_time(struct rtc_timestamp *timestamp)
+void rtc_set_time(const struct pkg_timestamp *timestamp)
 {
     check_expected(timestamp);
 }
@@ -243,12 +243,16 @@ static void test__handle_ack_or_nack_sets_the_time(void **test_state)
 
     struct state state = { .flags = 0, .update = { .hash = 0, .address = 0 }};
 
-    struct rtc_timestamp rtc_timestamp = {
-        .date = 0x00200102,
-        .time = 0x00030405,
+    struct pkg_timestamp pkg_timestamp = {
+        .year = 0x20,
+        .month = 0x01,
+        .day = 0x02,
+        .hour = 0x03,
+        .minute = 0x04,
+        .second = 0x05,
     };
 
-    expect_memory(rtc_set_time, timestamp, &rtc_timestamp, sizeof(rtc_timestamp));
+    expect_memory(rtc_set_time, timestamp, &pkg_timestamp, sizeof(pkg_timestamp));
 
     int ret = handle_ack_or_nack(&pkg_buffer, &state);
 
@@ -278,12 +282,16 @@ static void test__handle_ack_or_nack_sets_update_data_and_time(void **test_state
 
     struct state state = { .flags = 0, .update = { .hash = 0, .address = 32 }};
 
-    struct rtc_timestamp rtc_timestamp = {
-        .date = 0x00200102,
-        .time = 0x00030405,
+    struct pkg_timestamp pkg_timestamp = {
+        .year = 0x20,
+        .month = 0x01,
+        .day = 0x02,
+        .hour = 0x03,
+        .minute = 0x04,
+        .second = 0x05,
     };
 
-    expect_memory(rtc_set_time, timestamp, &rtc_timestamp, sizeof(rtc_timestamp));
+    expect_memory(rtc_set_time, timestamp, &pkg_timestamp, sizeof(pkg_timestamp));
 
     int ret = handle_ack_or_nack(&pkg_buffer, &state);
 

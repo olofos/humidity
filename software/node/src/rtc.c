@@ -2,6 +2,7 @@
 #include "rtc.h"
 #include "vector.h"
 #include "systick.h"
+#include "package-protocol.h"
 
 #define RTC_UNLOCK_MAGIC1 0xCA
 #define RTC_UNLOCK_MAGIC2 0x53
@@ -37,8 +38,11 @@ void rtc_wait_for_lse(void)
     }
 }
 
-void rtc_set_time(struct rtc_timestamp *timestamp)
+void rtc_set_time(const struct pkg_timestamp *pkg_timestamp)
 {
+    uint32_t time = ((uint32_t) pkg_timestamp->hour << 16) | ((uint32_t) pkg_timestamp->minute << 8) | pkg_timestamp->second;
+    uint32_t date = ((uint32_t) pkg_timestamp->year << 16) | ((uint32_t) pkg_timestamp->month << 8) | pkg_timestamp->day;
+
     rtc_write_protect_unlock();
 
     RTC->ISR |= RTC_ISR_INIT;
@@ -46,21 +50,29 @@ void rtc_set_time(struct rtc_timestamp *timestamp)
     while(!(RTC->ISR & RTC_ISR_INITF)) {
     }
 
-    RTC->TR = timestamp->time;
-    RTC->DR = timestamp->date;
+    RTC->TR = time;
+    RTC->DR = date;
 
     RTC->ISR &= ~RTC_ISR_INIT;
 
     rtc_write_protect_lock();
 }
 
-void rtc_get_time(struct rtc_timestamp *timestamp)
+void rtc_get_time(struct pkg_timestamp *pkg_timestamp)
 {
     while(!(RTC->ISR & RTC_ISR_RSF)) {
     }
 
-    timestamp->time = RTC->TR & 0x003F7F7F;
-    timestamp->date = RTC->DR & 0x00FF1F3F;
+    uint32_t time = RTC->TR & 0x003F7F7F;
+    uint32_t date = RTC->DR & 0x00FF1F3F;
+
+    pkg_timestamp->year = (date >> 16) & 0x000000FF;
+    pkg_timestamp->month = (date >> 8) & 0x000000FF;
+    pkg_timestamp->day = date & 0x000000FF;
+
+    pkg_timestamp->hour = (time >> 16) & 0x000000FF;
+    pkg_timestamp->minute = (time >> 8) & 0x000000FF;
+    pkg_timestamp->second = time & 0x000000FF;
 }
 
 void rtc_set_periodic_wakeup(uint16_t seconds)

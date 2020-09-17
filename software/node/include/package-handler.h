@@ -14,6 +14,7 @@ void construct_measurement_package(struct pkg_buffer *p, struct measurement *mea
 void construct_debug_package(struct pkg_buffer *p, const struct pkg_timestamp *timestamp, const char *msg, int len);
 void construct_update_request_package(struct pkg_buffer *p, uint64_t old_hash, uint64_t new_hash, uint16_t address);
 
+struct state;
 int handle_ack_or_nack(struct pkg_buffer *p, struct state *state);
 
 #endif

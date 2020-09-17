@@ -12,16 +12,6 @@
 #include "state.h"
 #include "package-handler.h"
 
-static void set_timestamp(const struct pkg_timestamp *pkg_timestamp)
-{
-    struct rtc_timestamp rtc_timestamp = {
-        .time = ((uint32_t) pkg_timestamp->hour << 16) | ((uint32_t) pkg_timestamp->minute << 8) | pkg_timestamp->second,
-        .date = ((uint32_t) pkg_timestamp->year << 16) | ((uint32_t) pkg_timestamp->month << 8) | pkg_timestamp->day,
-    };
-
-    rtc_set_time(&rtc_timestamp);
-}
-
 
 void construct_registration_package(struct pkg_buffer *p, uint8_t node_type, uint64_t hash)
 {
@@ -92,7 +82,7 @@ int handle_ack_or_nack(struct pkg_buffer *p, struct state *state)
         if(flags & PKG_FLAG_SET_TIME) {
             struct pkg_timestamp pkg_timestamp;
             pkg_read_timestamp(p, &pkg_timestamp);
-            set_timestamp(&pkg_timestamp);
+            rtc_set_time(&pkg_timestamp);
             printf("New time: ");
             print_timestamp(&pkg_timestamp);
         }
