@@ -1,8 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "stm32l0xx.h"
-
 #include "package-protocol.h"
 #include "shtc3.h"
 #include "adc.h"
@@ -25,15 +23,17 @@ int measurement_add(const struct measurement *m)
         // Overwrite oldest data
         cbuf_skip(measurement_cbuf);
     }
-
     cbuf_push(measurement_cbuf, *m);
     return 1;
 }
 
-int measurement_get(struct measurement *m)
+struct measurement *measurement_get(void)
 {
-    *m = cbuf_peek(measurement_cbuf);
-    return 1;
+    if(cbuf_empty(measurement_cbuf)) {
+        return 0;
+    }
+
+    return cbuf_tail(measurement_cbuf);
 }
 
 void measurement_handled(void)
