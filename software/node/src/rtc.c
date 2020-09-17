@@ -46,15 +46,15 @@ void rtc_set_time(struct rtc_timestamp *timestamp)
     while(!(RTC->ISR & RTC_ISR_INITF)) {
     }
 
-    RTC->TR = timestamp.time;
-    RTC->DR = timestamp.date;
+    RTC->TR = timestamp->time;
+    RTC->DR = timestamp->date;
 
     RTC->ISR &= ~RTC_ISR_INIT;
 
     rtc_write_protect_lock();
 }
 
-void_timestamp rtc_get_time(struct rtc_timestamp *timestamp)
+void rtc_get_time(struct rtc_timestamp *timestamp)
 {
     while(!(RTC->ISR & RTC_ISR_RSF)) {
     }
