@@ -25,7 +25,9 @@ c = cbuf_pop(my_cbuf);
 // numer of elements currently in the buffer
 #define cbuf_len(cbuf) ( (typeof(cbuf.head)) ((cbuf.head) - (cbuf.tail)) )
 
-#define cbuf_push(cbuf, elem)  (cbuf.buf)[ cbuf.head++ & ((cbuf##_LEN) - 1) ] = (elem)
+#define cbuf_push(cbuf, elem)  (cbuf.buf)[ (cbuf.head++) & ((cbuf##_LEN) - 1) ] = (elem)
+
+#define cbuf_push_inline(cbuf) (&(cbuf.buf)[ (cbuf.head++) & ((cbuf##_LEN) - 1) ])
 
 #define cbuf_pop(cbuf) (cbuf.buf)[ cbuf.tail++ & ((cbuf##_LEN) - 1) ]
 

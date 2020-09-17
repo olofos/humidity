@@ -91,6 +91,21 @@ static void test__cbuf_push__and__cbuf_pop__works(void **state)
     }
 }
 
+static void test__cbuf_push_inline__works(void **state)
+{
+    cbuf_init(cbuf);
+
+    for(int i = 0; i < 512; i++) {
+        *cbuf_push_inline(cbuf) = 0xAB;
+        *cbuf_push_inline(cbuf) = 0xCD;
+        *cbuf_push_inline(cbuf) = 0xEF;
+
+        assert_int_equal(cbuf_pop(cbuf), 0xAB);
+        assert_int_equal(cbuf_pop(cbuf), 0xCD);
+        assert_int_equal(cbuf_pop(cbuf), 0xEF);
+    }
+}
+
 static void test__cbuf_full__returns_true_when_full(void **state)
 {
     cbuf_init(cbuf);
@@ -155,6 +170,7 @@ const struct CMUnitTest tests_for_cbuf[] = {
     cmocka_unit_test(test__cbuf_empty__returns_true_after_init),
     cmocka_unit_test(test__cbuf_empty__returns_true_when_empty),
     cmocka_unit_test(test__cbuf_push__and__cbuf_pop__works),
+    cmocka_unit_test(test__cbuf_push_inline__works),
     cmocka_unit_test(test__cbuf_full__returns_true_when_full),
     cmocka_unit_test(test__cbuf_linear_len__works),
 };
