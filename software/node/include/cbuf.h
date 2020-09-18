@@ -20,7 +20,15 @@ c = cbuf_pop(my_cbuf);
 
 */
 
-#define cbuf_init(cbuf) do { _Static_assert(((cbuf##_LEN)&((cbuf##_LEN)-1)) == 0, "Length of " #cbuf " must be a power of two"); cbuf.head = cbuf.tail = 0; } while(0)
+// Would be even better to check that head and tail have the same type, and if they are unsigned
+// This should be possible with some _Generic macro magic, but let's trust the user
+
+#define cbuf_init(cbuf) do {                                            \
+        _Static_assert(((cbuf##_LEN)&((cbuf##_LEN)-1)) == 0, "Length of " #cbuf " must be a power of two"); \
+        _Static_assert((cbuf##_LEN) < (1 << (8 * sizeof(cbuf.head))), "Length of " #cbuf " must be less than range of head"); \
+        _Static_assert(sizeof(cbuf.head) == sizeof(cbuf.tail), #cbuf " head and tail should have the same size"); \
+        cbuf.head = cbuf.tail = 0;                                      \
+    } while(0)
 
 // numer of elements currently in the buffer
 #define cbuf_len(cbuf) ( (typeof(cbuf.head)) ((cbuf.head) - (cbuf.tail)) )
