@@ -20,7 +20,7 @@ c = cbuf_pop(my_cbuf);
 
 */
 
-#define cbuf_init(cbuf) cbuf.head = cbuf.tail = 0
+#define cbuf_init(cbuf) do { _Static_assert(((cbuf##_LEN)&((cbuf##_LEN)-1)) == 0, "Length of " #cbuf " must be a power of two"); cbuf.head = cbuf.tail = 0; } while(0)
 
 // numer of elements currently in the buffer
 #define cbuf_len(cbuf) ( (typeof(cbuf.head)) ((cbuf.head) - (cbuf.tail)) )
