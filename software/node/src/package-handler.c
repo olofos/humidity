@@ -11,7 +11,7 @@
 #include "pretty-print.h"
 #include "state.h"
 #include "package-handler.h"
-
+#include "debug.h"
 
 void construct_registration_package(struct pkg_buffer *p, uint8_t node_type, uint64_t hash)
 {
@@ -22,7 +22,7 @@ void construct_registration_package(struct pkg_buffer *p, uint8_t node_type, uin
     pkg_write_byte(p, PKG_VERSION);
 }
 
-void construct_measurement_package(struct pkg_buffer *p, struct measurement *measurement)
+void construct_measurement_package(struct pkg_buffer *p, const struct measurement *measurement)
 {
     pkg_write_byte(p, (measurement->retries == 0) ? PKG_MEASUREMENT : PKG_MEASUREMENT_REPEAT);
     pkg_write_timestamp(p, &measurement->timestamp);
@@ -32,18 +32,13 @@ void construct_measurement_package(struct pkg_buffer *p, struct measurement *mea
     pkg_write_word(p, measurement->voltages.vmid);
 }
 
-void construct_debug_package(struct pkg_buffer *p, const struct pkg_timestamp *timestamp, const char *msg, int len)
+void construct_debug_package(struct pkg_buffer *p, const struct debug_message *msg)
 {
     pkg_write_byte(p, PKG_DEBUG);
-    pkg_write_timestamp(p, timestamp);
+    pkg_write_timestamp(p, &msg->timestamp);
 
-    const int max_len = sizeof(p->buf) - 2 - sizeof(*timestamp) - 1;
-    if(len > max_len) {
-        len = max_len;
-    }
-
-    for(int n = 0; n < len; n++) {
-        pkg_write_byte(p, msg[n]);
+    for(int n = 0; n < msg->len; n++) {
+        pkg_write_byte(p, msg->buf[n]);
     }
 }
 

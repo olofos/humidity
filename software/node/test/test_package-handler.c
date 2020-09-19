@@ -14,6 +14,7 @@
 #include "package-protocol.h"
 #include "measurement.h"
 #include "package-handler.h"
+#include "debug.h"
 
 //////// Global variables //////////////////////////////////////////////////////
 
@@ -125,47 +126,24 @@ static void test__construct_measurement_package_constructs_package_when_retries_
 
 static void test__construct_debug_package_constructs_package(void **state)
 {
-    struct pkg_timestamp timestamp = {
-        .year = 0x20,
-        .month = 0x01,
-        .day = 0x02,
-        .hour = 0x03,
-        .minute = 0x04,
-        .second = 0x05,
+    struct debug_message msg = {
+        .timestamp = {
+            .year = 0x20,
+            .month = 0x01,
+            .day = 0x02,
+            .hour = 0x03,
+            .minute = 0x04,
+            .second = 0x05,
+        },
+        .buf = "Hi there, this is a test",
     };
+    msg.len = strlen(msg.buf);
 
     struct pkg_buffer pkg_buffer;
-    char *str = "Hi there, this is a test";
 
-    construct_debug_package(&pkg_buffer, &timestamp, str, strlen(str));
+    construct_debug_package(&pkg_buffer, &msg);
 
     uint8_t buf[] = { 0x82, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, 'H', 'i', ' ', 't', 'h', 'e', 'r', 'e', ',', ' ', 't', 'h', 'i', 's', ' ', 'i', 's', ' ', 'a', ' ', 't', 'e', 's', 't', };
-    assert_package_equal(pkg_buffer, buf);
-}
-
-static void test__construct_debug_package_truncates_long_messages(void **state)
-{
-    struct pkg_timestamp timestamp = {
-        .year = 0x20,
-        .month = 0x01,
-        .day = 0x02,
-        .hour = 0x03,
-        .minute = 0x04,
-        .second = 0x05,
-    };
-
-    struct pkg_buffer pkg_buffer;
-    char *str = "012345678901234567890123456789012345678901234567890123456789";
-
-    construct_debug_package(&pkg_buffer, &timestamp, str, strlen(str));
-
-    uint8_t buf[] = {
-        0x82, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03,
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-    };
     assert_package_equal(pkg_buffer, buf);
 }
 
@@ -343,7 +321,6 @@ static const struct CMUnitTest tests_for_construct_measurement_package[] = {
 
 static const struct CMUnitTest tests_for_construct_debug_package[] = {
     cmocka_unit_test(test__construct_debug_package_constructs_package),
-    cmocka_unit_test(test__construct_debug_package_truncates_long_messages),
 };
 
 static const struct CMUnitTest tests_for_construct_update_request_package[] = {
