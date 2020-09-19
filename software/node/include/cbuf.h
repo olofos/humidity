@@ -4,9 +4,12 @@
 #define CBUF_H_
 
 /*
-Usage:
+Basic usage:
 
-#define my_cbuf_LEN 16; // Must be a power of two
+// Length must be a power of two and strictly less than 2^sizeof(head),
+// otherwise we can't distinguish between an empty buffer and a full buffer
+
+#define my_cbuf_LEN 16;
 struct
 {
     uint8_t head;
@@ -17,6 +20,29 @@ struct
 cbuf_init(my_cbuf);
 cbuf_push(my_cbuf, 'A');
 c = cbuf_pop(my_cbuf);
+
+*/
+
+/*
+For storing larger structs we can also work directly on the inline storage:
+
+#define cbuf_LEN 16;
+struct data { int a; int b; };
+struct
+{
+    uint8_t head;
+    uint8_t tail;
+    struct data buf[cbuf_LEN];
+} cbuf;
+
+cbuf_init(cbuf);
+
+cbuf_head(cbuf)->a = 1;
+cbuf_head(cbuf)->b = 2;
+cbuf_head_next(cbuf);
+
+function_using_data(cbuf_tail(cbuf));
+cbuf_tail_next(cbuf);
 
 */
 
@@ -35,8 +61,6 @@ c = cbuf_pop(my_cbuf);
 
 #define cbuf_push(cbuf, elem)  (cbuf.buf)[ (cbuf.head++) & ((cbuf##_LEN) - 1) ] = (elem)
 
-#define cbuf_push_inline(cbuf) (&(cbuf.buf)[ (cbuf.head++) & ((cbuf##_LEN) - 1) ])
-
 #define cbuf_pop(cbuf) (cbuf.buf)[ cbuf.tail++ & ((cbuf##_LEN) - 1) ]
 
 #define cbuf_peek(cbuf) (cbuf.buf)[ cbuf.tail & ((cbuf##_LEN) - 1) ]
@@ -45,10 +69,12 @@ c = cbuf_pop(my_cbuf);
 
 #define cbuf_empty(cbuf) ( cbuf_len(cbuf) == 0 )
 
-#define cbuf_skip(cbuf) do { cbuf.tail++; } while(0)
 
 #define cbuf_head(cbuf) (&(cbuf.buf[ cbuf.head & ((cbuf##_LEN) -1 ) ]))
 #define cbuf_tail(cbuf) (&(cbuf.buf[ cbuf.tail & ((cbuf##_LEN) -1 ) ]))
+
+#define cbuf_head_next(cbuf) do { cbuf.head++; } while(0)
+#define cbuf_tail_next(cbuf) do { cbuf.tail++; } while(0)
 
 #define cbuf_linear_len(cbuf) ((cbuf_head(cbuf) > cbuf_tail(cbuf)) ? cbuf_len(cbuf) : (cbuf_end(cbuf) - cbuf_tail(cbuf) + 1))
 

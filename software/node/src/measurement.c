@@ -21,7 +21,7 @@ int measurement_add(const struct measurement *m)
 {
     if(cbuf_full(measurement_cbuf)) {
         // Overwrite oldest data
-        cbuf_skip(measurement_cbuf);
+        cbuf_tail_next(measurement_cbuf);
     }
     cbuf_push(measurement_cbuf, *m);
     return 1;
@@ -38,7 +38,7 @@ struct measurement *measurement_get(void)
 
 void measurement_handled(void)
 {
-    cbuf_skip(measurement_cbuf);
+    cbuf_tail_next(measurement_cbuf);
 }
 
 int measurement_empty(void)
