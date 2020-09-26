@@ -58,6 +58,13 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
 
+  .version_info :
+  {
+    . = ALIGN(4);
+    KEEP(*(.version_info))
+    . = ALIGN(4);
+  } > FLASH_CONST
+
   .checksum :
   {
     . = ALIGN(4);

@@ -64,6 +64,7 @@ lss: $(BINDIR)/$(TARGET).lss
 -include $(DEPS)
 -include $(TST_DEPS)
 
+
 $(TSTBINDIR)/test_package-handler: $(TSTOBJDIR)/pretty-print.o
 
 $(OBJDIR)/%.o : %.c
@@ -100,8 +101,10 @@ $(BINDIR)/$(TARGET).bin : $(BINDIR)/$(TARGET).elf
 	$(V)$(OBJDUMP) -h -S $< > $@
 
 %.sum : %.bin
+	$(V)make -s -C ./scripts fwcrc
 	@echo CREATING CHECKSUM $@
-	$(V)printf '%X' $$(( 0x$$(b2sum -l 64 -b $< | cut -d' ' -f1) & ~(1 << 63)))  | xxd -r -p - > $@
+	$(V)./scripts/fwcrc $< $@
+
 
 flash: $(BINDIR)/$(TARGET).bin
 	@echo Flashing

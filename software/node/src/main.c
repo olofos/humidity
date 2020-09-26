@@ -19,14 +19,16 @@
 #include "measurement.h"
 #include "pretty-print.h"
 #include "aes-key.h"
+#include "version.h"
 
 #define GATEWAY_ADDRESS 0x01
 
 #define CLEAR_SCREEN "\033[2J"
 
 // Checksum generated during build
-uint32_t __attribute__((section(".checksum"))) firmware_checksum[2];
 
+const uint32_t __attribute__((section(".version_info"))) firmware_version = (((uint32_t) VERSION_MAJOR) << 24) | (((uint32_t) VERSION_MINOR) << 16) | VERSION_PATCH;
+uint32_t __attribute__((section(".checksum"))) firmware_crc;
 
 // Check:
 // How does the Clock Security System of the LSE work if the interrupt is disabled?
