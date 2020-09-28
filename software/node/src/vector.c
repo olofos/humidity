@@ -140,7 +140,7 @@ weak_alias(Default_Handler, SPI1_IRQHandler);
 weak_alias(Default_Handler, USART2_IRQHandler);
 weak_alias(Default_Handler, LPUART1_IRQHandler);
 
-vector_table_t vector_table __attribute__ ((section(".isr_vector"))) = {
+vector_table_t vector_table __attribute__ ((section(".isr_vector"))) __attribute__((used)) = {
     .initial_sp_value = &_estack,
     .reset = Reset_Handler,
     .nmi = NMI_Handler,
