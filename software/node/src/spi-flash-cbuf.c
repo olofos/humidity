@@ -13,12 +13,12 @@ uint16_t sf_cbuf_tail;
 
 static uint16_t sf_cbuf_head_address(void)
 {
-    return SPI_FLASH_CBUF_RECORD_SIZE * (sf_cbuf_head & (SPI_FLASH_CBUF_CAPACITY - 1));
+    return SPI_FLASH_CBUF_BASE + SPI_FLASH_CBUF_RECORD_SIZE * (sf_cbuf_head & (SPI_FLASH_CBUF_CAPACITY - 1));
 }
 
 static uint16_t sf_cbuf_tail_address(void)
 {
-    return SPI_FLASH_CBUF_RECORD_SIZE * (sf_cbuf_tail & (SPI_FLASH_CBUF_CAPACITY - 1));
+    return SPI_FLASH_CBUF_BASE + SPI_FLASH_CBUF_RECORD_SIZE * (sf_cbuf_tail & (SPI_FLASH_CBUF_CAPACITY - 1));
 }
 
 uint16_t sf_cbuf_len(void)
