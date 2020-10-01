@@ -52,7 +52,7 @@ void construct_update_request_package(struct pkg_buffer *p, uint64_t old_hash, u
     pkg_write_dword(p, new_hash & 0xFFFFFFFF);
 }
 
-int handle_ack_or_nack(struct pkg_buffer *p, struct state *state)
+int handle_ack_or_nack(struct pkg_buffer *p)
 {
     uint8_t response = pkg_read_byte(p);
 
@@ -63,12 +63,12 @@ int handle_ack_or_nack(struct pkg_buffer *p, struct state *state)
             uint64_t hash_hi = pkg_read_dword(p);
             uint32_t hash_lo = pkg_read_dword(p);
             uint64_t hash = (hash_hi << 32) | hash_lo;
-            if(!(state->flags & STATE_FLAG_UPDATE_AVAILABLE)
-               || ((state->update.address == 0) && (state->update.hash != hash))) {
+            if(!(state.flags & STATE_FLAG_UPDATE_AVAILABLE)
+               || ((state.update.address == 0) && (state.update.hash != hash))) {
                 printf("New version available: %016" PRIX64 "\r\n", hash);
-                state->flags |= STATE_FLAG_UPDATE_AVAILABLE;
-                state->update.hash = hash;
-                state->update.address = 0;
+                state.flags |= STATE_FLAG_UPDATE_AVAILABLE;
+                state.update.hash = hash;
+                state.update.address = 0;
             } else {
                 printf("Update already in progress\r\n");
             }
@@ -86,7 +86,7 @@ int handle_ack_or_nack(struct pkg_buffer *p, struct state *state)
     } else if(response == PKG_NACK) {
         uint8_t flags = pkg_read_byte(p);
         if(flags & PKG_FLAG_NOT_REGISTERED) {
-            state->flags &= ~STATE_FLAG_REGISTERED;
+            state.flags &= ~STATE_FLAG_REGISTERED;
         }
         if(flags & PKG_FLAG_NO_RETRY) {
             return PKG_ERROR_NO_RETRY;
