@@ -74,13 +74,13 @@ void sf_cbuf_pop(void)
 
 void sf_cbuf_save(void)
 {
-    RTC->BKP2R = ((uint32_t) sf_cbuf_head << 16) | sf_cbuf_tail;
+    RTC->BKP3R = ((uint32_t) sf_cbuf_head << 16) | sf_cbuf_tail;
 }
 
 void sf_cbuf_restore(void)
 {
-    sf_cbuf_head = RTC->BKP2R >> 16;
-    sf_cbuf_tail = RTC->BKP2R & 0x0000FFFF;
+    sf_cbuf_head = RTC->BKP3R >> 16;
+    sf_cbuf_tail = RTC->BKP3R & 0x0000FFFF;
 }
 
 #endif
