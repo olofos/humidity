@@ -1,7 +1,9 @@
 V=@
 
 SHELL=/bin/bash
-C_SOURCES := main.c vector.c spi.c spi-flash.c spi-flash-cbuf.c uart.c i2c.c systick.c shtc3.c shtc3-crc.c adc.c rfm69.c rfm69-hal.c rtc.c pretty-print.c measurement.c debug.c
+C_SOURCES := main.c vector.c spi.c spi-flash.c spi-flash-cbuf.c uart.c i2c.c systick.c \
+	     shtc3.c shtc3-crc.c adc.c rfm69.c rfm69-hal.c rtc.c pretty-print.c \
+	     measurement.c debug.c package-handler.c mcu.c state.c update.c
 ASM_SOURCES :=
 # ASM_SOURCES :=
 
