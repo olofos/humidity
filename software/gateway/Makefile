@@ -122,4 +122,4 @@ $(TSTBINDIR)/test_%: $(TSTOBJDIR)/test_%.o $(TSTOBJDIR)/%.o
 
 clean:
 	@echo CLEANING
-	$(V)-rm -f humidity-gateway $(TSTOBJDIR)/*.o $(TSTBINDIR)/test_* $(TSTRESDIR)/*.txt $(DEPDIR)/*.d $(OBJDIR)/*
+	$(V)-rm -f humidity-gateway $(TSTOBJDIR)/*.o $(TSTBINDIR)/test_* $(TSTRESDIR)/*.txt $(DEPDIR)/*.d $(OBJDIR)/* $(TSTDEPDIR)/*.d
