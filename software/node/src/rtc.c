@@ -27,17 +27,6 @@ int rtc_is_rtc_clock_initialized(void)
     return RTC->ISR & RTC_ISR_INITS;
 }
 
-void rtc_wait_for_lse(void)
-{
-    while(!(RCC->CSR & RCC_CSR_LSERDY)) {
-        GPIOA->BSRR = GPIO_BSRR_BS_15;
-        delay(100);
-
-        GPIOA->BSRR = GPIO_BSRR_BR_15;
-        delay(100);
-    }
-}
-
 void rtc_set_time(const struct pkg_timestamp *pkg_timestamp)
 {
     uint32_t time = ((uint32_t) pkg_timestamp->hour << 16) | ((uint32_t) pkg_timestamp->minute << 8) | pkg_timestamp->second;
