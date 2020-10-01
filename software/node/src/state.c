@@ -4,8 +4,6 @@
 #include "stm32l0xx.h"
 #include "state.h"
 
-extern struct state state;
-
 void state_init(void)
 {
     // Assume that state is in BSS
