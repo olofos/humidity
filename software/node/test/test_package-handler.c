@@ -169,12 +169,12 @@ static void test__handle_ack_or_nack_returns_ok_for_ack(void **test_state)
     uint8_t pkg[] = { 0x01, 0x00 };
     struct pkg_buffer pkg_buffer = construct_pkg(pkg);
 
-    state = (struct state) { .flags = 0, .update = { .hash = 0, .address = 0 }};
+    state = (struct state) { .flags = STATE_FLAG_REGISTERED, .update = { .hash = 0, .address = 0 }};
 
     int ret = handle_ack_or_nack(&pkg_buffer);
 
     assert_int_equal(ret, PKG_OK);
-    assert_int_equal(state.flags, 0);
+    assert_int_equal(state.flags, STATE_FLAG_REGISTERED);
 }
 
 static void test__handle_ack_or_nack_returns_error_for_nack(void **test_state)
@@ -182,12 +182,12 @@ static void test__handle_ack_or_nack_returns_error_for_nack(void **test_state)
     uint8_t pkg[] = { 0x00, 0x00 };
     struct pkg_buffer pkg_buffer = construct_pkg(pkg);
 
-    state = (struct state) { .flags = 0, .update = { .hash = 0, .address = 0 }};
+    state = (struct state) { .flags = STATE_FLAG_REGISTERED, .update = { .hash = 0, .address = 0 }};
 
     int ret = handle_ack_or_nack(&pkg_buffer);
 
     assert_int_equal(ret, PKG_ERROR);
-    assert_int_equal(state.flags, 0);
+    assert_int_equal(state.flags, STATE_FLAG_REGISTERED);
 }
 
 static void test__handle_ack_or_nack_returns_error_for_nack_no_retry(void **test_state)
@@ -195,12 +195,25 @@ static void test__handle_ack_or_nack_returns_error_for_nack_no_retry(void **test
     uint8_t pkg[] = { 0x00, 0x08 };
     struct pkg_buffer pkg_buffer = construct_pkg(pkg);
 
-    state = (struct state) { .flags = 0, .update = { .hash = 0, .address = 0 }};
+    state = (struct state) { .flags = STATE_FLAG_REGISTERED, .update = { .hash = 0, .address = 0 }};
 
     int ret = handle_ack_or_nack(&pkg_buffer);
 
     assert_int_equal(ret, PKG_ERROR_NO_RETRY);
-    assert_int_equal(state.flags, 0);
+    assert_int_equal(state.flags, STATE_FLAG_REGISTERED);
+}
+
+static void test__handle_ack_or_nack_sets_registered_flag(void **test_state)
+{
+    uint8_t pkg[] = { 0x01, 0x00 };
+    struct pkg_buffer pkg_buffer = construct_pkg(pkg);
+
+    state = (struct state) { .flags = 0, .update = { .hash = 0, .address = 0 }};
+
+    int ret = handle_ack_or_nack(&pkg_buffer);
+
+    assert_int_equal(ret, PKG_OK);
+    assert_int_equal(state.flags, STATE_FLAG_REGISTERED);
 }
 
 static void test__handle_ack_or_nack_clears_registered_flag(void **test_state)
@@ -221,7 +234,7 @@ static void test__handle_ack_or_nack_sets_the_time(void **test_state)
     uint8_t pkg[] = { 0x01, 0x04, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, };
     struct pkg_buffer pkg_buffer = construct_pkg(pkg);
 
-    state = (struct state) { .flags = 0, .update = { .hash = 0, .address = 0 }};
+    state = (struct state) { .flags = STATE_FLAG_REGISTERED, .update = { .hash = 0, .address = 0 }};
 
     struct pkg_timestamp pkg_timestamp = {
         .year = 0x20,
@@ -237,7 +250,7 @@ static void test__handle_ack_or_nack_sets_the_time(void **test_state)
     int ret = handle_ack_or_nack(&pkg_buffer);
 
     assert_int_equal(ret, PKG_OK);
-    assert_int_equal(state.flags, 0);
+    assert_int_equal(state.flags, STATE_FLAG_REGISTERED);
 }
 
 static void test__handle_ack_or_nack_sets_update_data(void **test_state)
@@ -245,12 +258,12 @@ static void test__handle_ack_or_nack_sets_update_data(void **test_state)
     uint8_t pkg[] = { 0x01, 0x01, 0xEC, 0xDD, 0xBA, 0x33, 0xEE, 0xFF, 0xC0, 0xAF,};
     struct pkg_buffer pkg_buffer = construct_pkg(pkg);
 
-    state = (struct state) { .flags = 0, .update = { .hash = 0, .address = 32 }};
+    state = (struct state) { .flags = STATE_FLAG_REGISTERED, .update = { .hash = 0, .address = 32 }};
 
     int ret = handle_ack_or_nack(&pkg_buffer);
 
     assert_int_equal(ret, PKG_OK);
-    assert_int_equal(state.flags, STATE_FLAG_UPDATE_AVAILABLE);
+    assert_int_equal(state.flags, STATE_FLAG_REGISTERED | STATE_FLAG_UPDATE_AVAILABLE);
     assert_int_equal(state.update.hash, 0x33BADDECAFC0FFEE);
     assert_int_equal(state.update.address, 0);
 }
@@ -260,7 +273,7 @@ static void test__handle_ack_or_nack_sets_update_data_and_time(void **test_state
     uint8_t pkg[] = { 0x01, 0x05, 0xEC, 0xDD, 0xBA, 0x33, 0xEE, 0xFF, 0xC0, 0xAF, 0x02, 0x01, 0x20, 0x05, 0x04, 0x03, };
     struct pkg_buffer pkg_buffer = construct_pkg(pkg);
 
-    state = (struct state) { .flags = 0, .update = { .hash = 0, .address = 32 }};
+    state = (struct state) { .flags = STATE_FLAG_REGISTERED, .update = { .hash = 0, .address = 32 }};
 
     struct pkg_timestamp pkg_timestamp = {
         .year = 0x20,
@@ -276,7 +289,7 @@ static void test__handle_ack_or_nack_sets_update_data_and_time(void **test_state
     int ret = handle_ack_or_nack(&pkg_buffer);
 
     assert_int_equal(ret, PKG_OK);
-    assert_int_equal(state.flags, STATE_FLAG_UPDATE_AVAILABLE);
+    assert_int_equal(state.flags, STATE_FLAG_REGISTERED | STATE_FLAG_UPDATE_AVAILABLE);
     assert_int_equal(state.update.hash, 0x33BADDECAFC0FFEE);
     assert_int_equal(state.update.address, 0);
 }
@@ -286,12 +299,12 @@ static void test__handle_ack_or_nack_updates_update_data_if_update_has_not_start
     uint8_t pkg[] = { 0x01, 0x01, 0xEC, 0xDD, 0xBA, 0x33, 0xEE, 0xFF, 0xC0, 0xAF,};
     struct pkg_buffer pkg_buffer = construct_pkg(pkg);
 
-    state = (struct state) { .flags = STATE_FLAG_UPDATE_AVAILABLE, .update = { .hash = 0x1234567812345678, .address = 0 }};
+    state = (struct state) { .flags = STATE_FLAG_REGISTERED | STATE_FLAG_UPDATE_AVAILABLE, .update = { .hash = 0x1234567812345678, .address = 0 }};
 
     int ret = handle_ack_or_nack(&pkg_buffer);
 
     assert_int_equal(ret, PKG_OK);
-    assert_int_equal(state.flags, STATE_FLAG_UPDATE_AVAILABLE);
+    assert_int_equal(state.flags, STATE_FLAG_REGISTERED | STATE_FLAG_UPDATE_AVAILABLE);
     assert_int_equal(state.update.hash, 0x33BADDECAFC0FFEE);
     assert_int_equal(state.update.address, 0);
 }
@@ -301,12 +314,12 @@ static void test__handle_ack_or_nack_does_not_change_update_data_if_update_has_s
     uint8_t pkg[] = { 0x01, 0x01, 0xEC, 0xDD, 0xBA, 0x33, 0xEE, 0xFF, 0xC0, 0xAF,};
     struct pkg_buffer pkg_buffer = construct_pkg(pkg);
 
-    state = (struct state) { .flags = STATE_FLAG_UPDATE_AVAILABLE, .update = { .hash = 0x1234567812345678, .address = 32 }};
+    state = (struct state) { .flags = STATE_FLAG_REGISTERED | STATE_FLAG_UPDATE_AVAILABLE, .update = { .hash = 0x1234567812345678, .address = 32 }};
 
     int ret = handle_ack_or_nack(&pkg_buffer);
 
     assert_int_equal(ret, PKG_OK);
-    assert_int_equal(state.flags, STATE_FLAG_UPDATE_AVAILABLE);
+    assert_int_equal(state.flags, STATE_FLAG_REGISTERED | STATE_FLAG_UPDATE_AVAILABLE);
     assert_int_equal(state.update.hash, 0x1234567812345678);
     assert_int_equal(state.update.address, 32);
 }
@@ -333,6 +346,7 @@ static const struct CMUnitTest tests_for_handle_ack_or_nack[] = {
     cmocka_unit_test(test__handle_ack_or_nack_returns_ok_for_ack),
     cmocka_unit_test(test__handle_ack_or_nack_returns_error_for_nack),
     cmocka_unit_test(test__handle_ack_or_nack_returns_error_for_nack_no_retry),
+    cmocka_unit_test(test__handle_ack_or_nack_sets_registered_flag),
     cmocka_unit_test(test__handle_ack_or_nack_clears_registered_flag),
     cmocka_unit_test(test__handle_ack_or_nack_sets_the_time),
     cmocka_unit_test(test__handle_ack_or_nack_sets_update_data),

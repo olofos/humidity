@@ -57,6 +57,8 @@ int handle_ack_or_nack(struct pkg_buffer *p)
     uint8_t response = pkg_read_byte(p);
 
     if(response == PKG_ACK) {
+        state.flags |= STATE_FLAG_REGISTERED;
+
         uint8_t flags = pkg_read_byte(p);
 
         if(flags & PKG_FLAG_UPDATE_AVAILABLE) {
