@@ -2,6 +2,7 @@
 #define PACKAGE_H_
 
 #include "package-protocol.h"
+#include <stdio.h>
 
 static inline void pkg_init(struct pkg_buffer *buf)
 {
@@ -41,6 +42,15 @@ static inline void pkg_write_timestamp(struct pkg_buffer *buf, const struct pkg_
 static inline int pkg_send(uint8_t node, const struct pkg_buffer *buf)
 {
     if(buf->write_counter > 0) {
+
+#ifdef PRINT_RAW_PACKAGE
+        printf("> ");
+        for(int i = 0; i < buf->write_counter; i++) {
+            printf("%02X", buf->buf[i]);
+        }
+        printf("\r\n");
+#endif
+
         return rfm69_write(node, buf->buf, buf->write_counter);
     } else {
         return 0;
@@ -52,6 +62,15 @@ static inline int pkg_receive(struct pkg_buffer *buf)
     buf->len = rfm69_read(buf->buf, sizeof(buf->buf));
 
     if(buf->len >= 2) {
+
+#ifdef PRINT_RAW_PACKAGE
+        printf("< ");
+        for(int i = 2; i < buf->len; i++) {
+            printf("%02X", buf->buf[i]);
+        }
+        printf("\r\n");
+#endif
+
         buf->from = buf->buf[1];
         return buf->len - 2; // Subtract 'to' and 'from' addresses
     }
