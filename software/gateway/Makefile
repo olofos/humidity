@@ -1,6 +1,6 @@
 V=@
 
-C_SOURCES := main.c rfm69.c rfm69-hal.c db.c sqlite3.c package-handler.c node.c firmware.c crc32.c
+C_SOURCES := main.c rfm69.c rfm69-hal.c db.c sqlite3.c package-handler.c node.c firmware.c crc32.c version.c
 
 TESTSERVER_SOURCES := $(C_SOURCES:rfm69-hal.c=rfm69-mock.c)
 

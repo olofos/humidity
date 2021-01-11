@@ -3,7 +3,7 @@ V=@
 SHELL=/bin/bash
 C_SOURCES := main.c vector.c spi.c spi-flash.c spi-flash-cbuf.c uart.c i2c.c systick.c \
 	     shtc3.c shtc3-crc.c adc.c rfm69.c rfm69-hal.c rtc.c pretty-print.c \
-	     measurement.c debug.c package-handler.c mcu.c state.c update.c
+	     measurement.c debug.c package-handler.c mcu.c state.c update.c version.c
 ASM_SOURCES :=
 # ASM_SOURCES :=
 
@@ -57,7 +57,7 @@ TST_CFLAGS = -Wall -I$(SRCDIR) -ggdb -fsanitize=address -fno-omit-frame-pointer 
 TST_RESULTS = $(patsubst $(TSTDIR)/test_%.c,$(TSTRESDIR)/test_%.txt,$(SOURCES_TST))
 TST_DEPS = $(TSTDEPDIR)/*.d
 
-.PHONY: all bin flash clean erase test build_dirs lss
+.PHONY: all bin flash clean erase test build_dirs lss git-version
 
 all: build_dirs $(BINDIR)/$(TARGET).elf $(BINDIR)/$(TARGET).bin
 
@@ -68,6 +68,15 @@ lss: $(BINDIR)/$(TARGET).lss
 
 
 $(TSTBINDIR)/test_package-handler: $(TSTOBJDIR)/pretty-print.o
+
+git-version:
+	@echo Getting git hash
+	$(V)printf '#define GIT_COMMIT "' > include/git-version.h
+	$(V)git log -n 1 --format=format:"%h" HEAD . ../common | head -c22 >> include/git-version.h
+	$(V)git diff-index --quiet --exit-code HEAD . ../common/ || printf '+' >> include/git-version.h
+	$(V)printf '"\n' >> include/git-version.h
+
+$(OBJDIR)/version.o: git-version
 
 $(OBJDIR)/%.o : %.c
 	@echo CC $@

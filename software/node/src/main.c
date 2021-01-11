@@ -30,13 +30,8 @@
 #define PERIOD_MEASUREMENT (10 * 60)
 #define PERIOD_MEASUREMENT_RETRY (10)
 #define PERIOD_SEND_RETRY (5)
-#define SLEEP_PERIOD_MIN 1
+#define SLEEP_PERIOD_MIN 5
 #define MAX_RETRY 8
-
-// Checksum generated during build
-
-const uint32_t __attribute__((section(".version_info"))) __attribute__((used)) firmware_version = (((uint32_t) VERSION_MAJOR) << 24) | (((uint32_t) VERSION_MINOR) << 16) | VERSION_PATCH;
-uint32_t __attribute__((section(".checksum"))) __attribute__((used)) firmware_crc;
 
 #define ERROR_LOOP_PERIOD 400
 #define ERROR_LOOP_MAX    10
@@ -350,7 +345,9 @@ int main(void)
     uint32_t woke_from_standby = mcu_init();
 
     if(!woke_from_standby) {
-        printf(CLEAR_SCREEN "\r\nStarting...\r\n");
+        printf(CLEAR_SCREEN "Humidity Node\r\n");
+        printf("Version %X.%X.%X\r\n", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
+        printf("Git hash: %s\r\n", firmware_git_version);
     }
 
     if(button_pushed()) {

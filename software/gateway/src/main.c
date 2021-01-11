@@ -14,6 +14,7 @@
 #include "aes-key.h"
 #include "package-handler.h"
 #include "firmware.h"
+#include "version.h"
 
 #define LOCKNAME "/tmp/humidity-gateway.lock"
 
@@ -49,6 +50,9 @@ int main(void)
     if(take_lock() < 0) {
         return 1;
     }
+
+    printf("Humidity Gateway\n");
+    printf("Git Hash: %s\n", git_version);
 
     // Make sure we work in UTC
     setenv("TZ", "", 1);

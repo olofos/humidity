@@ -43,7 +43,7 @@ MEMORY
 {
 RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 8K
 FLASH (rx)     : ORIGIN = 0x08000000, LENGTH = 0x7FF0
-FLASH_CONST (r): ORIGIN = 0x08007FF8, LENGTH = 0x08
+FLASH_CONST (r): ORIGIN = 0x08007FE0, LENGTH = 0x20
 EEPROM (r)     : ORIGIN = 0x08080000, LENGTH = 1K
 }
 
@@ -61,6 +61,7 @@ SECTIONS
   .version_info :
   {
     . = ALIGN(4);
+    KEEP(*(.version_info.git))
     KEEP(*(.version_info))
     . = ALIGN(4);
   } > FLASH_CONST
