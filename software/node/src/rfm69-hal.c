@@ -5,6 +5,8 @@
 #include "systick.h"
 #include "gpio.h"
 
+#define TIMEOUT_MS 250
+
 void rfm69_hal_init(void)
 {
 }
@@ -85,10 +87,10 @@ int rfm69_wait_for_interrupt(uint32_t timeout)
 
 int rfm69_wait_for_payload_ready(void)
 {
-    return rfm69_wait_for_interrupt(50);
+    return rfm69_wait_for_interrupt(TIMEOUT_MS);
 }
 
 int rfm69_wait_for_packet_sent(void)
 {
-    return rfm69_wait_for_interrupt(50);
+    return rfm69_wait_for_interrupt(TIMEOUT_MS);
 }
