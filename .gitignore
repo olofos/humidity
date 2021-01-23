@@ -6,3 +6,4 @@
 _autosave*
 .deps/
 software/common/include/aes-key.h
+git-version.h
